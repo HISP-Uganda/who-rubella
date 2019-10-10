@@ -10,7 +10,7 @@
     "watch": "nodemon"
   },
   "dependencies": {
-    "@elastic/elasticsearch": "^7.3.0",
+    "@elastic/elasticsearch": "^7.4.0",
     "@types/cors": "^2.8.6",
     "@types/socket.io": "^2.1.3",
     "alasql": "^0.4.11",

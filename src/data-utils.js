@@ -1,0 +1,303 @@
+import _ from "lodash";
+import axios from 'axios';
+import dotenv from "dotenv";
+import winston from './winston';
+import { generateUid } from './uid';
+import moment from 'moment';
+
+const URL = require('url').URL;
+
+const result = dotenv.config();
+
+if (result.error) {
+    throw result.error
+}
+
+export const mrDataValues = async (list, ous, period) => {
+    const baseUrl = getDHIS2Url();
+    const keys = {
+        'list/target_population': {
+            dataElement: 'JHjeYt6yqBX',
+            period,
+            categoryOptionCombo: 'HllvX50cXC0',
+        },
+        'list/other_factor_specify': {
+            dataElement: 'T05lrtJZwYT',
+            period,
+            categoryOptionCombo: 'HllvX50cXC0',
+        },
+        'list/children_vaccinated/years3_5': {
+            dataElement: 'uCFg0FT8sV8',
+            period,
+            categoryOptionCombo: 'ZlH8d3z64XG',
+        },
+        'list/children_vaccinated/years6_14': {
+            dataElement: 'uCFg0FT8sV8',
+            period,
+            categoryOptionCombo: 'KU1DPon4Siu',
+        },
+        'list/children_vaccinated/months9_11': {
+            dataElement: 'uCFg0FT8sV8',
+            period,
+            categoryOptionCombo: 'eQxG5pWG8hW',
+        },
+        'list/children_vaccinated/months12_24': {
+            dataElement: 'uCFg0FT8sV8',
+            period,
+            categoryOptionCombo: 'rExgwWGz0xi',
+        },
+        'list/post_staffing/number_mobilizers': {
+            dataElement: 'bmhiRT3366M',
+            period,
+            categoryOptionCombo: 'HllvX50cXC0',
+        },
+        'list/post_staffing/number_health_workers': {
+            dataElement: 'zwW07y5987X',
+            period,
+            categoryOptionCombo: 'HllvX50cXC0',
+        },
+        'list/mr_vaccine_usage/no_vaccine_vials_issued': {
+            dataElement: 'UGzRCLeZ7VK',
+            period,
+            categoryOptionCombo: 'HllvX50cXC0',
+        },
+        'list/mr_vaccine_usage/no_diluent_ampules_issued': {
+            dataElement: 'c9rY7LYUDdO',
+            period,
+            categoryOptionCombo: 'HllvX50cXC0',
+        },
+        'list/mr_vaccine_usage/no_vials_discarded_other_factors': {
+            dataElement: 'HdbfodVIJcS',
+            period,
+            categoryOptionCombo: 'HllvX50cXC0',
+        },
+        'list/mr_vaccine_usage/no_vaccine_vials_returned_unopened': {
+            dataElement: 'fn8jd7n6gIT',
+            period,
+            categoryOptionCombo: 'HllvX50cXC0',
+        },
+        'list/mr_vaccine_usage/no_vials_discarded_due_partial_use': {
+            dataElement: 'AbuV1Y1X4GP',
+            period,
+            categoryOptionCombo: 'HllvX50cXC0',
+        },
+        'list/mr_vaccine_usage/no_diluent_ampules_returned_unopened': {
+            dataElement: 'W9L27HbKRA4',
+            period,
+            categoryOptionCombo: 'HllvX50cXC0',
+        },
+        'list/mr_vaccine_usage/no_vials_discarded_due_contamination': {
+            dataElement: 'SZKq4wooZzg',
+            period,
+            categoryOptionCombo: 'HllvX50cXC0',
+        },
+        'list/mr_vaccine_usage/no_vials_discarded_due_vvm_color_change': {
+            dataElement: 'EI3lwOn7BFy',
+            period,
+            categoryOptionCombo: 'HllvX50cXC0',
+        }
+    }
+
+    let dataValues = list.map(l => {
+        const post = l['list/name_of_post'];
+        const currentKeys = _.keys(l).filter(k => k !== 'list/name_of_post');
+        const orgUnit = ous[post];
+        if (orgUnit) {
+            const current = currentKeys.map(k => {
+                const value = l[k];
+                let val = keys[k];
+                if (val) {
+                    val = { ...val, orgUnit, value }
+                }
+                return val;
+            });
+            return current
+        } else {
+            return [];
+        }
+    });
+    dataValues = _.flatten(dataValues).filter(v => {
+        return v && v !== null && v !== undefined
+    });
+    if (dataValues.length > 0) {
+        await postAxios(`${baseUrl}/dataValueSets`, { dataValues });
+    }
+    return dataValues;
+}
+
+export const getDHIS2Url1 = (uri) => {
+    if (uri !== '') {
+        try {
+            const url = new URL(uri);
+            const dataURL = url.pathname.split('/');
+            const apiIndex = dataURL.indexOf('api');
+
+            if (apiIndex !== -1) {
+                return url.href
+            } else {
+                if (dataURL[dataURL.length - 1] === "") {
+                    return url.href + 'api';
+                } else {
+                    return url.href + '/api';
+                }
+            }
+        } catch (e) {
+            console.log(e);
+            return e;
+        }
+    }
+    return null
+};
+
+export const createDHIS2Auth = () => {
+    const username = process.env.DHIS2_USER;
+    const password = process.env.DHIS2_PASS;
+    return { username, password }
+};
+
+export const getDHIS2Url = () => {
+    const uri = process.env.DHIS2_URL;
+    return getDHIS2Url1(uri);
+};
+
+export const postAxios = async (url, data) => {
+    return axios.post(url, data, {
+        auth: createDHIS2Auth()
+    });
+};
+
+export const putAxios = async (url, data) => {
+    return axios.put(url, data, {
+        auth: createDHIS2Auth()
+    });
+};
+
+
+export const getAxios = async (url, params = {}) => {
+    return axios.get(url, {
+        params,
+        auth: createDHIS2Auth()
+    })
+};
+
+export const pullOrganisationUnits = async (level, name) => {
+
+    try {
+        const baseUrl = getDHIS2Url();
+        if (baseUrl) {
+            const url = baseUrl + '/organisationUnits.json';
+            const { data: { organisationUnits } } = await getAxios(url, {
+                level,
+                fields: 'id,name,code,parent[id,name,code],children[id,name,code,children[id,name,code]]',
+                paging: false,
+                filter: `name:ilike:${name}`
+            });
+            return organisationUnits
+        }
+    } catch (e) {
+        winston.log('error', e.message);
+    }
+
+    return [];
+};
+
+export const searchPosts = async (subCounty, posts) => {
+    const baseUrl = getDHIS2Url();
+    const { children } = subCounty;
+    let data = {}
+    let newOus = [];
+
+    const openingDate = moment().subtract(1, 'years');
+    try {
+        for (const post of posts) {
+            const search = children.find(p => {
+                return post.toLowerCase() === p.name.toLowerCase();
+            });
+            if (search) {
+                data = { ...data, [post.toLowerCase()]: search.id };
+            } else {
+                const id = generateUid();
+                const ou = { shortName: post, name: post, id, parent: { id: subCounty.id }, openingDate };
+                await postAxios(`${baseUrl}/organisationUnits`, ou);
+                await postAxios(`${baseUrl}/schemas/organisationUnit`, ou);
+                data = { ...data, [post.toLowerCase()]: id };
+                newOus = [...newOus, { id }];
+            }
+        }
+
+        if (newOus.length > 0) {
+            let { data: { dataSets } } = await getAxios(`${baseUrl}/metadata.json`, { dataSets: true });
+            dataSets.map(dataSet => {
+                dataSet.organisationUnits = [...dataSet.organisationUnits, ...newOus];
+                return dataSet
+            });
+            await postAxios(`${baseUrl}/metadata`, { dataSets });
+        }
+
+    } catch (error) {
+        console.log(error)
+    }
+    return data;
+};
+
+export const processDataSetResponses = (response) => {
+    if (response['status'] === 'SUCCESS' || response['status'] === 'WARNING') {
+        const { imported, deleted, updated, ignored } = response['importCount'];
+        winston.log('info', ' imported: ' + imported + ', updated: ' + updated + ', deleted: ' + deleted);
+        if (response['conflicts']) {
+            response['conflicts'].forEach(c => {
+                winston.log('warn', 'conflict found, object: ' + c.object + ', message: ' + c.value);
+            });
+        }
+    } else if (response['httpStatusCode'] === 500) {
+        winston.log('error', JSON.stringify(response, null, 2));
+    }
+};
+
+export const processResponse = (response, type) => {
+    if (response) {
+        if (response['httpStatusCode'] === 200) {
+            const { importSummaries } = response['response'];
+            importSummaries.forEach(importSummary => {
+                const { importCount, reference } = importSummary;
+                winston.log('info', type + ' with id, ' + reference + ' imported: ' + importCount.imported + ', updated: ' + importCount.updated + ', deleted: ' + importCount.deleted);
+            });
+        } else if (response['httpStatusCode'] === 409) {
+            _.forEach(response['response']['importSummaries'], (s) => {
+                _.forEach(s['conflicts'], (conflict) => {
+                    winston.log('warn', type + ' conflict found, object: ' + conflict.object + ', message: ' + conflict.value);
+                });
+            });
+        } else if (response['httpStatusCode'] === 500) {
+            winston.log('error', JSON.stringify(response, null, 2));
+        }
+    }
+};
+
+export const processEventUpdate = (successes) => {
+    successes.forEach(s => {
+        processDataSetResponses(s, 'event');
+    })
+};
+
+export const whatToComplete = (processed, dataSet) => {
+    const p = processed.dataValues.map(d => {
+        return _.pick(d, ['orgUnit', 'period']);
+    });
+
+    return _.uniqWith(p, _.isEqual).map(p => {
+        return { dataSet: dataSet, organisationUnit: p.orgUnit, period: p.period }
+    });
+};
+
+export const findType = (query) => {
+    if (query === 'regions') {
+        return { disaggregation: 'districts', search: 'region' };
+    } else if (query === 'districts') {
+        return { disaggregation: 'subcounty', search: 'districts' }
+    } else if (query === 'subcounties') {
+        return { disaggregation: 'list/name_of_post', search: 'subcounty' }
+    } else {
+        return { disaggregation: 'region' }
+    }
+}

@@ -1,8 +1,8 @@
 // import {Client} from '@elastic/elasticsearch';
 // const client = new Client({node: 'http://localhost:9200'});
-
 import DataStore from 'nedb-promises';
 import crypto from 'crypto';
+import { pullOrganisationUnits } from './data-utils';
 const ALGORITHM = 'aes-256-cbc';
 const password = 'Password used to generate key';
 const salt = 'salt';
@@ -76,6 +76,12 @@ class Schedule {
      */
     create(data) {
         console.log(data)
+    }
+    searchSubCounty(subCounty) {
+
+    }
+    searchPost(post) {
+
     }
 }
 

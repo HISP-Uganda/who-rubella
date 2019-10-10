@@ -24,28 +24,14 @@ io.on('connection', (socket) => {
 
 routes(app, io);
 
-// app.post('/', Schedule.create);
-
-// app.listen(3001);
-
-// console.log('Server running at http://localhost:3001/');
 
 
 
-// import { Client } from '@elastic/elasticsearch';
-// const client = new Client({ node: 'http://localhost:9200' });
 
 
 // async function run () {
 //     // Let's start by indexing some data
-//     await client.index({
-//         index: 'game-of-thrones',
-//         // type: '_doc', // uncomment this line if you are using Elasticsearch ≤ 6
-//         body: {
-//             character: 'Ned Stark',
-//             quote: 'Winter is coming.'
-//         }
-//     });
+
 
 //     await client.index({
 //         index: 'game-of-thrones',
@@ -82,5 +68,3 @@ routes(app, io);
 
 //     console.log(body.hits.hits)
 // }
-
-// run().catch(console.log);

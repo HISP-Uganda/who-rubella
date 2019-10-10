@@ -1,0 +1,811 @@
+[{
+    "District": "Oyam District",
+    "District UID": "xpIFdCMhVHG",
+    "Region": "Lango",
+    "Region UID": "DWPnYhoqza0"
+  },
+  {
+    "District": "Mubende District",
+    "District UID": "lzWuB6bCQeV",
+    "Region": "North Central",
+    "Region UID": "Dl9WvtvDs5V"
+  },
+  {
+    "District": "Moyo District",
+    "District UID": "W0kQBddyGyh",
+    "Region": "West Nile",
+    "Region UID": "BD3XaQ7cQAp"
+  },
+  {
+    "District": "Kyotera District",
+    "District UID": "REJuxCmTwXG",
+    "Region": "South Central",
+    "Region UID": "IEU0FjDAhBP"
+  },
+  {
+    "District": "Kotido District",
+    "District UID": "aPZzL4CyBTg",
+    "Region": "Karamoja",
+    "Region UID": "jdlbNUwJiKX"
+  },
+  {
+    "District": "Pader District",
+    "District UID": "aBrjuZk0W31",
+    "Region": "Acholi",
+    "Region UID": "SUvODYOcaVf"
+  },
+  {
+    "District": "Wakiso District",
+    "District UID": "aIahLLmtvgT",
+    "Region": "South Central",
+    "Region UID": "IEU0FjDAhBP"
+  },
+  {
+    "District": "Kampala District",
+    "District UID": "aXmBzv61LbM",
+    "Region": "Kampala",
+    "Region UID": "GIpyzaSuEgM"
+  },
+  {
+    "District": "Katakwi District",
+    "District UID": "cSrCFjPKqcG",
+    "Region": "Teso",
+    "Region UID": "r0GhWtmPHDj"
+  },
+  {
+    "District": "Gulu District",
+    "District UID": "Gwk4wkLz7EW",
+    "Region": "Acholi",
+    "Region UID": "SUvODYOcaVf"
+  },
+  {
+    "District": "Serere District",
+    "District UID": "zJfpujxC1kD",
+    "Region": "Teso",
+    "Region UID": "r0GhWtmPHDj"
+  },
+  {
+    "District": "Isingiro District",
+    "District UID": "UaR7OHycj8c",
+    "Region": "Ankole",
+    "Region UID": "F1o6qBSx783"
+  },
+  {
+    "District": "Mukono District",
+    "District UID": "a0DfYpC2Rwl",
+    "Region": "North Central",
+    "Region UID": "Dl9WvtvDs5V"
+  },
+  {
+    "District": "Alebtong District",
+    "District UID": "p7EEgDEX3jT",
+    "Region": "Lango",
+    "Region UID": "DWPnYhoqza0"
+  },
+  {
+    "District": "Lira District",
+    "District UID": "Lj8t70RYnEt",
+    "Region": "Lango",
+    "Region UID": "DWPnYhoqza0"
+  },
+  {
+    "District": "Kalaki District",
+    "District UID": "KOnkIf4N6jA",
+    "Region": "Teso",
+    "Region UID": "r0GhWtmPHDj"
+  },
+  {
+    "District": "Dokolo District",
+    "District UID": "wMQ25dybdgH",
+    "Region": "Lango",
+    "Region UID": "DWPnYhoqza0"
+  },
+  {
+    "District": "Amuria District",
+    "District UID": "TM6ccNxawqy",
+    "Region": "Teso",
+    "Region UID": "r0GhWtmPHDj"
+  },
+  {
+    "District": "Kyenjojo District",
+    "District UID": "O9MoQcpZ4uA",
+    "Region": "Tooro",
+    "Region UID": "JZhJ50nOirX"
+  },
+  {
+    "District": "Kayunga District",
+    "District UID": "ykxQEnZGXkj",
+    "Region": "North Central",
+    "Region UID": "Dl9WvtvDs5V"
+  },
+  {
+    "District": "Kitagwenda District",
+    "District UID": "qKmESX5Owwr",
+    "Region": "Tooro",
+    "Region UID": "JZhJ50nOirX"
+  },
+  {
+    "District": "Kwania District",
+    "District UID": "gCN6sU5BjlR",
+    "Region": "Lango",
+    "Region UID": "DWPnYhoqza0"
+  },
+  {
+    "District": "Kagadi District",
+    "District UID": "orgY0d5MJa9",
+    "Region": "Bunyoro",
+    "Region UID": "yx0ieyZNF0l"
+  },
+  {
+    "District": "Agago District",
+    "District UID": "ztIyIYAzFKp",
+    "Region": "Acholi",
+    "Region UID": "SUvODYOcaVf"
+  },
+  {
+    "District": "Abim District",
+    "District UID": "NREoMszwQZW",
+    "Region": "Karamoja",
+    "Region UID": "jdlbNUwJiKX"
+  },
+  {
+    "District": "Kaberamaido District",
+    "District UID": "QoRZB7xc3j9",
+    "Region": "Teso",
+    "Region UID": "r0GhWtmPHDj"
+  },
+  {
+    "District": "Mbale District",
+    "District UID": "W1JM2Qdhcv3",
+    "Region": "West Nile",
+    "Region UID": "BD3XaQ7cQAp"
+  },
+  {
+    "District": "Arua District",
+    "District UID": "WcB3kLlgRTb",
+    "Region": "West Nile",
+    "Region UID": "BD3XaQ7cQAp"
+  },
+  {
+    "District": "Kole District",
+    "District UID": "Y4LV8xqkv6J",
+    "Region": "Lango",
+    "Region UID": "DWPnYhoqza0"
+  },
+  {
+    "District": "Nebbi District",
+    "District UID": "Xjc0LDFa5gW",
+    "Region": "West Nile",
+    "Region UID": "BD3XaQ7cQAp"
+  },
+  {
+    "District": "Omoro District",
+    "District UID": "S5fvUXgY54J",
+    "Region": "Acholi",
+    "Region UID": "SUvODYOcaVf"
+  },
+  {
+    "District": "Otuke District",
+    "District UID": "aXjub1BYn1y",
+    "Region": "Lango",
+    "Region UID": "DWPnYhoqza0"
+  },
+  {
+    "District": "Moroto District",
+    "District UID": "A9kRCvmn6Co",
+    "Region": "Karamoja",
+    "Region UID": "jdlbNUwJiKX"
+  },
+  {
+    "District": "Amudat District",
+    "District UID": "a8RHFdF4DXL",
+    "Region": "Karamoja",
+    "Region UID": "jdlbNUwJiKX"
+  },
+  {
+    "District": "Amolatar District",
+    "District UID": "ZuQHWOaFQVM",
+    "Region": "Lango",
+    "Region UID": "DWPnYhoqza0"
+  },
+  {
+    "District": "Kapelebyong District",
+    "District UID": "mvN9LBbpf7X",
+    "Region": "Teso",
+    "Region UID": "r0GhWtmPHDj"
+  },
+  {
+    "District": "Mbarara District",
+    "District UID": "auswb7JO9wY",
+    "Region": "Ankole",
+    "Region UID": "F1o6qBSx783"
+  },
+  {
+    "District": "Adjumani District",
+    "District UID": "QYiQ2KqgCxj",
+    "Region": "West Nile",
+    "Region UID": "BD3XaQ7cQAp"
+  },
+  {
+    "District": "Tororo District",
+    "District UID": "KhT80mlwJ3Y",
+    "Region": "Bukedi",
+    "Region UID": "QBPg7KKCeoA"
+  },
+  {
+    "District": "Masaka District",
+    "District UID": "bIONCoCnt3Q",
+    "Region": "South Central",
+    "Region UID": "IEU0FjDAhBP"
+  },
+  {
+    "District": "Kisoro District",
+    "District UID": "aPhSZRinfbg",
+    "Region": "Kigezi",
+    "Region UID": "G0rlphd2tcD"
+  },
+  {
+    "District": "Kasese District",
+    "District UID": "aa8xVDzSpte",
+    "Region": "Tooro",
+    "Region UID": "JZhJ50nOirX"
+  },
+  {
+    "District": "Apac District",
+    "District UID": "JyZJhGXKeEq",
+    "Region": "Lango",
+    "Region UID": "DWPnYhoqza0"
+  },
+  {
+    "District": "Kiboga District",
+    "District UID": "GLHh0BXys9w",
+    "Region": "North Central",
+    "Region UID": "Dl9WvtvDs5V"
+  },
+  {
+    "District": "Kumi District",
+    "District UID": "saT18HClZoz",
+    "Region": "Teso",
+    "Region UID": "r0GhWtmPHDj"
+  },
+  {
+    "District": "Kabarole District",
+    "District UID": "m77oR1YJESj",
+    "Region": "Tooro",
+    "Region UID": "JZhJ50nOirX"
+  },
+  {
+    "District": "Zombo District",
+    "District UID": "A4aGXEfdb8P",
+    "Region": "West Nile",
+    "Region UID": "BD3XaQ7cQAp"
+  },
+  {
+    "District": "Soroti District",
+    "District UID": "srmGjHrpVE5",
+    "Region": "Teso",
+    "Region UID": "r0GhWtmPHDj"
+  },
+  {
+    "District": "Lamwo District",
+    "District UID": "xy0M4HhjXtD",
+    "Region": "Acholi",
+    "Region UID": "SUvODYOcaVf"
+  },
+  {
+    "District": "Ngora District",
+    "District UID": "aj4hsYK3dVm",
+    "Region": "Teso",
+    "Region UID": "r0GhWtmPHDj"
+  },
+  {
+    "District": "Pallisa District",
+    "District UID": "WiVj4bEhX4P",
+    "Region": "Bukedi",
+    "Region UID": "QBPg7KKCeoA"
+  },
+  {
+    "District": "Mbale District",
+    "District UID": "yuo5ielNL7W",
+    "Region": "Bugisu",
+    "Region UID": "Dt6qdenPX1E"
+  },
+  {
+    "District": "Kamwenge District",
+    "District UID": "uCVQXAdKqL9",
+    "Region": "Tooro",
+    "Region UID": "JZhJ50nOirX"
+  },
+  {
+    "District": "Jinja District",
+    "District UID": "aJR2ZxSH7g4",
+    "Region": "Busoga",
+    "Region UID": "Wd1lV9Qdj4o"
+  },
+  {
+    "District": "Kabale District",
+    "District UID": "zBIpPzKYFLp",
+    "Region": "Kigezi",
+    "Region UID": "G0rlphd2tcD"
+  },
+  {
+    "District": "Maracha District",
+    "District UID": "WyR8Eetj7Uw",
+    "Region": "West Nile",
+    "Region UID": "BD3XaQ7cQAp"
+  },
+  {
+    "District": "Kitgum District",
+    "District UID": "pnTVIF5v27r",
+    "Region": "Acholi",
+    "Region UID": "SUvODYOcaVf"
+  },
+  {
+    "District": "Madi-Okollo District",
+    "District UID": "bLoH4VbxCGI",
+    "Region": "West Nile",
+    "Region UID": "BD3XaQ7cQAp"
+  },
+  {
+    "District": "Bukedea District",
+    "District UID": "tdZbtg9sZkO",
+    "Region": "Teso",
+    "Region UID": "r0GhWtmPHDj"
+  },
+  {
+    "District": "Buikwe District",
+    "District UID": "x75Yh65MaUa",
+    "Region": "North Central",
+    "Region UID": "Dl9WvtvDs5V"
+  },
+  {
+    "District": "Nwoya District",
+    "District UID": "zNgVoDVPYgD",
+    "Region": "Acholi",
+    "Region UID": "SUvODYOcaVf"
+  },
+  {
+    "District": "Obongi District",
+    "District UID": "uTMUclQ5bi6",
+    "Region": "West Nile",
+    "Region UID": "BD3XaQ7cQAp"
+  },
+  {
+    "District": "Masindi District",
+    "District UID": "xr8EMirOASp",
+    "Region": "Bunyoro",
+    "Region UID": "yx0ieyZNF0l"
+  },
+  {
+    "District": "Kibuku District",
+    "District UID": "Oyxwe3iDqpR",
+    "Region": "Bukedi",
+    "Region UID": "QBPg7KKCeoA"
+  },
+  {
+    "District": "Lyantonde District",
+    "District UID": "aPRNSGUR3vk",
+    "Region": "South Central",
+    "Region UID": "IEU0FjDAhBP"
+  },
+  {
+    "District": "Bugiri District",
+    "District UID": "gUaoj8Geuao",
+    "Region": "Busoga",
+    "Region UID": "Wd1lV9Qdj4o"
+  },
+  {
+    "District": "Ntungamo District",
+    "District UID": "hAoe9dhZh9V",
+    "Region": "Ankole",
+    "Region UID": "F1o6qBSx783"
+  },
+  {
+    "District": "Bugweri District",
+    "District UID": "AIonX4LaJeU",
+    "Region": "Busoga",
+    "Region UID": "Wd1lV9Qdj4o"
+  },
+  {
+    "District": "Kibaale District",
+    "District UID": "tM3DsJxMaMX",
+    "Region": "Bunyoro",
+    "Region UID": "yx0ieyZNF0l"
+  },
+  {
+    "District": "Pakwach District",
+    "District UID": "uqUyTPvQKII",
+    "Region": "West Nile",
+    "Region UID": "BD3XaQ7cQAp"
+  },
+  {
+    "District": "Nakapiripirit District",
+    "District UID": "VuHCApXcMTm",
+    "Region": "Karamoja",
+    "Region UID": "jdlbNUwJiKX"
+  },
+  {
+    "District": "Bukwo District",
+    "District UID": "e8m9ZYMRoeR",
+    "Region": "Bugisu",
+    "Region UID": "Dt6qdenPX1E"
+  },
+  {
+    "District": "Napak District",
+    "District UID": "EDhGji3EteB",
+    "Region": "Karamoja",
+    "Region UID": "jdlbNUwJiKX"
+  },
+  {
+    "District": "Busia District",
+    "District UID": "lkuO79O6mRx",
+    "Region": "Bukedi",
+    "Region UID": "QBPg7KKCeoA"
+  },
+  {
+    "District": "Kapchorwa District",
+    "District UID": "aginheWSLef",
+    "Region": "Bugisu",
+    "Region UID": "Dt6qdenPX1E"
+  },
+  {
+    "District": "Amuru District",
+    "District UID": "C0RSe3EWBqU",
+    "Region": "Acholi",
+    "Region UID": "SUvODYOcaVf"
+  },
+  {
+    "District": "Bunyangabu District",
+    "District UID": "iTfbtn6JUsN",
+    "Region": "Tooro",
+    "Region UID": "JZhJ50nOirX"
+  },
+  {
+    "District": "Bushenyi District",
+    "District UID": "It5UGwdHAPF",
+    "Region": "Ankole",
+    "Region UID": "F1o6qBSx783"
+  },
+  {
+    "District": "Kiryandongo District",
+    "District UID": "B0G9cqixld8",
+    "Region": "Bunyoro",
+    "Region UID": "yx0ieyZNF0l"
+  },
+  {
+    "District": "Mityana District",
+    "District UID": "Q7PaNIbyZII",
+    "Region": "North Central",
+    "Region UID": "Dl9WvtvDs5V"
+  },
+  {
+    "District": "Lwengo District",
+    "District UID": "aqpd0Y9eXZ2",
+    "Region": "South Central",
+    "Region UID": "IEU0FjDAhBP"
+  },
+  {
+    "District": "Kween District",
+    "District UID": "h1O9AvNR4jS",
+    "Region": "Bugisu",
+    "Region UID": "Dt6qdenPX1E"
+  },
+  {
+    "District": "Bulambuli District",
+    "District UID": "auLatLbcOxf",
+    "Region": "Bugisu",
+    "Region UID": "Dt6qdenPX1E"
+  },
+  {
+    "District": "Buliisa District",
+    "District UID": "CQTmrrriwOq",
+    "Region": "Bunyoro",
+    "Region UID": "yx0ieyZNF0l"
+  },
+  {
+    "District": "Luwero District",
+    "District UID": "tr9XWtYsL5P",
+    "Region": "North Central",
+    "Region UID": "Dl9WvtvDs5V"
+  },
+  {
+    "District": "Koboko District",
+    "District UID": "iqsaGItA68C",
+    "Region": "West Nile",
+    "Region UID": "BD3XaQ7cQAp"
+  },
+  {
+    "District": "Hoima District",
+    "District UID": "PJFtfCyp6Rb",
+    "Region": "Bunyoro",
+    "Region UID": "yx0ieyZNF0l"
+  },
+  {
+    "District": "Mitooma District",
+    "District UID": "FLygHiUd2UW",
+    "Region": "Ankole",
+    "Region UID": "F1o6qBSx783"
+  },
+  {
+    "District": "Mayuge District",
+    "District UID": "mv4gKtY0qW8",
+    "Region": "Busoga",
+    "Region UID": "Wd1lV9Qdj4o"
+  },
+  {
+    "District": "Rubirizi District",
+    "District UID": "fS71jg1WYPk",
+    "Region": "Kigezi",
+    "Region UID": "G0rlphd2tcD"
+  },
+  {
+    "District": "Kamuli District",
+    "District UID": "oyygQ2STBST",
+    "Region": "Busoga",
+    "Region UID": "Wd1lV9Qdj4o"
+  },
+  {
+    "District": "Sembabule District",
+    "District UID": "j7AQsnEYmvi",
+    "Region": "South Central",
+    "Region UID": "IEU0FjDAhBP"
+  },
+  {
+    "District": "Nakasongola District",
+    "District UID": "aUcYGQCK9ub",
+    "Region": "North Central",
+    "Region UID": "Dl9WvtvDs5V"
+  },
+  {
+    "District": "Kyankwanzi District",
+    "District UID": "IVuiLJYABw6",
+    "Region": "North Central",
+    "Region UID": "Dl9WvtvDs5V"
+  },
+  {
+    "District": "Namayingo District",
+    "District UID": "Ut0ysYGEipO",
+    "Region": "Busoga",
+    "Region UID": "Wd1lV9Qdj4o"
+  },
+  {
+    "District": "Kassanda District",
+    "District UID": "Pvl4FVXO0RD",
+    "Region": "North Central",
+    "Region UID": "Dl9WvtvDs5V"
+  },
+  {
+    "District": "Kalungu District",
+    "District UID": "ahyi8Uq4vaj",
+    "Region": "South Central",
+    "Region UID": "IEU0FjDAhBP"
+  },
+  {
+    "District": "Rakai District",
+    "District UID": "P8iz90eiIrW",
+    "Region": "South Central",
+    "Region UID": "IEU0FjDAhBP"
+  },
+  {
+    "District": "Bududa District",
+    "District UID": "AhwgeZQYj16",
+    "Region": "Bugisu",
+    "Region UID": "Dt6qdenPX1E"
+  },
+  {
+    "District": "Namisindwa District",
+    "District UID": "TGzZPOmbgn8",
+    "Region": "Bugisu",
+    "Region UID": "Dt6qdenPX1E"
+  },
+  {
+    "District": "Kakumiro District",
+    "District UID": "Lnewt3iIJaK",
+    "Region": "Bunyoro",
+    "Region UID": "yx0ieyZNF0l"
+  },
+  {
+    "District": "Iganga District",
+    "District UID": "oNxpMjveyZt",
+    "Region": "Busoga",
+    "Region UID": "Wd1lV9Qdj4o"
+  },
+  {
+    "District": "Ibanda District",
+    "District UID": "r8WLxW9JwsS",
+    "Region": "Ankole",
+    "Region UID": "F1o6qBSx783"
+  },
+  {
+    "District": "Buhweju District",
+    "District UID": "sWoNWQZ9qrD",
+    "Region": "Ankole",
+    "Region UID": "F1o6qBSx783"
+  },
+  {
+    "District": "Nakaseke District",
+    "District UID": "aSbgVKaeCP0",
+    "Region": "North Central",
+    "Region UID": "Dl9WvtvDs5V"
+  },
+  {
+    "District": "Rukungiri District",
+    "District UID": "tugqr4dY6wq",
+    "Region": "Kigezi",
+    "Region UID": "G0rlphd2tcD"
+  },
+  {
+    "District": "Bukomansimbi District",
+    "District UID": "Ame30QOwuX6",
+    "Region": "South Central",
+    "Region UID": "IEU0FjDAhBP"
+  },
+  {
+    "District": "Sheema District",
+    "District UID": "xAJgEKKAeRA",
+    "Region": "Ankole",
+    "Region UID": "F1o6qBSx783"
+  },
+  {
+    "District": "Rubanda District",
+    "District UID": "wZrfAgC3WrU",
+    "Region": "Kigezi",
+    "Region UID": "G0rlphd2tcD"
+  },
+  {
+    "District": "Kanungu District",
+    "District UID": "aphcy5JTnd6",
+    "Region": "Kigezi",
+    "Region UID": "G0rlphd2tcD"
+  },
+  {
+    "District": "Ntoroko District",
+    "District UID": "z8D9ER36EKN",
+    "Region": "Tooro",
+    "Region UID": "JZhJ50nOirX"
+  },
+  {
+    "District": "Butaleja District",
+    "District UID": "MtpE3CH6vq3",
+    "Region": "Bukedi",
+    "Region UID": "QBPg7KKCeoA"
+  },
+  {
+    "District": "Luuka District",
+    "District UID": "hn1AlYtF1Pu",
+    "Region": "Busoga",
+    "Region UID": "Wd1lV9Qdj4o"
+  },
+  {
+    "District": "Kalangala District",
+    "District UID": "JrHILmtK0OU",
+    "Region": "South Central",
+    "Region UID": "IEU0FjDAhBP"
+  },
+  {
+    "District": "Sironko District",
+    "District UID": "wJ2a6YKDFZW",
+    "Region": "Bugisu",
+    "Region UID": "Dt6qdenPX1E"
+  },
+  {
+    "District": "Bundibugyo District",
+    "District UID": "g8M1cWRJZV6",
+    "Region": "Tooro",
+    "Region UID": "JZhJ50nOirX"
+  },
+  {
+    "District": "Manafwa District",
+    "District UID": "JIZDvNlIhXS",
+    "Region": "Bugisu",
+    "Region UID": "Dt6qdenPX1E"
+  },
+  {
+    "District": "Rukiga District",
+    "District UID": "fsP0Wxie1UW",
+    "Region": "Kigezi",
+    "Region UID": "G0rlphd2tcD"
+  },
+  {
+    "District": "Budaka District",
+    "District UID": "kb7iUQISRlx",
+    "Region": "Bukedi",
+    "Region UID": "QBPg7KKCeoA"
+  },
+  {
+    "District": "Kaliro District",
+    "District UID": "kJCEJnXLgnh",
+    "Region": "Busoga",
+    "Region UID": "Wd1lV9Qdj4o"
+  },
+  {
+    "District": "Rwampara District",
+    "District UID": "tsugXWRXwGu",
+    "Region": "Ankole",
+    "Region UID": "F1o6qBSx783"
+  },
+  {
+    "District": "Kikuube District",
+    "District UID": "L5WBetpBpY3",
+    "Region": "Bunyoro",
+    "Region UID": "yx0ieyZNF0l"
+  },
+  {
+    "District": "Buvuma District",
+    "District UID": "aZLZPPjqft0",
+    "Region": "North Central",
+    "Region UID": "Dl9WvtvDs5V"
+  },
+  {
+    "District": "Butambala District",
+    "District UID": "a3LMKP8z8Xj",
+    "Region": "South Central",
+    "Region UID": "IEU0FjDAhBP"
+  },
+  {
+    "District": "Namutumba District",
+    "District UID": "esIUe2tQAtL",
+    "Region": "Busoga",
+    "Region UID": "Wd1lV9Qdj4o"
+  },
+  {
+    "District": "Kyegegwa District",
+    "District UID": "a9tQqo1rSj7",
+    "Region": "Tooro",
+    "Region UID": "JZhJ50nOirX"
+  },
+  {
+    "District": "Mpigi District",
+    "District UID": "YMMexeHFUay",
+    "Region": "South Central",
+    "Region UID": "IEU0FjDAhBP"
+  },
+  {
+    "District": "Gomba District",
+    "District UID": "lQj3yMM1lI7",
+    "Region": "South Central",
+    "Region UID": "IEU0FjDAhBP"
+  },
+  {
+    "District": "Buyende District",
+    "District UID": "F3ccON3OCsL",
+    "Region": "Busoga",
+    "Region UID": "Wd1lV9Qdj4o"
+  },
+  {
+    "District": "Kazo District",
+    "District UID": "AS2Seq1grGE",
+    "Region": "Ankole",
+    "Region UID": "F1o6qBSx783"
+  },
+  {
+    "District": "Kiruhura District",
+    "District UID": "qf9xWZu7Dq8",
+    "Region": "Ankole",
+    "Region UID": "F1o6qBSx783"
+  },
+  {
+    "District": "Butebo District",
+    "District UID": "FDPqRvcW3NN",
+    "Region": "Bukedi",
+    "Region UID": "QBPg7KKCeoA"
+  },
+  {
+    "District": "Kaabong District",
+    "District UID": "eOJUW6OGpc7",
+    "Region": "Karamoja",
+    "Region UID": "jdlbNUwJiKX"
+  },
+  {
+    "District": "Karenga District",
+    "District UID": "Hmh5JQLls1d",
+    "Region": "Karamoja",
+    "Region UID": "jdlbNUwJiKX"
+  },
+  {
+    "District": "Nabilatuk District",
+    "District UID": "mOXva2xiwQv",
+    "Region": "Karamoja",
+    "Region UID": "jdlbNUwJiKX"
+  }
+]
