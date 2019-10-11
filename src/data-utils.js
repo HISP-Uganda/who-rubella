@@ -13,93 +13,125 @@ if (result.error) {
     throw result.error
 }
 
-export const mrDataValues = async (list, ous, period) => {
+export const getCOC = (val) => {
+    const search = String(val).toLowerCase();
+    if (search.indexOf('one') !== -1) {
+        return 'ZpyTYdeiDkA'
+    } else if (search.indexOf('two') !== -1) {
+        return 'aEqdGN2HOLQ';
+    } else if (search.indexOf('three') !== -1) {
+        return 'WybnHDOJacu';
+    } else if (search.indexOf('four') !== -1) {
+        return 'UK2et7FhfIq';
+    } else if (search.indexOf('five') !== -1) {
+        return 'jRUmp92Y4bE';
+    } else {
+        return 'HllvX50cXC0'
+    }
+}
+
+export const mrDataValues = async (list, ous, period, attributeOptionCombo) => {
     const baseUrl = getDHIS2Url();
     const keys = {
         'list/target_population': {
             dataElement: 'JHjeYt6yqBX',
             period,
             categoryOptionCombo: 'HllvX50cXC0',
+            attributeOptionCombo
         },
         'list/other_factor_specify': {
             dataElement: 'T05lrtJZwYT',
             period,
             categoryOptionCombo: 'HllvX50cXC0',
+            attributeOptionCombo
         },
         'list/children_vaccinated/years3_5': {
             dataElement: 'uCFg0FT8sV8',
             period,
             categoryOptionCombo: 'ZlH8d3z64XG',
+            attributeOptionCombo
         },
         'list/children_vaccinated/years6_14': {
             dataElement: 'uCFg0FT8sV8',
             period,
             categoryOptionCombo: 'KU1DPon4Siu',
+            attributeOptionCombo
         },
         'list/children_vaccinated/months9_11': {
             dataElement: 'uCFg0FT8sV8',
             period,
             categoryOptionCombo: 'eQxG5pWG8hW',
+            attributeOptionCombo
         },
         'list/children_vaccinated/months12_24': {
             dataElement: 'uCFg0FT8sV8',
             period,
             categoryOptionCombo: 'rExgwWGz0xi',
+            attributeOptionCombo
         },
         'list/post_staffing/number_mobilizers': {
             dataElement: 'bmhiRT3366M',
             period,
             categoryOptionCombo: 'HllvX50cXC0',
+            attributeOptionCombo
         },
         'list/post_staffing/number_health_workers': {
             dataElement: 'zwW07y5987X',
             period,
             categoryOptionCombo: 'HllvX50cXC0',
+            attributeOptionCombo
         },
         'list/mr_vaccine_usage/no_vaccine_vials_issued': {
             dataElement: 'UGzRCLeZ7VK',
             period,
             categoryOptionCombo: 'HllvX50cXC0',
+            attributeOptionCombo
         },
         'list/mr_vaccine_usage/no_diluent_ampules_issued': {
             dataElement: 'c9rY7LYUDdO',
             period,
             categoryOptionCombo: 'HllvX50cXC0',
+            attributeOptionCombo
         },
         'list/mr_vaccine_usage/no_vials_discarded_other_factors': {
             dataElement: 'HdbfodVIJcS',
             period,
             categoryOptionCombo: 'HllvX50cXC0',
+            attributeOptionCombo
         },
         'list/mr_vaccine_usage/no_vaccine_vials_returned_unopened': {
             dataElement: 'fn8jd7n6gIT',
             period,
             categoryOptionCombo: 'HllvX50cXC0',
+            attributeOptionCombo
         },
         'list/mr_vaccine_usage/no_vials_discarded_due_partial_use': {
             dataElement: 'AbuV1Y1X4GP',
             period,
             categoryOptionCombo: 'HllvX50cXC0',
+            attributeOptionCombo
         },
         'list/mr_vaccine_usage/no_diluent_ampules_returned_unopened': {
             dataElement: 'W9L27HbKRA4',
             period,
             categoryOptionCombo: 'HllvX50cXC0',
+            attributeOptionCombo
         },
         'list/mr_vaccine_usage/no_vials_discarded_due_contamination': {
             dataElement: 'SZKq4wooZzg',
             period,
             categoryOptionCombo: 'HllvX50cXC0',
+            attributeOptionCombo
         },
         'list/mr_vaccine_usage/no_vials_discarded_due_vvm_color_change': {
             dataElement: 'EI3lwOn7BFy',
             period,
             categoryOptionCombo: 'HllvX50cXC0',
+            attributeOptionCombo
         }
     }
-
     let dataValues = list.map(l => {
-        const post = l['list/name_of_post'];
+        const post = String(l['list/name_of_post']).toLowerCase();
         const currentKeys = _.keys(l).filter(k => k !== 'list/name_of_post');
         const orgUnit = ous[post];
         if (orgUnit) {
@@ -201,6 +233,13 @@ export const pullOrganisationUnits = async (level, name) => {
     return [];
 };
 
+export const truncateString = (str, num) => {
+    if (str.length <= num) {
+        return str
+    }
+    return str.slice(0, num) + '...'
+}
+
 export const searchPosts = async (subCounty, posts) => {
     const baseUrl = getDHIS2Url();
     const { children } = subCounty;
@@ -209,6 +248,9 @@ export const searchPosts = async (subCounty, posts) => {
 
     const openingDate = moment().subtract(1, 'years');
     try {
+        let { data: { dataSets } } = await getAxios(`${baseUrl}/metadata.json`, { dataSets: true });
+        let organisationUnits = dataSets.map(dataSet => dataSet.organisationUnits);
+        organisationUnits = _.uniq(_.flatten(organisationUnits))
         for (const post of posts) {
             const search = children.find(p => {
                 return post.toLowerCase() === p.name.toLowerCase();
@@ -217,16 +259,23 @@ export const searchPosts = async (subCounty, posts) => {
                 data = { ...data, [post.toLowerCase()]: search.id };
             } else {
                 const id = generateUid();
-                const ou = { shortName: post, name: post, id, parent: { id: subCounty.id }, openingDate };
+                const ou = { shortName: truncateString(post, 46), name: post, id, parent: { id: subCounty.id }, openingDate };
                 await postAxios(`${baseUrl}/organisationUnits`, ou);
                 await postAxios(`${baseUrl}/schemas/organisationUnit`, ou);
-                data = { ...data, [post.toLowerCase()]: id };
-                newOus = [...newOus, { id }];
             }
         }
 
+        const values = _.values(data);
+
+
+        values.forEach(v => {
+            const f = organisationUnits.find(f => f.id === v);
+            if (!f) {
+                newOus = [...newOus, { id: v }];
+            }
+        })
+
         if (newOus.length > 0) {
-            let { data: { dataSets } } = await getAxios(`${baseUrl}/metadata.json`, { dataSets: true });
             dataSets.map(dataSet => {
                 dataSet.organisationUnits = [...dataSet.organisationUnits, ...newOus];
                 return dataSet

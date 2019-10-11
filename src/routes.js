@@ -1,10 +1,11 @@
-import { pullOrganisationUnits, searchPosts, mrDataValues, findType } from './data-utils';
+import { pullOrganisationUnits, searchPosts, mrDataValues, findType, getCOC } from './data-utils';
 import { Client } from '@elastic/elasticsearch';
+import moment from 'moment'
 const client = new Client({ node: 'http://localhost:9200' });
 
 export const routes = (app, io) => {
     app.post('/', async (req, res) => {
-        let { list, _id, _version, ...rest } = req.body;
+        let { list, date_of_results, day_of_results, _id, _version, ...rest } = req.body;
         let ous = {};
         let processedList = [];
         let { subcounty, districts, region } = rest;
@@ -12,8 +13,7 @@ export const routes = (app, io) => {
         districts = districts.split('_').join(' ');
         region = region.split('_').join(' ');
         const district = await pullOrganisationUnits(3, districts);
-
-
+        day_of_results = getCOC(day_of_results);
         if (district && district.length === 1) {
             districts = district[0].id
             region = district[0].parent.id;
@@ -21,20 +21,16 @@ export const routes = (app, io) => {
             const searchedSubCounty = subCounties.filter(s => {
                 return String(s.name).toLowerCase().includes(String(subcounty).toLowerCase());
             });
-
             if (searchedSubCounty.length === 1) {
                 const subCounty = searchedSubCounty[0]
                 subcounty = subCounty.id;
                 const posts = list.map(l => l['list/name_of_post']);
                 ous = await searchPosts(subCounty, posts);
-                // const dataValues = await mrDataValues(list, ous, moment(date_of_results).format('YYYYMMDD'));
-                // io.emit('data', dataValues);
-                // return res.status(201).send(dataValues);
+                await mrDataValues(list, ous, moment(date_of_results).format('YYYYMMDD'), day_of_results);
             }
         }
 
         for (const l of list) {
-
             const total = l['list/children_vaccinated/years3_5'] +
                 l['list/children_vaccinated/years6_14'] +
                 l['list/children_vaccinated/months9_11'] +
@@ -54,83 +50,15 @@ export const routes = (app, io) => {
                 ...rest,
                 subcounty,
                 districts,
-                region
+                region,
+                date_of_results,
+                day_of_results
             }]
-
-
         }
-        // list.map(l => {
-        //     const total = l['list/children_vaccinated/years3_5'] +
-        //         l['list/children_vaccinated/years6_14'] +
-        //         l['list/children_vaccinated/months9_11'] +
-        //         l['list/children_vaccinated/months12_24'];
-        //     const discarded =
-        //         l['list/mr_vaccine_usage/no_vials_discarded_due_partial_use'] +
-        //         l['list/mr_vaccine_usage/no_vials_discarded_due_contamination'] +
-        //         l['list/mr_vaccine_usage/no_vials_discarded_due_vvm_color_change'];
-        //     const post = l['list/name_of_post'].split(' ').join('_');
-        //     let { subcounty, districts, region } = rest;
-        //     subcounty = subcounty.split('_').join(' ');
-        //     districts = districts.split('_').join(' ');
-        //     region = region.split('_').join(' ');
-
-        // const district = await pullOrganisationUnits(3, districts);
-        // if (district && district.length === 1) {
-        //     region = district[0].parent.id;
-        //     const subCounties = district[0].children;
-        //     const searchedSubCounty = subCounties.filter(s => {
-        //         return String(s.name).toLowerCase().includes(String(subcounty).toLowerCase());
-        //     });
-
-        //     if (searchedSubCounty.length === 1) {
-        //         subcounty = searchedSubCounty[0].id;
-        //         const posts = searchedSubCounty[0].children;
-        //     }
-        // }
-
-        //     return {
-        //         ...l,
-        //         ['list/children_vaccinated/total']: total,
-        //         ['list/mr_vaccine_usage/no_vials_discarded']: discarded,
-        //         ['list/name_of_post']: post,
-        //         ...rest,
-        //         subcounty,
-        //         districts,
-        //         region
-        //     };
-        // });
-
-        // const body = processedList.flatMap(doc => [{ index: { _index: 'mr-rubella' } }, doc]);
-
-        // const { body: bulkResponse } = await client.bulk({ refresh: true, body });
+        const body = processedList.flatMap(doc => [{ index: { _index: 'mr-rubella' } }, doc]);
+        const { body: bulkResponse } = await client.bulk({ refresh: true, body });
         // io.emit('data', { message: 'data has come' });
-
-
-        // let subCounty;
-        // if (list && subcounty) {
-        //     const organisations = await pullOrganisationUnits(4, subcounty.split('_').join(' '));
-
-        //     if (organisations.length === 1) {
-        //         subCounty = organisations[0]
-        //     } else if (organisations.length > 1) {
-        //         const comparator = districts.split('_').join(' ')
-        //         const filtered = organisations.filter(o => {
-        //             return o.parent.name.toLowerCase() === comparator.toLowerCase()
-        //         });
-
-        //         if (filtered.length === 1) {
-        //             subCounty = organisations[0]
-        //         }
-        //     }
-        //     if (subCounty) {
-        //         const posts = list.map(l => l['list/name_of_post']);
-        //         const ous = await searchPosts(subCounty, posts);
-        //         const dataValues = await mrDataValues(list, ous, moment(date_of_results).format('YYYYMMDD'));
-        //         io.emit('data', dataValues);
-        //         return res.status(201).send(dataValues);
-        //     }
-        // }
-        return res.status(201).send(processedList);
+        return res.status(201).send(bulkResponse);
     });
 
     app.get('/', async (req, res) => {
@@ -361,7 +289,6 @@ export const routes = (app, io) => {
             "title": "Norway",
             features: subcounties
         }
-
         return res.status(200).send(map);
     });
 };
