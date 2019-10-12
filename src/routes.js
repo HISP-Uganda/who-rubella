@@ -1,7 +1,7 @@
 import { pullOrganisationUnits, searchPosts, mrDataValues, findType, getCOC, opvDataValues } from './data-utils';
 import { Client } from '@elastic/elasticsearch';
 import moment from 'moment'
-const client = new Client({ node: 'http://carapai.com:9200' });
+const client = new Client({ node: 'http://213.136.94.124:9200' });
 
 const createIndex = async function (indexName, mapping) {
     return await client.indices.create({
