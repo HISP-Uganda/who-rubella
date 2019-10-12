@@ -94,9 +94,9 @@ export const mrDataValues = async (list, ous, period, attributeOptionCombo) => {
             attributeOptionCombo
         },
         'list/mr_vaccine_usage/no_vials_discarded_other_factors': {
-            dataElement: 'HdbfodVIJcS',
+            dataElement: 'EI3lwOn7BFy',
             period,
-            categoryOptionCombo: 'HllvX50cXC0',
+            categoryOptionCombo: 'E4wrUHavnxw',
             attributeOptionCombo
         },
         'list/mr_vaccine_usage/no_vaccine_vials_returned_unopened': {
@@ -106,9 +106,9 @@ export const mrDataValues = async (list, ous, period, attributeOptionCombo) => {
             attributeOptionCombo
         },
         'list/mr_vaccine_usage/no_vials_discarded_due_partial_use': {
-            dataElement: 'AbuV1Y1X4GP',
+            dataElement: 'EI3lwOn7BFy',
             period,
-            categoryOptionCombo: 'HllvX50cXC0',
+            categoryOptionCombo: 'DwzqPmIFldV',
             attributeOptionCombo
         },
         'list/mr_vaccine_usage/no_diluent_ampules_returned_unopened': {
@@ -118,15 +118,119 @@ export const mrDataValues = async (list, ous, period, attributeOptionCombo) => {
             attributeOptionCombo
         },
         'list/mr_vaccine_usage/no_vials_discarded_due_contamination': {
-            dataElement: 'SZKq4wooZzg',
+            dataElement: 'EI3lwOn7BFy',
             period,
-            categoryOptionCombo: 'HllvX50cXC0',
+            categoryOptionCombo: 'YuPxWTajxgw',
             attributeOptionCombo
         },
         'list/mr_vaccine_usage/no_vials_discarded_due_vvm_color_change': {
             dataElement: 'EI3lwOn7BFy',
             period,
+            categoryOptionCombo: 'w7BoUsyaywi',
+            attributeOptionCombo
+        }
+    }
+    let dataValues = list.map(l => {
+        const post = String(l['list/name_of_post']).toLowerCase();
+        const currentKeys = _.keys(l).filter(k => k !== 'list/name_of_post');
+        const orgUnit = ous[post];
+        if (orgUnit) {
+            const current = currentKeys.map(k => {
+                const value = l[k];
+                let val = keys[k];
+                if (val) {
+                    val = { ...val, orgUnit, value }
+                }
+                return val;
+            });
+            return current
+        } else {
+            return [];
+        }
+    });
+    dataValues = _.flatten(dataValues).filter(v => {
+        return v && v !== null && v !== undefined
+    });
+    if (dataValues.length > 0) {
+        await postAxios(`${baseUrl}/dataValueSets`, { dataValues });
+    }
+    return dataValues;
+}
+
+
+export const opvDataValues = async (list, ous, period, attributeOptionCombo) => {
+    const baseUrl = getDHIS2Url();
+    const keys = {
+        'list/target_population': {
+            dataElement: 'qUPxGgvjxM0',
+            period,
             categoryOptionCombo: 'HllvX50cXC0',
+            attributeOptionCombo
+        },
+        'list/no_vaccine_vials_issued': {
+            dataElement: 'zubJgvPKrm4',
+            period,
+            categoryOptionCombo: 'HllvX50cXC0',
+            attributeOptionCombo
+        },
+        'list/chd_registered_months0_59': {
+            dataElement: 'gfAMJ2FAwVh',
+            period,
+            categoryOptionCombo: 'HllvX50cXC0',
+            attributeOptionCombo
+        },
+        'list/children_immunised/months0_59': {
+            dataElement: 'H8oR202q4yu',
+            period,
+            categoryOptionCombo: 'HllvX50cXC0',
+            attributeOptionCombo
+        },
+        'list/post_staffing/number_mobilizers': {
+            dataElement: 'B5m1aCG4hnB',
+            period,
+            categoryOptionCombo: 'HllvX50cXC0',
+            attributeOptionCombo
+        },
+        'list/no_vaccine_vials_returned_unopened': {
+            dataElement: 'E3vsHXXvlOv',
+            period,
+            categoryOptionCombo: 'HllvX50cXC0',
+            attributeOptionCombo
+        },
+        'list/post_staffing/number_health_workers': {
+            dataElement: 'rFeC1QtV1bu',
+            period,
+            categoryOptionCombo: 'HllvX50cXC0',
+            attributeOptionCombo
+        },
+        'list/children_immunised/first_ever_zero_dose': {
+            dataElement: 'KB4JOwej4Iw',
+            period,
+            categoryOptionCombo: 'HllvX50cXC0',
+            attributeOptionCombo
+        },
+        'list/no.vials_discarded_due_to/no_vials_discarded_other_factors': {
+            dataElement: 'XkMW8pKRfed',
+            period,
+            categoryOptionCombo: 'E4wrUHavnxw',
+            attributeOptionCombo
+        },
+        'list/no.vials_discarded_due_to/no_vials_discarded_due_contamination': {
+            dataElement: 'XkMW8pKRfed',
+            period,
+            categoryOptionCombo: 'YuPxWTajxgw',
+            attributeOptionCombo
+        },
+        'list/no.vials_discarded_due_to/no_vials_discarded_due_vvm_color_change': {
+            dataElement: 'XkMW8pKRfed',
+            period,
+            categoryOptionCombo: 'w7BoUsyaywi',
+            attributeOptionCombo
+        },
+        'list/no.vials_discarded_due_to/no_vials_discarded_due_partial_use': {
+            dataElement: 'XkMW8pKRfed',
+            period,
+            categoryOptionCombo: 'DwzqPmIFldV',
             attributeOptionCombo
         }
     }
@@ -274,7 +378,6 @@ export const searchPosts = async (subCounty, posts) => {
                 newOus = [...newOus, { id: v }];
             }
         })
-
         if (newOus.length > 0) {
             dataSets.map(dataSet => {
                 dataSet.organisationUnits = [...dataSet.organisationUnits, ...newOus];
@@ -282,7 +385,6 @@ export const searchPosts = async (subCounty, posts) => {
             });
             await postAxios(`${baseUrl}/metadata`, { dataSets });
         }
-
     } catch (error) {
         console.log(error)
     }

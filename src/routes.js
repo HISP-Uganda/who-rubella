@@ -1,64 +1,254 @@
-import { pullOrganisationUnits, searchPosts, mrDataValues, findType, getCOC } from './data-utils';
+import { pullOrganisationUnits, searchPosts, mrDataValues, findType, getCOC, opvDataValues } from './data-utils';
 import { Client } from '@elastic/elasticsearch';
 import moment from 'moment'
-const client = new Client({ node: 'http://localhost:9200' });
+const client = new Client({ node: 'http://carapai.com:9200' });
+
+const createIndex = async function (indexName, mapping) {
+    return await client.indices.create({
+        index: indexName,
+        body: mapping
+    });
+}
+const checkIndex = async function (indexName) {
+    return await client.indices.exists({ index: indexName });
+}
+
+async function rubella() {
+
+    try {
+        const resp = await checkIndex('mr-rubella');
+        const opv = await checkIndex('opv-polio');
+        if (resp.statusCode === 404) {
+            const mapping = {
+                mappings: {
+                    properties: {
+                        _uuid: { type: 'text', fielddata: true },
+                        today: { type: 'date' },
+                        region: { type: 'text', fielddata: true },
+                        endtime: { type: 'date' },
+                        deviceid: { type: 'text' },
+                        num_post: { type: 'integer' },
+                        _duration: { type: 'integer' },
+                        _xform_id: { type: 'integer' },
+                        districts: { type: 'text', fielddata: true },
+                        starttime: { type: 'date' },
+                        subcounty: { type: 'text', fielddata: true },
+                        list_count: { type: 'integer' },
+                        _media_count: { type: 'integer' },
+                        _total_media: { type: 'integer' },
+                        'formhub/uuid': { type: 'text', fielddata: true },
+                        _submitted_by: { type: 'text', fielddata: true },
+                        day_of_results: { type: 'text', fielddata: true },
+                        date_of_results: { type: 'date' },
+                        'meta/instanceID': { type: 'text', fielddata: true },
+                        _submission_time: { type: 'date' },
+                        _xform_id_string: { type: 'text', fielddata: true },
+                        _bamboo_dataset_id: { type: 'text', fielddata: true },
+                        _media_all_received: { type: 'boolean' },
+                        mobile_number_supervisor: { type: 'text', fielddata: true },
+                        name_district_supervisor: { type: 'text', fielddata: true },
+                        'list/name_of_post': { type: 'text', fielddata: true },
+                        'list/target_population': { type: 'integer' },
+                        'list/other_factor_specify': { type: 'integer' },
+                        'list/children_vaccinated/years3_5': { type: 'integer' },
+                        'list/children_vaccinated/years6_14': { type: 'integer' },
+                        'list/children_vaccinated/months9_11': { type: 'integer' },
+                        'list/children_vaccinated/months12_24': { type: 'integer' },
+                        'list/post_staffing/number_mobilizers': { type: 'integer' },
+                        'list/post_staffing/number_health_workers': { type: 'integer' },
+                        'list/mr_vaccine_usage/no_vaccine_vials_issued': { type: 'integer' },
+                        'list/mr_vaccine_usage/no_diluent_ampules_issued': { type: 'integer' },
+                        'list/mr_vaccine_usage/no_vials_discarded_other_factors': { type: 'integer' },
+                        'list/mr_vaccine_usage/no_vaccine_vials_returned_unopened': { type: 'integer' },
+                        'list/mr_vaccine_usage/no_vials_discarded_due_partial_use': { type: 'integer' },
+                        'list/mr_vaccine_usage/no_diluent_ampules_returned_unopened': { type: 'integer' },
+                        'list/mr_vaccine_usage/no_vials_discarded_due_contamination': { type: 'integer' },
+                        'list/mr_vaccine_usage/no_vials_discarded_due_vvm_color_change': { type: 'integer' }
+                    }
+                }
+            }
+            await createIndex('mr-rubella', mapping);
+        }
+        if (opv.statusCode === 404) {
+            const mapping1 = {
+                mappings: {
+                    properties: {
+                        _uuid: { type: 'text', fielddata: true },
+                        today: { type: 'date' },
+                        region: { type: 'text', fielddata: true },
+                        endtime: { type: 'date' },
+                        deviceid: { type: 'text' },
+                        num_post: { type: 'integer' },
+                        _duration: { type: 'integer' },
+                        _xform_id: { type: 'integer' },
+                        districts: { type: 'text', fielddata: true },
+                        starttime: { type: 'date' },
+                        subcounty: { type: 'text', fielddata: true },
+                        list_count: { type: 'integer' },
+                        _media_count: { type: 'integer' },
+                        _total_media: { type: 'integer' },
+                        'formhub/uuid': { type: 'text', fielddata: true },
+                        _submitted_by: { type: 'text', fielddata: true },
+                        day_of_results: { type: 'text', fielddata: true },
+                        date_of_results: { type: 'date' },
+                        'meta/instanceID': { type: 'text', fielddata: true },
+                        _submission_time: { type: 'date' },
+                        _xform_id_string: { type: 'text', fielddata: true },
+                        _bamboo_dataset_id: { type: 'text', fielddata: true },
+                        _media_all_received: { type: 'boolean' },
+                        mobile_number_supervisor: { type: 'text', fielddata: true },
+                        name_district_supervisor: { type: 'text', fielddata: true },
+                        'list/name_of_post': { type: 'text', fielddata: true },
+                        "list/physical_balance": { type: 'integer' },
+                        "list/target_population": { type: 'integer' },
+                        "list/no_vaccine_vials_issued": { type: 'integer' },
+                        "list/chd_registered_months0_59": { type: 'integer' },
+                        "list/children_immunised/months0_59": { type: 'integer' },
+                        "list/post_staffing/number_mobilizers": { type: 'integer' },
+                        "list/no_vaccine_vials_returned_unopened": { type: 'integer' },
+                        "list/post_staffing/number_health_workers": { type: 'integer' },
+                        "list/children_immunised/first_ever_zero_dose": { type: 'integer' },
+                        "list/no.vials_discarded_due_to/other_factor_specify": { type: 'text', fielddata: true },
+                        "list/no.vials_discarded_due_to/no_vials_discarded_other_factors": { type: 'integer' },
+                        "list/no.vials_discarded_due_to/no_vials_discarded_due_partial_use": { type: 'integer' },
+                        "list/no.vials_discarded_due_to/no_vials_discarded_due_contamination": { type: 'integer' },
+                        "list/no.vials_discarded_due_to/no_vials_discarded_due_vvm_color_change": { type: 'integer' }
+                    }
+                }
+            }
+            await createIndex('opv-polio', mapping1);
+        }
+    } catch (e) {
+        console.log(JSON.stringify(e));
+    }
+
+}
+
+rubella();
 
 export const routes = (app, io) => {
     app.post('/', async (req, res) => {
-        let { list, date_of_results, day_of_results, _id, _version, ...rest } = req.body;
-        let ous = {};
-        let processedList = [];
-        let { subcounty, districts, region } = rest;
-        subcounty = subcounty.split('_').join(' ');
-        districts = districts.split('_').join(' ');
-        region = region.split('_').join(' ');
-        const district = await pullOrganisationUnits(3, districts);
-        day_of_results = getCOC(day_of_results);
-        if (district && district.length === 1) {
-            districts = district[0].id
-            region = district[0].parent.id;
-            const subCounties = district[0].children;
-            const searchedSubCounty = subCounties.filter(s => {
-                return String(s.name).toLowerCase().includes(String(subcounty).toLowerCase());
-            });
-            if (searchedSubCounty.length === 1) {
-                const subCounty = searchedSubCounty[0]
-                subcounty = subCounty.id;
-                const posts = list.map(l => l['list/name_of_post']);
-                ous = await searchPosts(subCounty, posts);
-                await mrDataValues(list, ous, moment(date_of_results).format('YYYYMMDD'), day_of_results);
+        let response = {};
+        try {
+            let { list, date_of_results, day_of_results, _id, _version, ...rest } = req.body;
+            let ous = {};
+            let processedList = [];
+            let { subcounty, districts, region } = rest;
+            subcounty = subcounty.split('_').join(' ');
+            districts = districts.split('_').join(' ');
+            region = region.split('_').join(' ');
+            const district = await pullOrganisationUnits(3, districts);
+            day_of_results = getCOC(day_of_results);
+            if (district && district.length === 1) {
+                districts = district[0].id
+                region = district[0].parent.id;
+                const subCounties = district[0].children;
+                const searchedSubCounty = subCounties.filter(s => {
+                    return String(s.name).toLowerCase().includes(String(subcounty).toLowerCase());
+                });
+                if (searchedSubCounty.length === 1) {
+                    const subCounty = searchedSubCounty[0]
+                    subcounty = subCounty.id;
+                    const posts = list.map(l => l['list/name_of_post']);
+                    ous = await searchPosts(subCounty, posts);
+                    await mrDataValues(list, ous, moment(date_of_results).format('YYYYMMDD'), day_of_results);
+
+                    for (const l of list) {
+                        const total = l['list/children_vaccinated/years3_5'] +
+                            l['list/children_vaccinated/years6_14'] +
+                            l['list/children_vaccinated/months9_11'] +
+                            l['list/children_vaccinated/months12_24'];
+                        const discarded =
+                            l['list/mr_vaccine_usage/no_vials_discarded_due_partial_use'] +
+                            l['list/mr_vaccine_usage/no_vials_discarded_due_contamination'] +
+                            l['list/mr_vaccine_usage/no_vials_discarded_other_factors'] +
+                            l['list/mr_vaccine_usage/no_vials_discarded_due_vvm_color_change'];
+                        const original = l['list/name_of_post'];
+                        const post = String(original).split('_').join(' ').toLowerCase();
+
+                        processedList = [...processedList, {
+                            ...l,
+                            ['list/children_vaccinated/total']: total,
+                            ['list/mr_vaccine_usage/no_vials_discarded']: discarded,
+                            ['list/name_of_post']: ous[post] ? ous[post] : original,
+                            ...rest,
+                            subcounty,
+                            districts,
+                            region,
+                            date_of_results,
+                            day_of_results
+                        }]
+                    }
+                    const body = processedList.flatMap(doc => [{ index: { _index: 'mr-rubella' } }, doc]);
+                    const { body: bulkResponse } = await client.bulk({ refresh: true, body });
+                    io.emit('data', { message: 'data has come' });
+                    response = bulkResponse;
+                }
             }
+        } catch (e) {
+            response = { message: e.message }
         }
+        return res.status(201).send(response);
+    });
 
-        for (const l of list) {
-            const total = l['list/children_vaccinated/years3_5'] +
-                l['list/children_vaccinated/years6_14'] +
-                l['list/children_vaccinated/months9_11'] +
-                l['list/children_vaccinated/months12_24'];
-            const discarded =
-                l['list/mr_vaccine_usage/no_vials_discarded_due_partial_use'] +
-                l['list/mr_vaccine_usage/no_vials_discarded_due_contamination'] +
-                l['list/mr_vaccine_usage/no_vials_discarded_due_vvm_color_change'];
-            const original = l['list/name_of_post'];
-            const post = String(original).split('_').join(' ').toLowerCase();
+    app.post('/opv', async (req, res) => {
+        let response = {};
+        try {
+            let { list, date_of_results, day_of_results, _id, _version, ...rest } = req.body;
+            let ous = {};
+            let processedList = [];
+            let { subcounty, districts, region } = rest;
+            subcounty = subcounty.split('_').join(' ');
+            districts = districts.split('_').join(' ');
+            region = region.split('_').join(' ');
+            const district = await pullOrganisationUnits(3, districts);
+            day_of_results = getCOC(day_of_results);
+            if (district && district.length === 1) {
+                districts = district[0].id
+                region = district[0].parent.id;
+                const subCounties = district[0].children;
+                const searchedSubCounty = subCounties.filter(s => {
+                    return String(s.name).toLowerCase().includes(String(subcounty).toLowerCase());
+                });
+                if (searchedSubCounty.length === 1) {
+                    const subCounty = searchedSubCounty[0]
+                    subcounty = subCounty.id;
+                    const posts = list.map(l => l['list/name_of_post']);
+                    ous = await searchPosts(subCounty, posts);
+                    await opvDataValues(list, ous, moment(date_of_results).format('YYYYMMDD'), day_of_results);
 
-            processedList = [...processedList, {
-                ...l,
-                ['list/children_vaccinated/total']: total,
-                ['list/mr_vaccine_usage/no_vials_discarded']: discarded,
-                ['list/name_of_post']: ous[post] ? ous[post] : original,
-                ...rest,
-                subcounty,
-                districts,
-                region,
-                date_of_results,
-                day_of_results
-            }]
+                    for (const l of list) {
+                        const discarded =
+                            l['list/no.vials_discarded_due_to/no_vials_discarded_other_factors'] +
+                            l['list/no.vials_discarded_due_to/no_vials_discarded_due_partial_use'] +
+                            l['list/no.vials_discarded_due_to/no_vials_discarded_due_vvm_color_change'] +
+                            l['list/no.vials_discarded_due_to/no_vials_discarded_due_contamination'];
+
+                        const original = l['list/name_of_post'];
+                        const post = String(original).split('_').join(' ').toLowerCase();
+
+                        processedList = [...processedList, {
+                            ...l,
+                            ['list/no.vials_discarded']: discarded,
+                            ['list/name_of_post']: ous[post] ? ous[post] : original,
+                            ...rest,
+                            subcounty,
+                            districts,
+                            region,
+                            date_of_results,
+                            day_of_results
+                        }]
+                    }
+                    const body = processedList.flatMap(doc => [{ index: { _index: 'opv-polio' } }, doc]);
+                    const { body: bulkResponse } = await client.bulk({ refresh: true, body });
+                    response = bulkResponse;
+                    io.emit('data', { message: 'data has come' });
+                }
+            }
+        } catch (e) {
+            response = { message: e.message }
         }
-        const body = processedList.flatMap(doc => [{ index: { _index: 'mr-rubella' } }, doc]);
-        const { body: bulkResponse } = await client.bulk({ refresh: true, body });
-        // io.emit('data', { message: 'data has come' });
-        return res.status(201).send(bulkResponse);
+        return res.status(201).send(response);
     });
 
     app.get('/', async (req, res) => {
@@ -155,31 +345,56 @@ export const routes = (app, io) => {
 
     });
 
-    app.get('/summary', async (req, res) => {
+
+    app.get('/opv', async (req, res) => {
         let bod = {}
-        const q = findType(req.query.type)
+        const q = findType(req.query.type);
+        const calculations = {
+            target_population: { sum: { field: 'list/target_population' } },
+            number_mobilizers: { sum: { field: 'list/post_staffing/number_mobilizers' } },
+            number_health_workers: { sum: { field: 'list/post_staffing/number_health_workers' } },
+            no_vaccine_vials_issued: { sum: { field: 'list/no_vaccine_vials_issued' } },
+            chd_registered: { sum: { field: 'list/chd_registered_months0_59' } },
+            children_immunised: { sum: { field: 'list/children_immunised/months0_59' } },
+            no_vaccine_vials_returned_unopened: { sum: { field: 'list/no_vaccine_vials_returned_unopened' } },
+            no_vials_discarded_due_contamination: { sum: { field: 'list/no.vials_discarded_due_to/no_vials_discarded_due_contamination' } },
+            no_vials_discarded_due_vvm_color_change: { sum: { field: 'list/no.vials_discarded_due_to/no_vials_discarded_due_vvm_color_change' } },
+            no_vials_discarded_due_contamination: { sum: { field: 'list/no.vials_discarded_due_to/no_vials_discarded_other_factors' } },
+            no_vials_discarded_due_contamination: { sum: { field: 'list/no.vials_discarded_due_to/no_vials_discarded_due_partial_use' } },
+            no_vials_discarded: { sum: { field: 'list/no.vials_discarded' } }
+        }
+        const summary = {
+            terms: {
+                field: q.disaggregation
+            },
+            aggs: calculations
+        }
+
+        let single = {
+            filter: {
+                match_all: {}
+            },
+            aggs: calculations
+        }
+
+        let overall = {
+            terms: {
+                field: 'day_of_results'
+            },
+            aggs: calculations
+        }
+
         const data = {
             terms: {
                 field: q.disaggregation
             },
             aggs: {
-                target_population: { sum: { field: 'list/target_population' } },
-                number_mobilizers: { sum: { field: 'list/post_staffing/number_mobilizers' } },
-                number_health_workers: { sum: { field: 'list/post_staffing/number_health_workers' } },
-                no_vaccine_vials_issued: { sum: { field: 'list/mr_vaccine_usage/no_vaccine_vials_issued' } },
-                no_diluent_ampules_issued: { sum: { field: 'list/mr_vaccine_usage/no_diluent_ampules_issued' } },
-                no_vials_discarded_other_factors: { sum: { field: 'list/mr_vaccine_usage/no_vials_discarded_other_factors' } },
-                no_vaccine_vials_returned_unopened: { sum: { field: 'list/mr_vaccine_usage/no_vaccine_vials_returned_unopened' } },
-                no_vials_discarded_due_partial_use: { sum: { field: 'list/mr_vaccine_usage/no_vials_discarded_due_partial_use' } },
-                no_diluent_ampules_returned_unopened: { sum: { field: 'list/mr_vaccine_usage/no_diluent_ampules_returned_unopened' } },
-                no_vials_discarded_due_contamination: { sum: { field: 'list/mr_vaccine_usage/no_vials_discarded_due_contamination' } },
-                no_vials_discarded_due_vvm_color_change: { sum: { field: 'list/mr_vaccine_usage/no_vials_discarded_due_vvm_color_change' } },
-                years3_5: { sum: { field: 'list/children_vaccinated/years3_5' } },
-                years6_14: { sum: { field: 'list/children_vaccinated/years6_14' } },
-                months9_11: { sum: { field: 'list/children_vaccinated/months9_11' } },
-                months12_24: { sum: { field: 'list/children_vaccinated/months12_24' } },
-                children_vaccinated: { sum: { field: 'list/children_vaccinated/total' } },
-                no_vials_discarded: { sum: { field: 'list/mr_vaccine_usage/no_vials_discarded' } }
+                days: {
+                    terms: {
+                        field: 'day_of_results'
+                    },
+                    aggs: calculations
+                }
             }
         }
 
@@ -187,11 +402,9 @@ export const routes = (app, io) => {
             size: 0,
             aggs: {
                 data,
-                summary: {
-                    terms: {
-                        field: q.disaggregation
-                    }
-                }
+                summary,
+                single,
+                overall
             }
         }
         if (q.search && req.query.search) {
@@ -206,10 +419,9 @@ export const routes = (app, io) => {
                 }
             }
         }
-
         try {
             const { body } = await client.search({
-                "index": 'mr-rubella',
+                "index": 'opv-polio',
                 body: final
             });
             bod = body;
