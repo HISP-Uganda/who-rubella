@@ -49,7 +49,9 @@ _.forOwn(test, function (v, k) {
             list
         };
 
-        await axios.post('http://localhost:3001', qw, { headers: { 'Accept': 'application/json' } })
+        console.log(JSON.stringify(qw));
+
+        // await axios.post('http://localhost:3001', qw, { headers: { 'Accept': 'application/json' } })
     });
 
 });
