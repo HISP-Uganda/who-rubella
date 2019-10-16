@@ -50,19 +50,25 @@ export const routes = (app, io) => {
                         l['list/children_vaccinated/years6_14'] +
                         l['list/children_vaccinated/months9_11'] +
                         l['list/children_vaccinated/months12_24'];
-                    const discarded =
-                        l['list/mr_vaccine_usage/no_vials_discarded_due_partial_use'] +
-                        l['list/mr_vaccine_usage/no_vials_discarded_due_contamination'] +
-                        l['list/mr_vaccine_usage/no_vials_discarded_other_factors'] +
-                        l['list/mr_vaccine_usage/no_vials_discarded_due_vvm_color_change'];
+
+                        const  partialUse = parseInt(l['list/mr_vaccine_usage/no_vials_discarded_due_partial_use'],10);
+                        const contamination = parseInt(l['list/mr_vaccine_usage/no_vials_discarded_due_contamination'],10);
+                        const otheFactors = parseInt(l['list/mr_vaccine_usage/no_vials_discarded_other_factors'],10);
+                        const colorChange = parseInt(l['list/mr_vaccine_usage/no_vials_discarded_due_vvm_color_change'],10);
+
+                    const discarded =partialUse +contamination +otheFactors+colorChange;
                     const original = l['list/name_of_post'];
                     const post = String(original).split('_').join(' ').toLowerCase();
 
                     processedList = [...processedList, {
                         ...l,
                         ['list/children_vaccinated/total']: total,
-                        ['list/mr_vaccine_usage/no_vials_discarded']: discarded,
+                        ['list/mr_vaccine_usage/no_vials_discarded']: isNaN(parseInt(discarded,10))?0:discarded,
                         ['list/name_of_post']: ous[post] ? ous[post] : original,
+                        ['list/mr_vaccine_usage/no_vials_discarded_due_partial_use']:isNaN(partialUse)?0:partialUse,
+                        ['list/mr_vaccine_usage/no_vials_discarded_due_contamination']:isNaN(contamination)?0:contamination,
+                        ['list/mr_vaccine_usage/no_vials_discarded_other_factors']:isNaN(otheFactors)?0:otheFactors,
+                        ['list/mr_vaccine_usage/no_vials_discarded_due_vvm_color_change']:isNaN(colorChange)?0:colorChange,
                         ...rest,
                         subcounty,
                         districts,
@@ -110,19 +116,26 @@ export const routes = (app, io) => {
                     await opvDataValues(list, ous, moment(date_of_results).format('YYYYMMDD'), day_of_results);
 
                     for (const l of list) {
-                        const discarded =
-                            l['list/no.vials_discarded_due_to/no_vials_discarded_other_factors'] +
-                            l['list/no.vials_discarded_due_to/no_vials_discarded_due_partial_use'] +
-                            l['list/no.vials_discarded_due_to/no_vials_discarded_due_vvm_color_change'] +
-                            l['list/no.vials_discarded_due_to/no_vials_discarded_due_contamination'];
 
+                        const  partialUse = parseInt(l['list/no.vials_discarded_due_to/no_vials_discarded_due_partial_use'],10);
+                        const contamination = parseInt(l['list/no.vials_discarded_due_to/no_vials_discarded_due_contamination'],10);
+                        const otheFactors = parseInt(l['list/no.vials_discarded_due_to/no_vials_discarded_other_factors'],10);
+                        const colorChange = parseInt(l['list/no.vials_discarded_due_to/no_vials_discarded_due_vvm_color_change'],10);
+                        
                         const original = l['list/name_of_post'];
                         const post = String(original).split('_').join(' ').toLowerCase();
+                        const discarded =partialUse +contamination +otheFactors+colorChange;
+
 
                         processedList = [...processedList, {
                             ...l,
-                            ['list/no.vials_discarded']: discarded,
+                            ['list/no.vials_discarded']: isNaN(parseInt(discarded,10))?0:discarded,
                             ['list/name_of_post']: ous[post] ? ous[post] : original,
+
+                            ['list/no.vials_discarded_due_to/no_vials_discarded_due_partial_use']:isNaN(partialUse)?0:partialUse,
+                            ['list/no.vials_discarded_due_to/no_vials_discarded_due_contamination']:isNaN(contamination)?0:contamination,
+                            ['list/no.vials_discarded_due_to/no_vials_discarded_other_factors']:isNaN(otheFactors)?0:otheFactors,
+                            ['list/no.vials_discarded_due_to/no_vials_discarded_due_vvm_color_change']:isNaN(colorChange)?0:colorChange,
                             ...rest,
                             subcounty,
                             districts,
