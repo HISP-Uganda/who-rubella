@@ -1,8 +1,11 @@
 import { pullOrganisationUnits, searchPosts, mrDataValues, findType, getCOC, opvDataValues } from './data-utils';
 import { Client } from '@elastic/elasticsearch';
-import moment from 'moment'
-const client = new Client({ node: 'http://213.136.94.124:9200' });
-// const client = new Client({ node: 'http://localhost:9200' });
+import moment from 'moment';
+import { generateUid } from './uid';
+
+// const client = new Client({ node: 'http://213.136.94.124:9200' });
+const client = new Client({ node: 'http://localhost:9200' });
+
 
 export const routes = (app, io) => {
     app.post('/', async (req, res) => {
@@ -24,11 +27,19 @@ export const routes = (app, io) => {
                 const searchedSubCounty = subCounties.filter(s => {
                     return String(s.name).toLowerCase().includes(String(subcounty).toLowerCase());
                 });
+                let subCounty;
                 if (searchedSubCounty.length === 1) {
-                    const subCounty = searchedSubCounty[0]
+                    subCounty = searchedSubCounty[0];
                     subcounty = subCounty.id;
                     const posts = list.map(l => l['list/name_of_post']);
                     ous = await searchPosts(subCounty, posts);
+                }else if(searchedSubCounty.length === 0){
+                    const id =  generateUid();
+                    const posts = list.map(l => l['list/name_of_post']);
+                    ous = await searchPosts({name:subcounty,id}, posts,districts,true);
+                    subcounty = id;
+                }
+                
                     await mrDataValues(list, ous, moment(date_of_results).format('YYYYMMDD'), day_of_results);
 
                     for (const l of list) {
@@ -61,9 +72,9 @@ export const routes = (app, io) => {
                     const { body: bulkResponse } = await client.bulk({ refresh: true, body });
                     io.emit('data', { message: 'data has come' });
                     response = bulkResponse;
-                }
             }
         } catch (e) {
+            console.log(e.response.data.response.errorReports);
             response = { message: e.message }
         }
         return res.status(201).send(response);

@@ -152,7 +152,8 @@ export const mrDataValues = async (list, ous, period, attributeOptionCombo) => {
         return v && v !== null && v !== undefined
     });
     if (dataValues.length > 0) {
-        await postAxios(`${baseUrl}/dataValueSets`, { dataValues });
+       const response =  await postAxios(`${baseUrl}/dataValueSets`, { dataValues });
+       console.log(response);
     }
     return dataValues;
 }
@@ -344,13 +345,21 @@ export const truncateString = (str, num) => {
     return str.slice(0, num) + '...'
 }
 
-export const searchPosts = async (subCounty, posts) => {
+export const searchPosts = async (subCounty, posts,parent='',create=false) => {
     const baseUrl = getDHIS2Url();
+    const openingDate = moment().subtract(1, 'years');
+    if(create){
+        const ou = { shortName: truncateString(subCounty.name, 46), name: subCounty.name, id:subCounty.id, parent: { id: parent }, openingDate };
+        await postAxios(`${baseUrl}/organisationUnits`, ou);
+        await postAxios(`${baseUrl}/schemas/organisationUnit`, ou);
+        subCounty = {...subCounty,children:[]}
+        
+    }
+
     const { children } = subCounty;
     let data = {}
     let newOus = [];
 
-    const openingDate = moment().subtract(1, 'years');
     try {
         let { data: { dataSets } } = await getAxios(`${baseUrl}/metadata.json`, { dataSets: true });
         let organisationUnits = dataSets.map(dataSet => dataSet.organisationUnits);
@@ -388,6 +397,7 @@ export const searchPosts = async (subCounty, posts) => {
     } catch (error) {
         console.log(error)
     }
+
     return data;
 };
 
