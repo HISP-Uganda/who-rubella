@@ -3,7 +3,6 @@ import { Client } from '@elastic/elasticsearch';
 import moment from 'moment'
 const client = new Client({ node: 'http://213.136.94.124:9200' });
 // const client = new Client({ node: 'http://localhost:9200' });
-const uganda = require('./uganda.json');
 
 export const routes = (app, io) => {
     app.post('/', async (req, res) => {
@@ -309,6 +308,7 @@ export const routes = (app, io) => {
     });
 
     app.get('/uganda', async (req, res) => {
+        const uganda = require('./uganda.json');
         const q = req.query.search
         const soroti = uganda.features.filter(u=>{
             return u['properties']['District'] === q
