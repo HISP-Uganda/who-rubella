@@ -57,6 +57,7 @@ export const routes = (app, io) => {
                         const contamination = parseInt(l['list/mr_vaccine_usage/no_vials_discarded_due_contamination'],10);
                         const otheFactors = parseInt(l['list/mr_vaccine_usage/no_vials_discarded_other_factors'],10);
                         const colorChange = parseInt(l['list/mr_vaccine_usage/no_vials_discarded_due_vvm_color_change'],10);
+                        const unopen = parseInt(l['list/mr_vaccine_usage/no_vaccine_vials_returned_unopened'],10);
 
                     const discarded =partialUse +contamination +otheFactors+colorChange;
                     const original = l['list/name_of_post'];
@@ -71,6 +72,11 @@ export const routes = (app, io) => {
                         ['list/mr_vaccine_usage/no_vials_discarded_due_contamination']:isNaN(contamination)?0:contamination,
                         ['list/mr_vaccine_usage/no_vials_discarded_other_factors']:isNaN(otheFactors)?0:otheFactors,
                         ['list/mr_vaccine_usage/no_vials_discarded_due_vvm_color_change']:isNaN(colorChange)?0:colorChange,
+                        ['list/children_vaccinated/months12_24']:isNaN(y35)?0:y35,
+                        ['list/children_vaccinated/years6_14']:isNaN(y614)?0:y614,
+                        ['list/children_vaccinated/months9_11']:isNaN(y911)?0:y911,
+                        ['list/children_vaccinated/months12_24']:isNaN(y1224)?0:y1224,
+                        ['list/mr_vaccine_usage/no_vaccine_vials_returned_unopened']:isNaN(unopen)?0:unopen,
                         ...rest,
                         subcounty,
                         districts,
