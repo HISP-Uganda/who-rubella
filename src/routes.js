@@ -3,7 +3,8 @@ import { Client } from '@elastic/elasticsearch';
 import moment from 'moment';
 import { generateUid } from './uid';
 import winston from './winston';
-// const uganda = require(`${__dirname}/uganda.json`);
+const uganda = require(`./uganda.json`);
+const districts = require(`./districts_map.json`);
 
 const client = new Client({ node: 'http://213.136.94.124:9200' });
 // const client = new Client({ node: 'http://localhost:9200' });
@@ -35,45 +36,45 @@ export const routes = (app, io) => {
                     subcounty = subCounty.id;
                     const posts = list.map(l => l['list/name_of_post']);
                     ous = await searchPosts(subCounty, posts);
-                }else if(searchedSubCounty.length === 0){
-                    const id =  generateUid();
+                } else if (searchedSubCounty.length === 0) {
+                    const id = generateUid();
                     const posts = list.map(l => l['list/name_of_post']);
-                    ous = await searchPosts({name:subcounty,id}, posts,districts,true);
+                    ous = await searchPosts({ name: subcounty, id }, posts, districts, true);
                     subcounty = id;
                 }
-                
-                    await mrDataValues(list, ous, moment(date_of_results).format('YYYYMMDD'), day_of_results);
 
-                    for (const l of list) {
-                        const total = l['list/children_vaccinated/years3_5'] +
-                            l['list/children_vaccinated/years6_14'] +
-                            l['list/children_vaccinated/months9_11'] +
-                            l['list/children_vaccinated/months12_24'];
-                        const discarded =
-                            l['list/mr_vaccine_usage/no_vials_discarded_due_partial_use'] +
-                            l['list/mr_vaccine_usage/no_vials_discarded_due_contamination'] +
-                            l['list/mr_vaccine_usage/no_vials_discarded_other_factors'] +
-                            l['list/mr_vaccine_usage/no_vials_discarded_due_vvm_color_change'];
-                        const original = l['list/name_of_post'];
-                        const post = String(original).split('_').join(' ').toLowerCase();
+                await mrDataValues(list, ous, moment(date_of_results).format('YYYYMMDD'), day_of_results);
 
-                        processedList = [...processedList, {
-                            ...l,
-                            ['list/children_vaccinated/total']: total,
-                            ['list/mr_vaccine_usage/no_vials_discarded']: discarded,
-                            ['list/name_of_post']: ous[post] ? ous[post] : original,
-                            ...rest,
-                            subcounty,
-                            districts,
-                            region,
-                            date_of_results,
-                            day_of_results
-                        }]
-                    }
-                    const body = processedList.flatMap(doc => [{ index: { _index: 'mr-rubella' } }, doc]);
-                    const { body: bulkResponse } = await client.bulk({ refresh: true, body });
-                    io.emit('data', { message: 'data has come' });
-                    response = bulkResponse;
+                for (const l of list) {
+                    const total = l['list/children_vaccinated/years3_5'] +
+                        l['list/children_vaccinated/years6_14'] +
+                        l['list/children_vaccinated/months9_11'] +
+                        l['list/children_vaccinated/months12_24'];
+                    const discarded =
+                        l['list/mr_vaccine_usage/no_vials_discarded_due_partial_use'] +
+                        l['list/mr_vaccine_usage/no_vials_discarded_due_contamination'] +
+                        l['list/mr_vaccine_usage/no_vials_discarded_other_factors'] +
+                        l['list/mr_vaccine_usage/no_vials_discarded_due_vvm_color_change'];
+                    const original = l['list/name_of_post'];
+                    const post = String(original).split('_').join(' ').toLowerCase();
+
+                    processedList = [...processedList, {
+                        ...l,
+                        ['list/children_vaccinated/total']: total,
+                        ['list/mr_vaccine_usage/no_vials_discarded']: discarded,
+                        ['list/name_of_post']: ous[post] ? ous[post] : original,
+                        ...rest,
+                        subcounty,
+                        districts,
+                        region,
+                        date_of_results,
+                        day_of_results
+                    }]
+                }
+                const body = processedList.flatMap(doc => [{ index: { _index: 'mr-rubella' } }, doc]);
+                const { body: bulkResponse } = await client.bulk({ refresh: true, body });
+                io.emit('data', { message: 'data has come' });
+                response = bulkResponse;
             }
         } catch (e) {
             winston.log('error', e.message);
@@ -324,10 +325,14 @@ export const routes = (app, io) => {
 
     app.get('/uganda', async (req, res) => {
         const q = req.query.search
-        const soroti = uganda.features.filter(u=>{
+        const soroti = uganda.features.filter(u => {
             return u['properties']['District'] === q
         })
-        return res.status(200).send({...uganda,features:soroti});
+        return res.status(200).send({ ...uganda, features: soroti });
+    });
+
+    app.get('/country', async (req, res) => {
+        return res.status(200).send(districts);
     });
 
 };
