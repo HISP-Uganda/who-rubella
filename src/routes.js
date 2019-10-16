@@ -2,9 +2,12 @@ import { pullOrganisationUnits, searchPosts, mrDataValues, findType, getCOC, opv
 import { Client } from '@elastic/elasticsearch';
 import moment from 'moment';
 import { generateUid } from './uid';
+import winston from './winston';
 
-// const client = new Client({ node: 'http://213.136.94.124:9200' });
-const client = new Client({ node: 'http://localhost:9200' });
+const uganda = require('./uganda.json');
+
+const client = new Client({ node: 'http://213.136.94.124:9200' });
+// const client = new Client({ node: 'http://localhost:9200' });
 
 
 export const routes = (app, io) => {
@@ -74,7 +77,7 @@ export const routes = (app, io) => {
                     response = bulkResponse;
             }
         } catch (e) {
-            console.log(e.response.data.response.errorReports);
+            winston.log('error', e.message);
             response = { message: e.message }
         }
         return res.status(201).send(response);
@@ -135,6 +138,7 @@ export const routes = (app, io) => {
                 }
             }
         } catch (e) {
+            winston.log('error', e.message);
             response = { message: e.message }
         }
         return res.status(201).send(response);
@@ -312,14 +316,14 @@ export const routes = (app, io) => {
             });
             bod = body;
         } catch (error) {
-            console.log(error);
+            winston.log('error', error.message);
+
         }
         return res.status(200).send(bod);
 
     });
 
     app.get('/uganda', async (req, res) => {
-        const uganda = require('./uganda.json');
         const q = req.query.search
         const soroti = uganda.features.filter(u=>{
             return u['properties']['District'] === q
