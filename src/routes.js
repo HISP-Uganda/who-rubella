@@ -46,10 +46,12 @@ export const routes = (app, io) => {
                 await mrDataValues(list, ous, moment(date_of_results).format('YYYYMMDD'), day_of_results);
 
                 for (const l of list) {
-                    const total = l['list/children_vaccinated/years3_5'] +
-                        l['list/children_vaccinated/years6_14'] +
-                        l['list/children_vaccinated/months9_11'] +
-                        l['list/children_vaccinated/months12_24'];
+                       
+                        const y35 = parseInt(l['list/children_vaccinated/years3_5'],10);
+                        const y614 = parseInt(l['list/children_vaccinated/years6_14'],10);
+                        const y911 = parseInt(l['list/children_vaccinated/months9_11'],10);
+                        const y1224 = parseInt(l['list/children_vaccinated/months12_24'],10);
+                        const total = y35 + y614 + y911 + y1224;
 
                         const  partialUse = parseInt(l['list/mr_vaccine_usage/no_vials_discarded_due_partial_use'],10);
                         const contamination = parseInt(l['list/mr_vaccine_usage/no_vials_discarded_due_contamination'],10);
@@ -62,7 +64,7 @@ export const routes = (app, io) => {
 
                     processedList = [...processedList, {
                         ...l,
-                        ['list/children_vaccinated/total']: total,
+                        ['list/children_vaccinated/total']: isNaN(parseInt(total))?0:total,
                         ['list/mr_vaccine_usage/no_vials_discarded']: isNaN(parseInt(discarded,10))?0:discarded,
                         ['list/name_of_post']: ous[post] ? ous[post] : original,
                         ['list/mr_vaccine_usage/no_vials_discarded_due_partial_use']:isNaN(partialUse)?0:partialUse,
