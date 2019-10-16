@@ -3,8 +3,7 @@ import { Client } from '@elastic/elasticsearch';
 import moment from 'moment';
 import { generateUid } from './uid';
 import winston from './winston';
-
-const uganda = require('./uganda.json');
+// const uganda = require(`${__dirname}/uganda.json`);
 
 const client = new Client({ node: 'http://213.136.94.124:9200' });
 // const client = new Client({ node: 'http://localhost:9200' });
