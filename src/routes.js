@@ -2,6 +2,8 @@ import { pullOrganisationUnits, searchPosts, mrDataValues, findType, getCOC, opv
 import { Client } from '@elastic/elasticsearch';
 import moment from 'moment'
 const client = new Client({ node: 'http://213.136.94.124:9200' });
+// const client = new Client({ node: 'http://localhost:9200' });
+const uganda = require('./uganda.json');
 
 export const routes = (app, io) => {
     app.post('/', async (req, res) => {
@@ -144,12 +146,9 @@ export const routes = (app, io) => {
             no_diluent_ampules_returned_unopened: { sum: { field: 'list/mr_vaccine_usage/no_diluent_ampules_returned_unopened' } },
             no_vials_discarded_due_contamination: { sum: { field: 'list/mr_vaccine_usage/no_vials_discarded_due_contamination' } },
             no_vials_discarded_due_vvm_color_change: { sum: { field: 'list/mr_vaccine_usage/no_vials_discarded_due_vvm_color_change' } },
-            years3_5: { sum: { field: 'list/children_vaccinated/years3_5' } },
-            years6_14: { sum: { field: 'list/children_vaccinated/years6_14' } },
-            months9_11: { sum: { field: 'list/children_vaccinated/months9_11' } },
-            months12_24: { sum: { field: 'list/children_vaccinated/months12_24' } },
             children_vaccinated: { sum: { field: 'list/children_vaccinated/total' } },
-            no_vials_discarded: { sum: { field: 'list/mr_vaccine_usage/no_vials_discarded' } }
+            no_vials_discarded: { sum: { field: 'list/mr_vaccine_usage/no_vials_discarded' } },
+            posts: { cardinality: { field: 'list/name_of_post' } }
         }
 
         const summary = {
@@ -219,7 +218,6 @@ export const routes = (app, io) => {
             console.log(error);
         }
         return res.status(200).send(bod);
-
     });
 
 
@@ -232,13 +230,14 @@ export const routes = (app, io) => {
             number_health_workers: { sum: { field: 'list/post_staffing/number_health_workers' } },
             no_vaccine_vials_issued: { sum: { field: 'list/no_vaccine_vials_issued' } },
             chd_registered: { sum: { field: 'list/chd_registered_months0_59' } },
-            children_immunised: { sum: { field: 'list/children_immunised/months0_59' } },
+            children_vaccinated: { sum: { field: 'list/children_immunised/months0_59' } },
             no_vaccine_vials_returned_unopened: { sum: { field: 'list/no_vaccine_vials_returned_unopened' } },
             no_vials_discarded_due_contamination: { sum: { field: 'list/no.vials_discarded_due_to/no_vials_discarded_due_contamination' } },
             no_vials_discarded_due_vvm_color_change: { sum: { field: 'list/no.vials_discarded_due_to/no_vials_discarded_due_vvm_color_change' } },
-            no_vials_discarded_due_contamination: { sum: { field: 'list/no.vials_discarded_due_to/no_vials_discarded_other_factors' } },
-            no_vials_discarded_due_contamination: { sum: { field: 'list/no.vials_discarded_due_to/no_vials_discarded_due_partial_use' } },
-            no_vials_discarded: { sum: { field: 'list/no.vials_discarded' } }
+            no_vials_discarded_other_factors: { sum: { field: 'list/no.vials_discarded_due_to/no_vials_discarded_other_factors' } },
+            no_vials_discarded_due_partial_use: { sum: { field: 'list/no.vials_discarded_due_to/no_vials_discarded_due_partial_use' } },
+            no_vials_discarded: { sum: { field: 'list/no.vials_discarded' } },
+            posts: { cardinality: { field: 'list/name_of_post' } }
         }
         const summary = {
             terms: {
@@ -309,75 +308,12 @@ export const routes = (app, io) => {
 
     });
 
-    app.get('/regions', async (req, res) => {
-        const regions = require('./regions.json');
-        return res.status(200).send(regions);
-    });
-
-    app.get('/districts', async (req, res) => {
-        const q = req.query.search
-
-        let districts = require('./districts.json');
-        if (q) {
-            districts = districts.filter(d => {
-                return d['Region'] === q || d['Region UID'] === q
-            })
-        }
-        return res.status(200).send(districts);
-    });
-    app.get('/subcounties', async (req, res) => {
-        const q = req.query.search
-        let subcounties = require('./subcounties.json');
-
-        if (q) {
-            subcounties = subcounties.filter(d => {
-                return d['District'] === q || d['District UID'] === q
-            })
-        }
-        return res.status(200).send(subcounties);
-    });
-
     app.get('/uganda', async (req, res) => {
-        let subcounties = require('./Uganda.json');
-        subcounties = subcounties.map(s => {
-            const { id, name, ...rest } = s;
-            const additions = {
-                properties: {
-                    "hc-group": "admin1",
-                    "hc-middle-x": 0.74,
-                    "hc-middle-y": 0.63,
-                    "hc-key": s.id,
-                    "labelrank": "7",
-                    "hasc": "NO.MR",
-                    "alt-name": "Moere og Romsdal fylk|MĂ¸re|Romsdal",
-                    "woe-id": "2346391",
-                    "subregion": null,
-                    "fips": "NO08",
-                    "postal-code": "MR",
-                    "name": name,
-                    "country": "Uganda",
-                    "type-en": "Region",
-                    "region": name,
-                    "longitude": "8.35107",
-                    "woe-name": "MĂ¸re og Romsdal",
-                    "latitude": "62.5471",
-                    "woe-label": name,
-                    "type": "Fylke"
-                },
-                "type": "Feature",
-                id,
-            }
-            return {
-                ...additions,
-                ...rest
-
-            };
-        });
-
-        const map = {
-            "title": "Norway",
-            features: subcounties
-        }
-        return res.status(200).send(map);
+        const q = req.query.search
+        const soroti = uganda.features.filter(u=>{
+            return u['properties']['District'] === q
+        })
+        return res.status(200).send({...uganda,features:soroti});
     });
+
 };
