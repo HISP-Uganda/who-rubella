@@ -5,8 +5,8 @@ import { generateUid } from './uid';
 import winston from './winston';
 const uganda = require(`./uganda.json`);
 const districts = require(`./districts_map.json`);
-// const client = new Client({ node: 'http://213.136.94.124:9200' });
-const client = new Client({ node: 'http://localhost:9200' });
+const client = new Client({ node: 'http://213.136.94.124:9200' });
+// const client = new Client({ node: 'http://localhost:9200' });
 
 
 export const routes = (app, io) => {
