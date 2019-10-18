@@ -39,12 +39,12 @@ export const mrDataValues = async (list, ous, period, attributeOptionCombo) => {
             categoryOptionCombo: 'HllvX50cXC0',
             attributeOptionCombo
         },
-        'list/other_factor_specify': {
-            dataElement: 'T05lrtJZwYT',
-            period,
-            categoryOptionCombo: 'HllvX50cXC0',
-            attributeOptionCombo
-        },
+        // 'list/other_factor_specify': {
+        //     dataElement: 'T05lrtJZwYT',
+        //     period,
+        //     categoryOptionCombo: 'HllvX50cXC0',
+        //     attributeOptionCombo
+        // },
         'list/children_vaccinated/years3_5': {
             dataElement: 'uCFg0FT8sV8',
             period,
@@ -151,10 +151,19 @@ export const mrDataValues = async (list, ous, period, attributeOptionCombo) => {
     dataValues = _.flatten(dataValues).filter(v => {
         return v && v !== null && v !== undefined
     });
+
+
+    let response = {}
     if (dataValues.length > 0) {
-        await postAxios(`${baseUrl}/dataValueSets`, { dataValues });
+        try {
+            response = await postAxios(`${baseUrl}/dataValueSets`, { dataValues });
+            response = response.data;
+        } catch (e) {
+            response = 'error';
+            // console.log(e);
+        }
     }
-    return dataValues;
+    return response;
 }
 
 export const mapEventData = (list, ous) => {
@@ -463,10 +472,10 @@ export const pullOrganisationUnits = async (level, name) => {
 };
 
 export const truncateString = (str, num) => {
-    if (str.length <= num) {
+    if (String(str).length <= num) {
         return str
     }
-    return str.slice(0, num) + '...'
+    return String(str).slice(0, num) + '...'
 }
 
 export const searchPosts = async (subCounty, posts, parent = '', create = false) => {
@@ -492,7 +501,7 @@ export const searchPosts = async (subCounty, posts, parent = '', create = false)
     try {
         for (const post of posts) {
             const search = children.find(p => {
-                return post.toLowerCase() === p.name.toLowerCase();
+                return String(post).toLowerCase() === String(p.name).toLowerCase();
             });
             if (search) {
                 data = { ...data, [post.toLowerCase()]: search.id };

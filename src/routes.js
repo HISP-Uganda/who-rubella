@@ -9,6 +9,23 @@ const client = new Client({ node: 'http://213.136.94.124:9200' });
 // const client = new Client({ node: 'http://localhost:9200' });
 
 
+// client.transport.request({
+//     method: "POST",
+//     path: "/_sql",
+//     body: {
+//         query: `SELECT region,subcounty, "list/name_of_post" FROM "mr-rubella" WHERE MATCH(region, 'vmOucp1oIW4')`
+//     }
+// }, function (error, response) {
+//     if (error) {
+//         console.log(JSON.stringify(error))
+//         console.error('something does not compute');
+//     } else {
+//         const { body: { columns, rows } } = response
+//         console.log(rows);
+//         // console.log("The answer is " + JSON.stringify(response) + ".");
+//     }
+// });
+
 export const routes = (app, io) => {
     app.post('/', async (req, res) => {
         let response = {};
@@ -87,7 +104,7 @@ export const routes = (app, io) => {
                         day_of_results
                     }]
                 }
-                const body = processedList.flatMap(doc => [{ index: { _index: 'mr-rubella' } }, doc]);
+                const body = processedList.flatMap(doc => [{ index: { _index: 'rubella' } }, doc]);
                 const { body: bulkResponse } = await client.bulk({ refresh: true, body });
                 io.emit('data', { message: 'data has come' });
                 response = bulkResponse;
@@ -156,7 +173,7 @@ export const routes = (app, io) => {
                             day_of_results
                         }]
                     }
-                    const body = processedList.flatMap(doc => [{ index: { _index: 'opv-polio' } }, doc]);
+                    const body = processedList.flatMap(doc => [{ index: { _index: 'opv' } }, doc]);
                     const { body: bulkResponse } = await client.bulk({ refresh: true, body });
                     response = bulkResponse;
                     io.emit('data', { message: 'data has come' });
@@ -221,7 +238,6 @@ export const routes = (app, io) => {
     app.get('/', async (req, res) => {
         let bod = {}
         const q = findType(req.query.type);
-
         const calculations = {
             target_population: { sum: { field: 'list/target_population' } },
             number_mobilizers: { sum: { field: 'list/post_staffing/number_mobilizers' } },
@@ -236,12 +252,12 @@ export const routes = (app, io) => {
             no_vials_discarded_due_vvm_color_change: { sum: { field: 'list/mr_vaccine_usage/no_vials_discarded_due_vvm_color_change' } },
             children_vaccinated: { sum: { field: 'list/children_vaccinated/total' } },
             no_vials_discarded: { sum: { field: 'list/mr_vaccine_usage/no_vials_discarded' } },
-            posts: { cardinality: { field: 'list/name_of_post' } }
+            posts: { cardinality: { field: 'list/name_of_post.keyword' } }
         }
 
         const summary = {
             terms: {
-                field: q.disaggregation
+                field: `${q.disaggregation}.keyword`
             },
             aggs: calculations
 
@@ -256,19 +272,19 @@ export const routes = (app, io) => {
 
         let overall = {
             terms: {
-                field: 'day_of_results'
+                field: 'day_of_results.keyword'
             },
             aggs: calculations
         }
 
         const data = {
             terms: {
-                field: q.disaggregation
+                field: `${q.disaggregation}.keyword`
             },
             aggs: {
                 days: {
                     terms: {
-                        field: 'day_of_results'
+                        field: 'day_of_results.keyword'
                     },
                     aggs: calculations
                 }
@@ -280,8 +296,8 @@ export const routes = (app, io) => {
             aggs: {
                 data,
                 summary,
-                single,
-                overall
+                overall,
+                single
             }
         }
         if (q.search && req.query.search) {
@@ -298,7 +314,7 @@ export const routes = (app, io) => {
         }
         try {
             const { body } = await client.search({
-                "index": 'mr-rubella',
+                "index": 'rubella',
                 body: final
             });
             bod = body;
@@ -325,11 +341,11 @@ export const routes = (app, io) => {
             no_vials_discarded_other_factors: { sum: { field: 'list/no.vials_discarded_due_to/no_vials_discarded_other_factors' } },
             no_vials_discarded_due_partial_use: { sum: { field: 'list/no.vials_discarded_due_to/no_vials_discarded_due_partial_use' } },
             no_vials_discarded: { sum: { field: 'list/no.vials_discarded' } },
-            posts: { cardinality: { field: 'list/name_of_post' } }
+            posts: { cardinality: { field: 'list/name_of_post.keyword' } }
         }
         const summary = {
             terms: {
-                field: q.disaggregation
+                field: `${q.disaggregation}.keyword`
             },
             aggs: calculations
         }
@@ -343,19 +359,19 @@ export const routes = (app, io) => {
 
         let overall = {
             terms: {
-                field: 'day_of_results'
+                field: 'day_of_results.keyword'
             },
             aggs: calculations
         }
 
         const data = {
             terms: {
-                field: q.disaggregation
+                field: `${q.disaggregation}.keyword`
             },
             aggs: {
                 days: {
                     terms: {
-                        field: 'day_of_results'
+                        field: 'day_of_results.keyword'
                     },
                     aggs: calculations
                 }
@@ -385,7 +401,7 @@ export const routes = (app, io) => {
         }
         try {
             const { body } = await client.search({
-                "index": 'opv-polio',
+                "index": 'opv',
                 body: final
             });
             bod = body;
