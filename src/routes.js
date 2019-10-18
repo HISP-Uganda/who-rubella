@@ -173,7 +173,7 @@ export const routes = (app, io) => {
                             day_of_results
                         }]
                     }
-                    const body = processedList.flatMap(doc => [{ index: { _index: 'opv' } }, doc]);
+                    const body = processedList.flatMap(doc => [{ index: { _index: 'opv-polio' } }, doc]);
                     const { body: bulkResponse } = await client.bulk({ refresh: true, body });
                     response = bulkResponse;
                     io.emit('data', { message: 'data has come' });
@@ -401,7 +401,7 @@ export const routes = (app, io) => {
         }
         try {
             const { body } = await client.search({
-                "index": 'opv',
+                "index": 'opv-polio',
                 body: final
             });
             bod = body;
