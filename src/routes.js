@@ -3,8 +3,8 @@ import { Client } from '@elastic/elasticsearch';
 import moment from 'moment';
 import { generateUid } from './uid';
 import winston from './winston';
-const uganda = require(`./uganda.json`);
-const districts = require(`./districts_map.json`);
+const uganda = require(`./uganda_subcounties.json`);
+const districts = require(`./uganda_districts.json`);
 const client = new Client({ node: 'http://213.136.94.124:9200' });
 // const client = new Client({ node: 'http://localhost:9200' });
 
@@ -465,7 +465,15 @@ export const routes = (app, io) => {
     app.get('/uganda', async (req, res) => {
         const q = req.query.search
         const soroti = uganda.features.filter(u => {
-            return u['properties']['District'] === q
+            return u['properties']['parent'] === q
+        })
+        return res.status(200).send({ ...uganda, features: soroti });
+    });
+
+    app.get('/regions', async (req, res) => {
+        const q = req.query.search
+        const soroti = districts.features.filter(u => {
+            return u['properties']['parent'] === q
         })
         return res.status(200).send({ ...uganda, features: soroti });
     });

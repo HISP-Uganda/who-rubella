@@ -1,0 +1,1026 @@
+[
+    {
+      "name": "ABIM ",
+      "id": "g1lzs29C20E",
+      "parent": {
+        "name": "MOROTO",
+        "id": "AYWnTEjPfvf"
+      }
+    },
+    {
+      "name": "ADJUMANI ",
+      "id": "J1111gWF0pG",
+      "parent": {
+        "name": "ARUA",
+        "id": "MqLB5rp5XXR"
+      }
+    },
+    {
+      "name": "AGAGO ",
+      "id": "B4LSiVBTuml",
+      "parent": {
+        "name": "GULU",
+        "id": "EyiZAsLjyHI"
+      }
+    },
+    {
+      "name": "ALEBTONG ",
+      "id": "Wv1KH7iS8pP",
+      "parent": {
+        "name": "LIRA",
+        "id": "fR7AfeBDfir"
+      }
+    },
+    {
+      "name": "AMOLATAR ",
+      "id": "X92Ud3RHdKi",
+      "parent": {
+        "name": "LIRA",
+        "id": "fR7AfeBDfir"
+      }
+    },
+    {
+      "name": "AMUDAT ",
+      "id": "QnPCp7kr71u",
+      "parent": {
+        "name": "MOROTO",
+        "id": "AYWnTEjPfvf"
+      }
+    },
+    {
+      "name": "AMURIA ",
+      "id": "lZeE6HDPMkM",
+      "parent": {
+        "name": "SOROTI",
+        "id": "mKqz2QKlDuP"
+      }
+    },
+    {
+      "name": "AMURU ",
+      "id": "BKp7lmAZcKp",
+      "parent": {
+        "name": "GULU",
+        "id": "EyiZAsLjyHI"
+      }
+    },
+    {
+      "name": "APAC ",
+      "id": "Ou8luzGR3k0",
+      "parent": {
+        "name": "LIRA",
+        "id": "fR7AfeBDfir"
+      }
+    },
+    {
+      "name": "ARUA ",
+      "id": "biZMRHcAPNk",
+      "parent": {
+        "name": "ARUA",
+        "id": "MqLB5rp5XXR"
+      }
+    },
+    {
+      "name": "BUDAKA ",
+      "id": "OYv0hp438kC",
+      "parent": {
+        "name": "MBALE",
+        "id": "oymdXVI2JYB"
+      }
+    },
+    {
+      "name": "BUDUDA ",
+      "id": "MpvCFXxd7tH",
+      "parent": {
+        "name": "MBALE",
+        "id": "oymdXVI2JYB"
+      }
+    },
+    {
+      "name": "BUGIRI ",
+      "id": "lTfnsYMH1L3",
+      "parent": {
+        "name": "JINJA",
+        "id": "NvDbXS64yG5"
+      }
+    },
+    {
+      "name": "BUGWERI",
+      "id": "Lw5RNp9hNBf",
+      "parent": {
+        "name": "JINJA",
+        "id": "NvDbXS64yG5"
+      }
+    },
+    {
+      "name": "BUHWEJU ",
+      "id": "hUeW98i0WAE",
+      "parent": {
+        "name": "MBARARA",
+        "id": "vmOucp1oIW4"
+      }
+    },
+    {
+      "name": "BUIKWE ",
+      "id": "uNJEkq5U5rJ",
+      "parent": {
+        "name": "GREATER_KAMPALA",
+        "id": "HhZ1TT0ta2l"
+      }
+    },
+    {
+      "name": "BUKEDEA ",
+      "id": "F4ZVcF2PwnJ",
+      "parent": {
+        "name": "SOROTI",
+        "id": "mKqz2QKlDuP"
+      }
+    },
+    {
+      "name": "BUKOMANSIMBI ",
+      "id": "JdZPx499qr9",
+      "parent": {
+        "name": "MASAKA",
+        "id": "pzErEgx5O1u"
+      }
+    },
+    {
+      "name": "BUKWO ",
+      "id": "ehikUkqcdlY",
+      "parent": {
+        "name": "MBALE",
+        "id": "oymdXVI2JYB"
+      }
+    },
+    {
+      "name": "BULAMBULI ",
+      "id": "bwyMzAMNUhX",
+      "parent": {
+        "name": "MBALE",
+        "id": "oymdXVI2JYB"
+      }
+    },
+    {
+      "name": "BULIISA ",
+      "id": "f6J4A6R7qVH",
+      "parent": {
+        "name": "HOIMA",
+        "id": "FUl7h5IqdbG"
+      }
+    },
+    {
+      "name": "BUNDIBUGYO ",
+      "id": "m80Axd3Ppr1",
+      "parent": {
+        "name": "KABAROLE",
+        "id": "vI2uRN5B79D"
+      }
+    },
+    {
+      "name": "BUNYANGABU ",
+      "id": "m2b7yckPklr",
+      "parent": {
+        "name": "KABAROLE",
+        "id": "vI2uRN5B79D"
+      }
+    },
+    {
+      "name": "BUSHENYI ",
+      "id": "nwV4HLe9U9V",
+      "parent": {
+        "name": "MBARARA",
+        "id": "vmOucp1oIW4"
+      }
+    },
+    {
+      "name": "BUSIA ",
+      "id": "AX9Rndy7M8d",
+      "parent": {
+        "name": "MBALE",
+        "id": "oymdXVI2JYB"
+      }
+    },
+    {
+      "name": "BUTALEJA ",
+      "id": "lP3oVaqjvnw",
+      "parent": {
+        "name": "MBALE",
+        "id": "oymdXVI2JYB"
+      }
+    },
+    {
+      "name": "BUTAMBALA ",
+      "id": "URqeM39RIvv",
+      "parent": {
+        "name": "GREATER_KAMPALA",
+        "id": "HhZ1TT0ta2l"
+      }
+    },
+    {
+      "name": "BUTEBO ",
+      "id": "pu6ttsh8xiJ",
+      "parent": {
+        "name": "MBALE",
+        "id": "oymdXVI2JYB"
+      }
+    },
+    {
+      "name": "BUVUMA ",
+      "id": "HRKSOfAXcjv",
+      "parent": {
+        "name": "GREATER_KAMPALA",
+        "id": "HhZ1TT0ta2l"
+      }
+    },
+    {
+      "name": "BUYENDE ",
+      "id": "hLZ6Bkn54az",
+      "parent": {
+        "name": "JINJA",
+        "id": "NvDbXS64yG5"
+      }
+    },
+    {
+      "name": "DOKOLO ",
+      "id": "OcW90D3f5Ak",
+      "parent": {
+        "name": "LIRA",
+        "id": "fR7AfeBDfir"
+      }
+    },
+    {
+      "name": "GOMBA ",
+      "id": "RYx1kSYNuXq",
+      "parent": {
+        "name": "GREATER_KAMPALA",
+        "id": "HhZ1TT0ta2l"
+      }
+    },
+    {
+      "name": "GULU ",
+      "id": "Syxs9daPuFE",
+      "parent": {
+        "name": "GULU",
+        "id": "EyiZAsLjyHI"
+      }
+    },
+    {
+      "name": "HOIMA ",
+      "id": "AvlDp8eRMru",
+      "parent": {
+        "name": "HOIMA",
+        "id": "FUl7h5IqdbG"
+      }
+    },
+    {
+      "name": "IBANDA ",
+      "id": "t2WXKIEKdTC",
+      "parent": {
+        "name": "MBARARA",
+        "id": "vmOucp1oIW4"
+      }
+    },
+    {
+      "name": "IGANGA ",
+      "id": "tjhZjqenW2q",
+      "parent": {
+        "name": "JINJA",
+        "id": "NvDbXS64yG5"
+      }
+    },
+    {
+      "name": "ISINGIRO ",
+      "id": "YkieTQZ7v4D",
+      "parent": {
+        "name": "MBARARA",
+        "id": "vmOucp1oIW4"
+      }
+    },
+    {
+      "name": "JINJA ",
+      "id": "LGX9Jz3duod",
+      "parent": {
+        "name": "JINJA",
+        "id": "NvDbXS64yG5"
+      }
+    },
+    {
+      "name": "KAABONG ",
+      "id": "WeUOsXtlkh8",
+      "parent": {
+        "name": "MOROTO",
+        "id": "AYWnTEjPfvf"
+      }
+    },
+    {
+      "name": "KABALE ",
+      "id": "vcnm7NLCNPZ",
+      "parent": {
+        "name": "KABALE",
+        "id": "EjdiWCAWzC3"
+      }
+    },
+    {
+      "name": "KABAROLE ",
+      "id": "qKEJbMAgplr",
+      "parent": {
+        "name": "KABAROLE",
+        "id": "vI2uRN5B79D"
+      }
+    },
+    {
+      "name": "KABERAMAIDO ",
+      "id": "NZZMg7a7sBj",
+      "parent": {
+        "name": "SOROTI",
+        "id": "mKqz2QKlDuP"
+      }
+    },
+    {
+      "name": "KAGADI ",
+      "id": "cLJHT9J6mWL",
+      "parent": {
+        "name": "HOIMA",
+        "id": "FUl7h5IqdbG"
+      }
+    },
+    {
+      "name": "KAKUMIRO ",
+      "id": "Pl47laJiShG",
+      "parent": {
+        "name": "HOIMA",
+        "id": "FUl7h5IqdbG"
+      }
+    },
+    {
+      "name": "KALANGALA ",
+      "id": "FQJjVNxhvAP",
+      "parent": {
+        "name": "MASAKA",
+        "id": "pzErEgx5O1u"
+      }
+    },
+    {
+      "name": "KALIRO ",
+      "id": "DxGKm0SGN1x",
+      "parent": {
+        "name": "JINJA",
+        "id": "NvDbXS64yG5"
+      }
+    },
+    {
+      "name": "KALUNGU ",
+      "id": "G2gEr4IUkIC",
+      "parent": {
+        "name": "MASAKA",
+        "id": "pzErEgx5O1u"
+      }
+    },
+    {
+      "name": "KAMPALA ",
+      "id": "xVVsZL29BkH",
+      "parent": {
+        "name": "GREATER_KAMPALA",
+        "id": "HhZ1TT0ta2l"
+      }
+    },
+    {
+      "name": "KAMULI ",
+      "id": "YN65lEdrIxA",
+      "parent": {
+        "name": "JINJA",
+        "id": "NvDbXS64yG5"
+      }
+    },
+    {
+      "name": "KAMWENGE ",
+      "id": "NUkEIK0mgNk",
+      "parent": {
+        "name": "KABAROLE",
+        "id": "vI2uRN5B79D"
+      }
+    },
+    {
+      "name": "KANUNGU ",
+      "id": "OM7GpHfXj97",
+      "parent": {
+        "name": "KABALE",
+        "id": "EjdiWCAWzC3"
+      }
+    },
+    {
+      "name": "KAPCHORWA ",
+      "id": "NHYH3hBamvS",
+      "parent": {
+        "name": "MBALE",
+        "id": "oymdXVI2JYB"
+      }
+    },
+    {
+      "name": "KAPELEBYONG",
+      "id": "sgjazoAo5tM",
+      "parent": {
+        "name": "SOROTI",
+        "id": "mKqz2QKlDuP"
+      }
+    },
+    {
+      "name": "KASESE",
+      "id": "IfbGRypBvsD",
+      "parent": {
+        "name": "KABAROLE",
+        "id": "vI2uRN5B79D"
+      }
+    },
+    {
+      "name": "KASSANDA",
+      "id": "UKbEb5ShwcC",
+      "parent": {
+        "name": "MUBENDE",
+        "id": "qG2n3sAFyF5"
+      }
+    },
+    {
+      "name": "KATAKWI ",
+      "id": "bm2SJzFp8vs",
+      "parent": {
+        "name": "SOROTI",
+        "id": "mKqz2QKlDuP"
+      }
+    },
+    {
+      "name": "KAYUNGA ",
+      "id": "owBXLPm3vPd",
+      "parent": {
+        "name": "GREATER_KAMPALA",
+        "id": "HhZ1TT0ta2l"
+      }
+    },
+    {
+      "name": "KIBAALE ",
+      "id": "HPsIa11Lg9h",
+      "parent": {
+        "name": "HOIMA",
+        "id": "FUl7h5IqdbG"
+      }
+    },
+    {
+      "name": "KIBOGA ",
+      "id": "Dp9tZcsYNnM",
+      "parent": {
+        "name": "MUBENDE",
+        "id": "qG2n3sAFyF5"
+      }
+    },
+    {
+      "name": "KIBUKU ",
+      "id": "VbFoR1k8VH5",
+      "parent": {
+        "name": "MBALE",
+        "id": "oymdXVI2JYB"
+      }
+    },
+    {
+      "name": "KIKUUBE",
+      "id": "ZigCTzSaIBT",
+      "parent": {
+        "name": "HOIMA",
+        "id": "FUl7h5IqdbG"
+      }
+    },
+    {
+      "name": "KIRUHURA ",
+      "id": "VzdiKJERIdW",
+      "parent": {
+        "name": "MBARARA",
+        "id": "vmOucp1oIW4"
+      }
+    },
+    {
+      "name": "KIRYANDONGO ",
+      "id": "qXBuMwVAAz7",
+      "parent": {
+        "name": "HOIMA",
+        "id": "FUl7h5IqdbG"
+      }
+    },
+    {
+      "name": "KISORO ",
+      "id": "umipmHh9v3K",
+      "parent": {
+        "name": "KABALE",
+        "id": "EjdiWCAWzC3"
+      }
+    },
+    {
+      "name": "KITGUM ",
+      "id": "pPDdW7PVDx8",
+      "parent": {
+        "name": "GULU",
+        "id": "EyiZAsLjyHI"
+      }
+    },
+    {
+      "name": "KOBOKO ",
+      "id": "aamkbLuhuE3",
+      "parent": {
+        "name": "ARUA",
+        "id": "MqLB5rp5XXR"
+      }
+    },
+    {
+      "name": "KOLE ",
+      "id": "SGsg2OaMmZi",
+      "parent": {
+        "name": "LIRA",
+        "id": "fR7AfeBDfir"
+      }
+    },
+    {
+      "name": "KOTIDO ",
+      "id": "CMa2vNtKDyj",
+      "parent": {
+        "name": "MOROTO",
+        "id": "AYWnTEjPfvf"
+      }
+    },
+    {
+      "name": "KUMI ",
+      "id": "yEhKrOwq25A",
+      "parent": {
+        "name": "SOROTI",
+        "id": "mKqz2QKlDuP"
+      }
+    },
+    {
+      "name": "KWANIA",
+      "id": "BLV6M9lr86o",
+      "parent": {
+        "name": "LIRA",
+        "id": "fR7AfeBDfir"
+      }
+    },
+    {
+      "name": "KWEEN ",
+      "id": "WSTMUuWXGsS",
+      "parent": {
+        "name": "MBALE",
+        "id": "oymdXVI2JYB"
+      }
+    },
+    {
+      "name": "KYANKWANZI ",
+      "id": "BY2qdfv3Gog",
+      "parent": {
+        "name": "MUBENDE",
+        "id": "qG2n3sAFyF5"
+      }
+    },
+    {
+      "name": "KYEGEGWA ",
+      "id": "JKlXW3fxHlP",
+      "parent": {
+        "name": "KABAROLE",
+        "id": "vI2uRN5B79D"
+      }
+    },
+    {
+      "name": "KYENJOJO ",
+      "id": "XYTiJ6ivqcP",
+      "parent": {
+        "name": "KABAROLE",
+        "id": "vI2uRN5B79D"
+      }
+    },
+    {
+      "name": "KYOTERA ",
+      "id": "RLUwQr8TSR4",
+      "parent": {
+        "name": "MASAKA",
+        "id": "pzErEgx5O1u"
+      }
+    },
+    {
+      "name": "LAMWO ",
+      "id": "kx8tFI98oh5",
+      "parent": {
+        "name": "GULU",
+        "id": "EyiZAsLjyHI"
+      }
+    },
+    {
+      "name": "LIRA ",
+      "id": "LDP1ux1qHLt",
+      "parent": {
+        "name": "LIRA",
+        "id": "fR7AfeBDfir"
+      }
+    },
+    {
+      "name": "LUUKA ",
+      "id": "DpJMOHcEybJ",
+      "parent": {
+        "name": "JINJA",
+        "id": "NvDbXS64yG5"
+      }
+    },
+    {
+      "name": "LUWERO ",
+      "id": "pv74Fx49Eoj",
+      "parent": {
+        "name": "MUBENDE",
+        "id": "qG2n3sAFyF5"
+      }
+    },
+    {
+      "name": "LWENGO ",
+      "id": "hyrmld6mZ4b",
+      "parent": {
+        "name": "MASAKA",
+        "id": "pzErEgx5O1u"
+      }
+    },
+    {
+      "name": "LYANTONDE ",
+      "id": "iBapF8GFbDN",
+      "parent": {
+        "name": "MASAKA",
+        "id": "pzErEgx5O1u"
+      }
+    },
+    {
+      "name": "MANAFWA ",
+      "id": "FVYXseyVtw2",
+      "parent": {
+        "name": "MBALE",
+        "id": "oymdXVI2JYB"
+      }
+    },
+    {
+      "name": "MARACHA ",
+      "id": "MqBQu1P6ScO",
+      "parent": {
+        "name": "ARUA",
+        "id": "MqLB5rp5XXR"
+      }
+    },
+    {
+      "name": "MASAKA ",
+      "id": "ujomhD4R1Tw",
+      "parent": {
+        "name": "MASAKA",
+        "id": "pzErEgx5O1u"
+      }
+    },
+    {
+      "name": "MASINDI ",
+      "id": "tF3E5ui9ezM",
+      "parent": {
+        "name": "HOIMA",
+        "id": "FUl7h5IqdbG"
+      }
+    },
+    {
+      "name": "MAYUGE ",
+      "id": "knrBhuygQ9V",
+      "parent": {
+        "name": "JINJA",
+        "id": "NvDbXS64yG5"
+      }
+    },
+    {
+      "name": "MBALE ",
+      "id": "JM4OKew4odm",
+      "parent": {
+        "name": "MBALE",
+        "id": "oymdXVI2JYB"
+      }
+    },
+    {
+      "name": "MBARARA ",
+      "id": "A1JefxJgZv8",
+      "parent": {
+        "name": "MBARARA",
+        "id": "vmOucp1oIW4"
+      }
+    },
+    {
+      "name": "MITOOMA ",
+      "id": "mLvA40vNBOM",
+      "parent": {
+        "name": "MBARARA",
+        "id": "vmOucp1oIW4"
+      }
+    },
+    {
+      "name": "MITYANA ",
+      "id": "RaTWCwEu00l",
+      "parent": {
+        "name": "MUBENDE",
+        "id": "qG2n3sAFyF5"
+      }
+    },
+    {
+      "name": "MOROTO ",
+      "id": "vedOsQOVAID",
+      "parent": {
+        "name": "MOROTO",
+        "id": "AYWnTEjPfvf"
+      }
+    },
+    {
+      "name": "MOYO ",
+      "id": "f15u0evjndm",
+      "parent": {
+        "name": "ARUA",
+        "id": "MqLB5rp5XXR"
+      }
+    },
+    {
+      "name": "MPIGI ",
+      "id": "TKHETPOwxbo",
+      "parent": {
+        "name": "GREATER_KAMPALA",
+        "id": "HhZ1TT0ta2l"
+      }
+    },
+    {
+      "name": "MUBENDE ",
+      "id": "XUZ9wq0JXP8",
+      "parent": {
+        "name": "MUBENDE",
+        "id": "qG2n3sAFyF5"
+      }
+    },
+    {
+      "name": "MUKONO ",
+      "id": "Sz7saemMOSQ",
+      "parent": {
+        "name": "GREATER_KAMPALA",
+        "id": "HhZ1TT0ta2l"
+      }
+    },
+    {
+      "name": "NABILATUK",
+      "id": "hn6R6pnEVMW",
+      "parent": {
+        "name": "MOROTO",
+        "id": "AYWnTEjPfvf"
+      }
+    },
+    {
+      "name": "NAKAPIRIPIRIT ",
+      "id": "AqnUZ4NHPo1",
+      "parent": {
+        "name": "MOROTO",
+        "id": "AYWnTEjPfvf"
+      }
+    },
+    {
+      "name": "NAKASEKE ",
+      "id": "eDO0k1FaPw7",
+      "parent": {
+        "name": "MUBENDE",
+        "id": "qG2n3sAFyF5"
+      }
+    },
+    {
+      "name": "NAKASONGOLA ",
+      "id": "lGNC6Y5hccz",
+      "parent": {
+        "name": "MUBENDE",
+        "id": "qG2n3sAFyF5"
+      }
+    },
+    {
+      "name": "NAMAYINGO ",
+      "id": "ooHjbyBFYUi",
+      "parent": {
+        "name": "JINJA",
+        "id": "NvDbXS64yG5"
+      }
+    },
+    {
+      "name": "NAMISINDWA ",
+      "id": "mnqysRYe07y",
+      "parent": {
+        "name": "MBALE",
+        "id": "oymdXVI2JYB"
+      }
+    },
+    {
+      "name": "NAMUTUMBA ",
+      "id": "IxDpeWVeWsq",
+      "parent": {
+        "name": "JINJA",
+        "id": "NvDbXS64yG5"
+      }
+    },
+    {
+      "name": "NAPAK ",
+      "id": "S5rrSt2Tsfz",
+      "parent": {
+        "name": "MOROTO",
+        "id": "AYWnTEjPfvf"
+      }
+    },
+    {
+      "name": "NEBBI ",
+      "id": "XolDNg5RYU9",
+      "parent": {
+        "name": "ARUA",
+        "id": "MqLB5rp5XXR"
+      }
+    },
+    {
+      "name": "NGORA ",
+      "id": "HgitpWI5HcI",
+      "parent": {
+        "name": "SOROTI",
+        "id": "mKqz2QKlDuP"
+      }
+    },
+    {
+      "name": "NTOROKO ",
+      "id": "CRTybiwxDMp",
+      "parent": {
+        "name": "KABAROLE",
+        "id": "vI2uRN5B79D"
+      }
+    },
+    {
+      "name": "NTUNGAMO ",
+      "id": "Do9rBerg9sn",
+      "parent": {
+        "name": "MBARARA",
+        "id": "vmOucp1oIW4"
+      }
+    },
+    {
+      "name": "NWOYA ",
+      "id": "isiSQAD17en",
+      "parent": {
+        "name": "GULU",
+        "id": "EyiZAsLjyHI"
+      }
+    },
+    {
+      "name": "OMORO ",
+      "id": "PJZR9TEftHP",
+      "parent": {
+        "name": "GULU",
+        "id": "EyiZAsLjyHI"
+      }
+    },
+    {
+      "name": "OTUKE ",
+      "id": "hX7P7LTzUI9",
+      "parent": {
+        "name": "LIRA",
+        "id": "fR7AfeBDfir"
+      }
+    },
+    {
+      "name": "OYAM ",
+      "id": "tx6AEAUFhew",
+      "parent": {
+        "name": "LIRA",
+        "id": "fR7AfeBDfir"
+      }
+    },
+    {
+      "name": "PADER ",
+      "id": "CVdhwGqBcPl",
+      "parent": {
+        "name": "GULU",
+        "id": "EyiZAsLjyHI"
+      }
+    },
+    {
+      "name": "PAKWACH ",
+      "id": "wnrQoxgw1rD",
+      "parent": {
+        "name": "ARUA",
+        "id": "MqLB5rp5XXR"
+      }
+    },
+    {
+      "name": "PALLISA ",
+      "id": "F54G6UMUpyI",
+      "parent": {
+        "name": "MBALE",
+        "id": "oymdXVI2JYB"
+      }
+    },
+    {
+      "name": "RAKAI ",
+      "id": "mz90UyLHnf2",
+      "parent": {
+        "name": "MASAKA",
+        "id": "pzErEgx5O1u"
+      }
+    },
+    {
+      "name": "RUBANDA ",
+      "id": "URqM0FUYaWh",
+      "parent": {
+        "name": "KABALE",
+        "id": "EjdiWCAWzC3"
+      }
+    },
+    {
+      "name": "RUBIRIZI ",
+      "id": "OuTJOB6vGOT",
+      "parent": {
+        "name": "MBARARA",
+        "id": "vmOucp1oIW4"
+      }
+    },
+    {
+      "name": "RUKIGA ",
+      "id": "Fi9QUWR7Klt",
+      "parent": {
+        "name": "KABALE",
+        "id": "EjdiWCAWzC3"
+      }
+    },
+    {
+      "name": "RUKUNGIRI ",
+      "id": "t0Uv6UtDbpp",
+      "parent": {
+        "name": "KABALE",
+        "id": "EjdiWCAWzC3"
+      }
+    },
+    {
+      "name": "SEMBABULE ",
+      "id": "yA56HXyHWIY",
+      "parent": {
+        "name": "MASAKA",
+        "id": "pzErEgx5O1u"
+      }
+    },
+    {
+      "name": "SERERE ",
+      "id": "IcN7IbicNFC",
+      "parent": {
+        "name": "SOROTI",
+        "id": "mKqz2QKlDuP"
+      }
+    },
+    {
+      "name": "SHEEMA ",
+      "id": "jdZ3joWq7FR",
+      "parent": {
+        "name": "MBARARA",
+        "id": "vmOucp1oIW4"
+      }
+    },
+    {
+      "name": "SIRONKO ",
+      "id": "E0IworDd6ms",
+      "parent": {
+        "name": "MBALE",
+        "id": "oymdXVI2JYB"
+      }
+    },
+    {
+      "name": "SOROTI ",
+      "id": "S9x8LdqLybc",
+      "parent": {
+        "name": "SOROTI",
+        "id": "mKqz2QKlDuP"
+      }
+    },
+    {
+      "name": "TORORO ",
+      "id": "Ki2USRfIw6b",
+      "parent": {
+        "name": "MBALE",
+        "id": "oymdXVI2JYB"
+      }
+    },
+    {
+      "name": "WAKISO ",
+      "id": "sDpvf1Ef9Rk",
+      "parent": {
+        "name": "GREATER_KAMPALA",
+        "id": "HhZ1TT0ta2l"
+      }
+    },
+    {
+      "name": "YUMBE ",
+      "id": "LoYZr6bWDac",
+      "parent": {
+        "name": "ARUA",
+        "id": "MqLB5rp5XXR"
+      }
+    },
+    {
+      "name": "ZOMBO ",
+      "id": "i4X5qB9Hsc9",
+      "parent": {
+        "name": "ARUA",
+        "id": "MqLB5rp5XXR"
+      }
+    }
+  ]

@@ -2,9 +2,15 @@ const _ = require('lodash');
 const axios = require('axios');
 const fileSaver = require('file-saver');
 const fs = require('fs');
+const moment = require('moment');
 var jsonexport = require('jsonexport');
 
-var districts = require('./districts_map.json')
+var districts = require('./districts_map.json');
+var subcounties = require('./uganda.json');
+var dhis2_districts = require('./dhis2_districts.json');
+var dhis2_subcounties = require('./dhis2_subcounties.json');
+var organisations = require('./organisationUnits.json');
+
 
 // const day1 = require(`${__dirname}/data/Day1.json`);
 // const day2 = require(`${__dirname}/data/Day2.json`);
@@ -83,537 +89,85 @@ var districts = require('./districts_map.json')
 
 // console.log(districts)
 
-const unit = [
-    {
-        "name": "ABIM ",
-        "id": "g1lzs29C20E"
-    },
-    {
-        "name": "ADJUMANI ",
-        "id": "J1111gWF0pG"
-    },
-    {
-        "name": "AGAGO ",
-        "id": "B4LSiVBTuml"
-    },
-    {
-        "name": "ALEBTONG ",
-        "id": "Wv1KH7iS8pP"
-    },
-    {
-        "name": "AMOLATAR ",
-        "id": "X92Ud3RHdKi"
-    },
-    {
-        "name": "AMUDAT ",
-        "id": "QnPCp7kr71u"
-    },
-    {
-        "name": "AMURIA ",
-        "id": "lZeE6HDPMkM"
-    },
-    {
-        "name": "AMURU ",
-        "id": "BKp7lmAZcKp"
-    },
-    {
-        "name": "APAC ",
-        "id": "Ou8luzGR3k0"
-    },
-    {
-        "name": "ARUA ",
-        "id": "biZMRHcAPNk"
-    },
-    {
-        "name": "BUDAKA ",
-        "id": "OYv0hp438kC"
-    },
-    {
-        "name": "BUDUDA ",
-        "id": "MpvCFXxd7tH"
-    },
-    {
-        "name": "BUGIRI ",
-        "id": "lTfnsYMH1L3"
-    },
-    {
-        "name": "BUGWERI",
-        "id": "Lw5RNp9hNBf"
-    },
-    {
-        "name": "BUHWEJU ",
-        "id": "hUeW98i0WAE"
-    },
-    {
-        "name": "BUIKWE ",
-        "id": "uNJEkq5U5rJ"
-    },
-    {
-        "name": "BUKEDEA ",
-        "id": "F4ZVcF2PwnJ"
-    },
-    {
-        "name": "BUKOMANSIMBI ",
-        "id": "JdZPx499qr9"
-    },
-    {
-        "name": "BUKWO ",
-        "id": "ehikUkqcdlY"
-    },
-    {
-        "name": "BULAMBULI ",
-        "id": "bwyMzAMNUhX"
-    },
-    {
-        "name": "BULIISA ",
-        "id": "f6J4A6R7qVH"
-    },
-    {
-        "name": "BUNDIBUGYO ",
-        "id": "m80Axd3Ppr1"
-    },
-    {
-        "name": "BUNYANGABU ",
-        "id": "m2b7yckPklr"
-    },
-    {
-        "name": "BUSHENYI ",
-        "id": "nwV4HLe9U9V"
-    },
-    {
-        "name": "BUSIA ",
-        "id": "AX9Rndy7M8d"
-    },
-    {
-        "name": "BUTALEJA ",
-        "id": "lP3oVaqjvnw"
-    },
-    {
-        "name": "BUTAMBALA ",
-        "id": "URqeM39RIvv"
-    },
-    {
-        "name": "BUTEBO ",
-        "id": "pu6ttsh8xiJ"
-    },
-    {
-        "name": "BUVUMA ",
-        "id": "HRKSOfAXcjv"
-    },
-    {
-        "name": "BUYENDE ",
-        "id": "hLZ6Bkn54az"
-    },
-    {
-        "name": "DOKOLO ",
-        "id": "OcW90D3f5Ak"
-    },
-    {
-        "name": "GOMBA ",
-        "id": "RYx1kSYNuXq"
-    },
-    {
-        "name": "GULU ",
-        "id": "Syxs9daPuFE"
-    },
-    {
-        "name": "HOIMA ",
-        "id": "AvlDp8eRMru"
-    },
-    {
-        "name": "IBANDA ",
-        "id": "t2WXKIEKdTC"
-    },
-    {
-        "name": "IGANGA ",
-        "id": "tjhZjqenW2q"
-    },
-    {
-        "name": "ISINGIRO ",
-        "id": "YkieTQZ7v4D"
-    },
-    {
-        "name": "JINJA ",
-        "id": "LGX9Jz3duod"
-    },
-    {
-        "name": "KAABONG ",
-        "id": "WeUOsXtlkh8"
-    },
-    {
-        "name": "KABALE ",
-        "id": "vcnm7NLCNPZ"
-    },
-    {
-        "name": "KABAROLE ",
-        "id": "qKEJbMAgplr"
-    },
-    {
-        "name": "KABERAMAIDO ",
-        "id": "NZZMg7a7sBj"
-    },
-    {
-        "name": "KAGADI ",
-        "id": "cLJHT9J6mWL"
-    },
-    {
-        "name": "KAKUMIRO ",
-        "id": "Pl47laJiShG"
-    },
-    {
-        "name": "KALANGALA ",
-        "id": "FQJjVNxhvAP"
-    },
-    {
-        "name": "KALIRO ",
-        "id": "DxGKm0SGN1x"
-    },
-    {
-        "name": "KALUNGU ",
-        "id": "G2gEr4IUkIC"
-    },
-    {
-        "name": "KAMPALA ",
-        "id": "xVVsZL29BkH"
-    },
-    {
-        "name": "KAMULI ",
-        "id": "YN65lEdrIxA"
-    },
-    {
-        "name": "KAMWENGE ",
-        "id": "NUkEIK0mgNk"
-    },
-    {
-        "name": "KANUNGU ",
-        "id": "OM7GpHfXj97"
-    },
-    {
-        "name": "KAPCHORWA ",
-        "id": "NHYH3hBamvS"
-    },
-    {
-        "name": "KAPELEBYONG",
-        "id": "sgjazoAo5tM"
-    },
-    {
-        "name": "KASSANDA",
-        "id": "UKbEb5ShwcC"
-    },
-    {
-        "name": "KATAKWI ",
-        "id": "bm2SJzFp8vs"
-    },
-    {
-        "name": "KAYUNGA ",
-        "id": "owBXLPm3vPd"
-    },
-    {
-        "name": "KESESE",
-        "id": "IfbGRypBvsD"
-    },
-    {
-        "name": "KIBAALE ",
-        "id": "HPsIa11Lg9h"
-    },
-    {
-        "name": "KIBOGA ",
-        "id": "Dp9tZcsYNnM"
-    },
-    {
-        "name": "KIBUKU ",
-        "id": "VbFoR1k8VH5"
-    },
-    {
-        "name": "KIKUUBE",
-        "id": "ZigCTzSaIBT"
-    },
-    {
-        "name": "KIRUHURA ",
-        "id": "VzdiKJERIdW"
-    },
-    {
-        "name": "KIRYANDONGO ",
-        "id": "qXBuMwVAAz7"
-    },
-    {
-        "name": "KISORO ",
-        "id": "umipmHh9v3K"
-    },
-    {
-        "name": "KITGUM ",
-        "id": "pPDdW7PVDx8"
-    },
-    {
-        "name": "KOBOKO ",
-        "id": "aamkbLuhuE3"
-    },
-    {
-        "name": "KOLE ",
-        "id": "SGsg2OaMmZi"
-    },
-    {
-        "name": "KOTIDO ",
-        "id": "CMa2vNtKDyj"
-    },
-    {
-        "name": "KUMI ",
-        "id": "yEhKrOwq25A"
-    },
-    {
-        "name": "KWANIA",
-        "id": "BLV6M9lr86o"
-    },
-    {
-        "name": "KWEEN ",
-        "id": "WSTMUuWXGsS"
-    },
-    {
-        "name": "KYANKWANZI ",
-        "id": "BY2qdfv3Gog"
-    },
-    {
-        "name": "KYEGEGWA ",
-        "id": "JKlXW3fxHlP"
-    },
-    {
-        "name": "KYENJOJO ",
-        "id": "XYTiJ6ivqcP"
-    },
-    {
-        "name": "KYOTERA ",
-        "id": "RLUwQr8TSR4"
-    },
-    {
-        "name": "LAMWO ",
-        "id": "kx8tFI98oh5"
-    },
-    {
-        "name": "LIRA ",
-        "id": "LDP1ux1qHLt"
-    },
-    {
-        "name": "LUUKA ",
-        "id": "DpJMOHcEybJ"
-    },
-    {
-        "name": "LUWERO ",
-        "id": "pv74Fx49Eoj"
-    },
-    {
-        "name": "LWENGO ",
-        "id": "hyrmld6mZ4b"
-    },
-    {
-        "name": "LYANTONDE ",
-        "id": "iBapF8GFbDN"
-    },
-    {
-        "name": "MANAFWA ",
-        "id": "FVYXseyVtw2"
-    },
-    {
-        "name": "MARACHA ",
-        "id": "MqBQu1P6ScO"
-    },
-    {
-        "name": "MASAKA ",
-        "id": "ujomhD4R1Tw"
-    },
-    {
-        "name": "MASINDI ",
-        "id": "tF3E5ui9ezM"
-    },
-    {
-        "name": "MAYUGE ",
-        "id": "knrBhuygQ9V"
-    },
-    {
-        "name": "MBALE ",
-        "id": "JM4OKew4odm"
-    },
-    {
-        "name": "MBARARA ",
-        "id": "A1JefxJgZv8"
-    },
-    {
-        "name": "MITOOMA ",
-        "id": "mLvA40vNBOM"
-    },
-    {
-        "name": "MITYANA ",
-        "id": "RaTWCwEu00l"
-    },
-    {
-        "name": "MOROTO ",
-        "id": "vedOsQOVAID"
-    },
-    {
-        "name": "MOYO ",
-        "id": "f15u0evjndm"
-    },
-    {
-        "name": "MPIGI ",
-        "id": "TKHETPOwxbo"
-    },
-    {
-        "name": "MUBENDE ",
-        "id": "XUZ9wq0JXP8"
-    },
-    {
-        "name": "MUKONO ",
-        "id": "Sz7saemMOSQ"
-    },
-    {
-        "name": "NABILATUK",
-        "id": "hn6R6pnEVMW"
-    },
-    {
-        "name": "NAKAPIRIPIRIT ",
-        "id": "AqnUZ4NHPo1"
-    },
-    {
-        "name": "NAKASEKE ",
-        "id": "eDO0k1FaPw7"
-    },
-    {
-        "name": "NAKASONGOLA ",
-        "id": "lGNC6Y5hccz"
-    },
-    {
-        "name": "NAMAYINGO ",
-        "id": "ooHjbyBFYUi"
-    },
-    {
-        "name": "NAMISINDWA ",
-        "id": "mnqysRYe07y"
-    },
-    {
-        "name": "NAMUTUMBA ",
-        "id": "IxDpeWVeWsq"
-    },
-    {
-        "name": "NAPAK ",
-        "id": "S5rrSt2Tsfz"
-    },
-    {
-        "name": "NEBBI ",
-        "id": "XolDNg5RYU9"
-    },
-    {
-        "name": "NGORA ",
-        "id": "HgitpWI5HcI"
-    },
-    {
-        "name": "NTOROKO ",
-        "id": "CRTybiwxDMp"
-    },
-    {
-        "name": "NTUNGAMO ",
-        "id": "Do9rBerg9sn"
-    },
-    {
-        "name": "NWOYA ",
-        "id": "isiSQAD17en"
-    },
-    {
-        "name": "OMORO ",
-        "id": "PJZR9TEftHP"
-    },
-    {
-        "name": "OTUKE ",
-        "id": "hX7P7LTzUI9"
-    },
-    {
-        "name": "OYAM ",
-        "id": "tx6AEAUFhew"
-    },
-    {
-        "name": "PADER ",
-        "id": "CVdhwGqBcPl"
-    },
-    {
-        "name": "PAKWACH ",
-        "id": "wnrQoxgw1rD"
-    },
-    {
-        "name": "PALLISA ",
-        "id": "F54G6UMUpyI"
-    },
-    {
-        "name": "RAKAI ",
-        "id": "mz90UyLHnf2"
-    },
-    {
-        "name": "RUBANDA ",
-        "id": "URqM0FUYaWh"
-    },
-    {
-        "name": "RUBIRIZI ",
-        "id": "OuTJOB6vGOT"
-    },
-    {
-        "name": "RUKIGA ",
-        "id": "Fi9QUWR7Klt"
-    },
-    {
-        "name": "RUKUNGIRI ",
-        "id": "t0Uv6UtDbpp"
-    },
-    {
-        "name": "SEMBABULE ",
-        "id": "yA56HXyHWIY"
-    },
-    {
-        "name": "SERERE ",
-        "id": "IcN7IbicNFC"
-    },
-    {
-        "name": "SHEEMA ",
-        "id": "jdZ3joWq7FR"
-    },
-    {
-        "name": "SIRONKO ",
-        "id": "E0IworDd6ms"
-    },
-    {
-        "name": "SOROTI ",
-        "id": "S9x8LdqLybc"
-    },
-    {
-        "name": "TORORO ",
-        "id": "Ki2USRfIw6b"
-    },
-    {
-        "name": "WAKISO ",
-        "id": "sDpvf1Ef9Rk"
-    },
-    {
-        "name": "YUMBE ",
-        "id": "LoYZr6bWDac"
-    },
-    {
-        "name": "ZOMBO ",
-        "id": "i4X5qB9Hsc9"
-    }
-];
+const changeDistricts = () =>{
+    const processedDistricts = _.fromPairs(dhis2_districts.map(u => [String(u.name).replace(/\\n/g, '').trim().toUpperCase(), {id:u.id,parent:u.parent.id,parentName:String(u.parent.name).replace(/\\n/g, '').trim().toUpperCase()}]))
 
-const units = _.fromPairs(unit.map(u => [String(u.name).trim(), u.id]))
+    const { features, ...rest } = districts;
+    const finalFeatures = features.map(feature => {
+        const props = feature.properties;
+        const what = processedDistricts[props.District18];
+        if(what){
+            return { ...feature, properties: { id: what.id,parent:what.parent,parentName:what.parentName,name:props.District18 } }
+        }else{
+            return {...feature,properties: { id:'',parent:'',name:props.District18,parentName:''}}
+        }
+    });
 
-console.log(units);
+    const map = { ...rest, features: finalFeatures }
 
-const { features, ...rest } = districts;
-const finalFeatures = features.map(feature => {
-    let newF = {}
-    const props = feature.properties;
-    if (units[props.District18]) {
-        newF = { ...newF, code: units[props.District18] };
-    }
-    console.log(newF);
-    return { ...rest, properties: newF }
-});
+    fs.writeFileSync('uganda_districts.json', JSON.stringify(map));
+}
 
-const map = { ...rest, features: finalFeatures };
+const processOrganisations = () =>{
+    const openingDate = moment().subtract(1, 'years');
+    let {organisationUnits,...rest} = organisations;
 
+   organisationUnits =  organisationUnits.map(ou=>{
+        return {
+            ...ou,
+            name:String(ou.name).replace(/\\n/g, '').trim(),
+            shortName:String(ou.shortName).replace(/\\n/g, '').trim(),
+            openingDate
+        }
+    });
 
-// console.log(map);
+    const final = {...rest,organisationUnits};
+
+    fs.writeFileSync('organisationUnits.json', JSON.stringify(final));
+
+}
+
+const changeSubcounties = () =>{
+    const { features, ...rest } = subcounties;
+    const finalFeatures = features.map(feature => {
+        const props = feature.properties;
+        const district = props.District;
+        const subCounty = props.Subcounty;
+
+        const subCounties = dhis2_subcounties.filter(u=>{
+            return String(u.parent.name).replace(/\\n/g, '').trim() ===  district;
+        });
+
+        const searchedSubcounty = subCounties.filter(sc=>{
+            let search  = String(sc.name).replace(/\\n/g, '').trim().toUpperCase();
+
+            if(search.endsWith(' SC')){
+                search = search.replace(' SC','')
+            }else if(search.endsWith(' S/C')){
+                search = search.replace(' S/C','')
+            }else if(search.endsWith(' TC')){
+                search = search.replace(' TC',' TOWN COUNCIL')
+            }else if(search.endsWith(' T/C')){
+                search = search.replace(' T/C',' TOWN COUNCIL')
+            }
+            return search === subCounty
+        });
+
+        if(searchedSubcounty.length > 0){
+            const sub = searchedSubcounty[0]
+            return { ...feature, properties: { id: sub.id,parent:sub.parent.id,name:subCounty,parentName:district } }
+        }else{
+            return {...feature,properties: { id:'',parent:'',name:subCounty,parentName:district}}
+        }
+    });
+
+    const map = { ...rest, features: finalFeatures }
+
+    fs.writeFileSync('uganda_subcounties.json', JSON.stringify(map));
+}
+
+changeDistricts();
+
+changeSubcounties();
+
+// processOrganisations();
