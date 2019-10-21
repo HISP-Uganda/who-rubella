@@ -1,15 +1,14 @@
 const _ = require('lodash');
 const axios = require('axios');
-const fileSaver = require('file-saver');
 const fs = require('fs');
 const moment = require('moment');
-var jsonexport = require('jsonexport');
-
 var districts = require('./districts_map.json');
 var subcounties = require('./uganda.json');
 var dhis2_districts = require('./dhis2_districts.json');
 var dhis2_subcounties = require('./dhis2_subcounties.json');
 var organisations = require('./organisationUnits.json');
+var targets = require('./targets.json');
+
 
 
 // const day1 = require(`${__dirname}/data/Day1.json`);
@@ -89,17 +88,47 @@ var organisations = require('./organisationUnits.json');
 
 // console.log(districts)
 
-const changeDistricts = () =>{
-    const processedDistricts = _.fromPairs(dhis2_districts.map(u => [String(u.name).replace(/\\n/g, '').trim().toUpperCase(), {id:u.id,parent:u.parent.id,parentName:String(u.parent.name).replace(/\\n/g, '').trim().toUpperCase()}]))
+const processedDistricts = _.fromPairs(dhis2_districts.map(u => [String(u.name).replace(/\\n/g, '').trim().toUpperCase(), { id: u.id, parent: u.parent.id, parentName: String(u.parent.name).replace(/\\n/g, '').trim().toUpperCase() }]))
 
+
+const processTargets = () => {
+    const processedTargets = targets.map(target => {
+        const { District, ...rest } = target;
+        const found = processedDistricts[String(District).toUpperCase()];
+        if (found) {
+            return {
+                ...target,
+                id: found.id,
+                parent: found.parent,
+                parentName: found.parentName
+            };
+        } else {
+            console.log('Why');
+            return null;
+        }
+
+    });
+    fs.writeFileSync('targets.json', JSON.stringify(processedTargets.filter(pt => !!pt)));
+}
+
+const changeDistricts = () => {
+    console.log(processedDistricts)
     const { features, ...rest } = districts;
     const finalFeatures = features.map(feature => {
         const props = feature.properties;
-        const what = processedDistricts[props.District18];
-        if(what){
-            return { ...feature, properties: { id: what.id,parent:what.parent,parentName:what.parentName,name:props.District18 } }
-        }else{
-            return {...feature,properties: { id:'',parent:'',name:props.District18,parentName:''}}
+        let currentDistrict = props.District18;
+        if (currentDistrict === 'SSEMBABULE') {
+            currentDistrict = 'SEMBABULE';
+        } else if (currentDistrict === 'KYOTARA') {
+            currentDistrict = 'KYOTERA';
+
+        }
+        const what = processedDistricts[currentDistrict];
+        if (what) {
+            return { ...feature, properties: { id: what.id, parent: what.parent, parentName: what.parentName, name: props.District18 } }
+        } else {
+            console.log('Missing' + props.District18)
+            return { ...feature, properties: { id: '', parent: '', name: props.District18, parentName: '' } }
         }
     });
 
@@ -108,56 +137,63 @@ const changeDistricts = () =>{
     fs.writeFileSync('uganda_districts.json', JSON.stringify(map));
 }
 
-const processOrganisations = () =>{
+const processOrganisations = () => {
     const openingDate = moment().subtract(1, 'years');
-    let {organisationUnits,...rest} = organisations;
+    let { organisationUnits, ...rest } = organisations;
 
-   organisationUnits =  organisationUnits.map(ou=>{
+    organisationUnits = organisationUnits.map(ou => {
         return {
             ...ou,
-            name:String(ou.name).replace(/\\n/g, '').trim(),
-            shortName:String(ou.shortName).replace(/\\n/g, '').trim(),
+            name: String(ou.name).replace(/\\n/g, '').trim(),
+            shortName: String(ou.shortName).replace(/\\n/g, '').trim(),
             openingDate
         }
     });
 
-    const final = {...rest,organisationUnits};
+    const final = { ...rest, organisationUnits };
 
     fs.writeFileSync('organisationUnits.json', JSON.stringify(final));
 
 }
 
-const changeSubcounties = () =>{
+const changeSubcounties = () => {
     const { features, ...rest } = subcounties;
     const finalFeatures = features.map(feature => {
         const props = feature.properties;
         const district = props.District;
         const subCounty = props.Subcounty;
 
-        const subCounties = dhis2_subcounties.filter(u=>{
-            return String(u.parent.name).replace(/\\n/g, '').trim() ===  district;
+        const subCounties = dhis2_subcounties.filter(u => {
+            return String(u.parent.name).replace(/\\n/g, '').trim() === district;
         });
 
-        const searchedSubcounty = subCounties.filter(sc=>{
-            let search  = String(sc.name).replace(/\\n/g, '').trim().toUpperCase();
+        const searchedSubcounty = subCounties.filter(sc => {
+            let search = String(sc.name).replace(/\\n/g, '').trim().toUpperCase();
+            if (search === 'KASANDA') {
+                search = 'KASSANDA'
+            }
 
-            if(search.endsWith(' SC')){
-                search = search.replace(' SC','')
-            }else if(search.endsWith(' S/C')){
-                search = search.replace(' S/C','')
-            }else if(search.endsWith(' TC')){
-                search = search.replace(' TC',' TOWN COUNCIL')
-            }else if(search.endsWith(' T/C')){
-                search = search.replace(' T/C',' TOWN COUNCIL')
+            if (search.endsWith(' SC')) {
+                search = search.replace(' SC', '')
+            } else if (search.endsWith(' S/C')) {
+                search = search.replace(' S/C', '')
+            } else if (search.endsWith(' TC')) {
+                search = search.replace(' TC', ' TOWN COUNCIL')
+            } else if (search.endsWith(' T/C')) {
+                search = search.replace(' T/C', ' TOWN COUNCIL')
             }
             return search === subCounty
         });
 
-        if(searchedSubcounty.length > 0){
+
+        if (searchedSubcounty.length > 0) {
             const sub = searchedSubcounty[0]
-            return { ...feature, properties: { id: sub.id,parent:sub.parent.id,name:subCounty,parentName:district } }
-        }else{
-            return {...feature,properties: { id:'',parent:'',name:subCounty,parentName:district}}
+            return { ...feature, properties: { id: sub.id, parent: sub.parent.id, name: subCounty, parentName: district } }
+        } else {
+            console.log('missing' + subCounty);
+            console.log('Available')
+            console.log(subCounties);
+            return { ...feature, properties: { id: '', parent: '', name: subCounty, parentName: district } }
         }
     });
 
@@ -166,8 +202,10 @@ const changeSubcounties = () =>{
     fs.writeFileSync('uganda_subcounties.json', JSON.stringify(map));
 }
 
-changeDistricts();
+// changeDistricts();
 
-changeSubcounties();
+// changeSubcounties();
+
+processTargets();
 
 // processOrganisations();

@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import winston from './winston';
 import { generateUid } from './uid';
 import moment from 'moment';
+import { createObjectCsvWriter } from 'csv-writer';
 
 const URL = require('url').URL;
 
@@ -131,8 +132,9 @@ export const mrDataValues = async (list, ous, period, attributeOptionCombo) => {
         }
     }
     let dataValues = list.map(l => {
-        const post = String(l['list/name_of_post']).toLowerCase();
-        const currentKeys = _.keys(l).filter(k => k !== 'list/name_of_post');
+        const p = l['list/name_of_post'] || l['list/name_of_post_visited'];
+        const post = String(p).replace(/\\n/g, '').trim().toLowerCase();
+        const currentKeys = _.keys(l).filter(k => k !== 'list/name_of_post' && k !== 'list/name_of_post_visited');
         const orgUnit = ous[post];
         if (orgUnit) {
             const current = currentKeys.map(k => {
@@ -148,10 +150,11 @@ export const mrDataValues = async (list, ous, period, attributeOptionCombo) => {
             return [];
         }
     });
+
+
     dataValues = _.flatten(dataValues).filter(v => {
         return v && v !== null && v !== undefined
     });
-
 
     let response = {}
     if (dataValues.length > 0) {
@@ -491,13 +494,12 @@ export const searchPosts = async (subCounty, posts, parent = '', create = false)
         await postAxios(`${baseUrl}/organisationUnits`, ou);
         await postAxios(`${baseUrl}/schemas/organisationUnit`, ou);
         subCounty = { ...subCounty, children: [] }
-
     }
 
     const { children } = subCounty;
     let data = {}
     let newOus = [];
-
+    let realNew = [];
     try {
         for (const post of posts) {
             const search = children.find(p => {
@@ -508,8 +510,7 @@ export const searchPosts = async (subCounty, posts, parent = '', create = false)
             } else {
                 const id = generateUid();
                 const ou = { shortName: truncateString(post, 46), name: post, id, parent: { id: subCounty.id }, openingDate };
-                await postAxios(`${baseUrl}/organisationUnits`, ou);
-                await postAxios(`${baseUrl}/schemas/organisationUnit`, ou);
+                realNew = [...realNew, ou]
                 data = { ...data, [String(post).toLowerCase()]: id };
             }
         }
@@ -521,7 +522,12 @@ export const searchPosts = async (subCounty, posts, parent = '', create = false)
             if (!f) {
                 newOus = [...newOus, { id: v }];
             }
-        })
+        });
+
+        if (realNew.length > 0) {
+            const response = await postAxios(`${baseUrl}/metadata`, { organisationUnits: realNew });
+        }
+
         if (newOus.length > 0) {
             dataSets.map(dataSet => {
                 dataSet.organisationUnits = [...dataSet.organisationUnits, ...newOus];
@@ -529,11 +535,12 @@ export const searchPosts = async (subCounty, posts, parent = '', create = false)
             });
             await postAxios(`${baseUrl}/metadata`, { dataSets });
         }
-    } catch (error) {
-        console.log(error)
-    }
 
-    return data;
+        return data;
+    } catch (error) {
+        console.log('We found something');
+        console.log(error.message);
+    }
 };
 
 export const processDataSetResponses = (response) => {

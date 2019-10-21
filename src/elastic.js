@@ -1,16 +1,28 @@
-import { Client } from '@elastic/elasticsearch';
-const client = new Client({ node: 'http://213.136.94.124:9200' });
+const _ = require('lodash');
+const axios = require('axios');
+const moment = require('moment');
+const fs = require('fs');
+
+// var odk = require('./data/odk.json');
+var sembabule = require('./data/sembabule.json');
+
+// const filtered = odk.filter(d => {
+//     return String(d.districts).includes('BAULE');
+// });
+
+// fs.writeFileSync('sembabule.json', JSON.stringify(filtered));
 
 
-
-client.search({
-    index: 'opv',
-    body: {
-        query: {
-            match_all: {}
-        }
+async function post() {
+    for (const data of sembabule) {
+        console.log('Inserting for ' + data.subcounty);
+        const response = await axios.post('http://localhost:3001', data, { headers: { 'Accept': 'application/json' } });
+        console.log('Done for ' + data.subcounty);
     }
-}, (err, result) => {
-    if (err) console.log(err)
-    console.log(JSON.stringify(result.body.hits.hits));
+
+
+}
+
+post().then(function () {
+    console.log('finished');
 })
