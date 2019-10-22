@@ -35,124 +35,85 @@ export const getCOC = (val) => {
     }
 }
 
-export const mrDataValues = async (list, ous, period, attributeOptionCombo) => {
+export const mrDataValues = async (list) => {
     const baseUrl = getDHIS2Url();
     const keys = {
         'list/target_population': {
             dataElement: 'JHjeYt6yqBX',
-            period,
-            categoryOptionCombo: 'HllvX50cXC0',
-            attributeOptionCombo
+            categoryOptionCombo: 'HllvX50cXC0'
         },
         // 'list/other_factor_specify': {
         //     dataElement: 'T05lrtJZwYT',
-        //     period,
-        //     categoryOptionCombo: 'HllvX50cXC0',
-        //     attributeOptionCombo
+        //     categoryOptionCombo: 'HllvX50cXC0'
         // },
         'list/children_vaccinated/years3_5': {
             dataElement: 'uCFg0FT8sV8',
-            period,
-            categoryOptionCombo: 'ZlH8d3z64XG',
-            attributeOptionCombo
+            categoryOptionCombo: 'ZlH8d3z64XG'
         },
         'list/children_vaccinated/years6_14': {
             dataElement: 'uCFg0FT8sV8',
-            period,
-            categoryOptionCombo: 'KU1DPon4Siu',
-            attributeOptionCombo
+            categoryOptionCombo: 'KU1DPon4Siu'
         },
         'list/children_vaccinated/months9_11': {
             dataElement: 'uCFg0FT8sV8',
-            period,
-            categoryOptionCombo: 'eQxG5pWG8hW',
-            attributeOptionCombo
+            categoryOptionCombo: 'eQxG5pWG8hW'
         },
         'list/children_vaccinated/months12_24': {
             dataElement: 'uCFg0FT8sV8',
-            period,
-            categoryOptionCombo: 'rExgwWGz0xi',
-            attributeOptionCombo
+            categoryOptionCombo: 'rExgwWGz0xi'
         },
         'list/post_staffing/number_mobilizers': {
             dataElement: 'bmhiRT3366M',
-            period,
-            categoryOptionCombo: 'HllvX50cXC0',
-            attributeOptionCombo
+            categoryOptionCombo: 'HllvX50cXC0'
         },
         'list/post_staffing/number_health_workers': {
             dataElement: 'zwW07y5987X',
-            period,
-            categoryOptionCombo: 'HllvX50cXC0',
-            attributeOptionCombo
+            categoryOptionCombo: 'HllvX50cXC0'
         },
         'list/mr_vaccine_usage/no_vaccine_vials_issued': {
             dataElement: 'UGzRCLeZ7VK',
-            period,
-            categoryOptionCombo: 'HllvX50cXC0',
-            attributeOptionCombo
+            categoryOptionCombo: 'HllvX50cXC0'
         },
         'list/mr_vaccine_usage/no_diluent_ampules_issued': {
             dataElement: 'c9rY7LYUDdO',
-            period,
-            categoryOptionCombo: 'HllvX50cXC0',
-            attributeOptionCombo
+            categoryOptionCombo: 'HllvX50cXC0'
         },
         'list/mr_vaccine_usage/no_vials_discarded_other_factors': {
             dataElement: 'EI3lwOn7BFy',
-            period,
-            categoryOptionCombo: 'E4wrUHavnxw',
-            attributeOptionCombo
+            categoryOptionCombo: 'E4wrUHavnxw'
         },
         'list/mr_vaccine_usage/no_vaccine_vials_returned_unopened': {
             dataElement: 'fn8jd7n6gIT',
-            period,
-            categoryOptionCombo: 'HllvX50cXC0',
-            attributeOptionCombo
+            categoryOptionCombo: 'HllvX50cXC0'
         },
         'list/mr_vaccine_usage/no_vials_discarded_due_partial_use': {
             dataElement: 'EI3lwOn7BFy',
-            period,
-            categoryOptionCombo: 'DwzqPmIFldV',
-            attributeOptionCombo
+            categoryOptionCombo: 'DwzqPmIFldV'
         },
         'list/mr_vaccine_usage/no_diluent_ampules_returned_unopened': {
             dataElement: 'W9L27HbKRA4',
-            period,
-            categoryOptionCombo: 'HllvX50cXC0',
-            attributeOptionCombo
+            categoryOptionCombo: 'HllvX50cXC0'
         },
         'list/mr_vaccine_usage/no_vials_discarded_due_contamination': {
             dataElement: 'EI3lwOn7BFy',
-            period,
-            categoryOptionCombo: 'YuPxWTajxgw',
-            attributeOptionCombo
+            categoryOptionCombo: 'YuPxWTajxgw'
         },
         'list/mr_vaccine_usage/no_vials_discarded_due_vvm_color_change': {
             dataElement: 'EI3lwOn7BFy',
-            period,
-            categoryOptionCombo: 'w7BoUsyaywi',
-            attributeOptionCombo
+            categoryOptionCombo: 'w7BoUsyaywi'
         }
     }
     let dataValues = list.map(l => {
-        const p = l['list/name_of_post'] || l['list/name_of_post_visited'];
-        const post = String(p).replace(/\\n/g, '').trim().toLowerCase();
-        const currentKeys = _.keys(l).filter(k => k !== 'list/name_of_post' && k !== 'list/name_of_post_visited');
-        const orgUnit = ous[post];
-        if (orgUnit) {
-            const current = currentKeys.map(k => {
-                const value = l[k];
-                let val = keys[k];
-                if (val) {
-                    val = { ...val, orgUnit, value }
-                }
-                return val;
-            });
-            return current
-        } else {
-            return [];
-        }
+        const orgUnit = l['list/name_of_post'];
+        const current = _.keys(keys).map(k => {
+            const value = l[k];
+            let val = keys[k];
+            if (val) {
+                val = { ...val, orgUnit, value, period: l['date_of_results'], attributeOptionCombo: l['day_of_results'] }
+            }
+            return val;
+        });
+        return current
     });
 
 
@@ -299,99 +260,69 @@ export const mapEventData = (list, ous) => {
 }
 
 
-export const opvDataValues = async (list, ous, period, attributeOptionCombo) => {
+export const opvDataValues = async (list) => {
     const baseUrl = getDHIS2Url();
     const keys = {
         'list/target_population': {
             dataElement: 'qUPxGgvjxM0',
-            period,
-            categoryOptionCombo: 'HllvX50cXC0',
-            attributeOptionCombo
+            categoryOptionCombo: 'HllvX50cXC0'
         },
         'list/no_vaccine_vials_issued': {
             dataElement: 'zubJgvPKrm4',
-            period,
-            categoryOptionCombo: 'HllvX50cXC0',
-            attributeOptionCombo
+            categoryOptionCombo: 'HllvX50cXC0'
         },
         'list/chd_registered_months0_59': {
             dataElement: 'gfAMJ2FAwVh',
-            period,
-            categoryOptionCombo: 'HllvX50cXC0',
-            attributeOptionCombo
+            categoryOptionCombo: 'HllvX50cXC0'
         },
         'list/children_immunised/months0_59': {
             dataElement: 'H8oR202q4yu',
-            period,
-            categoryOptionCombo: 'HllvX50cXC0',
-            attributeOptionCombo
+            categoryOptionCombo: 'HllvX50cXC0'
         },
         'list/post_staffing/number_mobilizers': {
             dataElement: 'B5m1aCG4hnB',
-            period,
-            categoryOptionCombo: 'HllvX50cXC0',
-            attributeOptionCombo
+            categoryOptionCombo: 'HllvX50cXC0'
         },
         'list/no_vaccine_vials_returned_unopened': {
             dataElement: 'E3vsHXXvlOv',
-            period,
-            categoryOptionCombo: 'HllvX50cXC0',
-            attributeOptionCombo
+            categoryOptionCombo: 'HllvX50cXC0'
         },
         'list/post_staffing/number_health_workers': {
             dataElement: 'rFeC1QtV1bu',
-            period,
-            categoryOptionCombo: 'HllvX50cXC0',
-            attributeOptionCombo
+            categoryOptionCombo: 'HllvX50cXC0'
         },
         'list/children_immunised/first_ever_zero_dose': {
             dataElement: 'KB4JOwej4Iw',
-            period,
-            categoryOptionCombo: 'HllvX50cXC0',
-            attributeOptionCombo
+            categoryOptionCombo: 'HllvX50cXC0'
         },
         'list/no.vials_discarded_due_to/no_vials_discarded_other_factors': {
             dataElement: 'XkMW8pKRfed',
-            period,
-            categoryOptionCombo: 'E4wrUHavnxw',
-            attributeOptionCombo
+            categoryOptionCombo: 'E4wrUHavnxw'
         },
         'list/no.vials_discarded_due_to/no_vials_discarded_due_contamination': {
             dataElement: 'XkMW8pKRfed',
-            period,
-            categoryOptionCombo: 'YuPxWTajxgw',
-            attributeOptionCombo
+            categoryOptionCombo: 'YuPxWTajxgw'
         },
         'list/no.vials_discarded_due_to/no_vials_discarded_due_vvm_color_change': {
             dataElement: 'XkMW8pKRfed',
-            period,
-            categoryOptionCombo: 'w7BoUsyaywi',
-            attributeOptionCombo
+            categoryOptionCombo: 'w7BoUsyaywi'
         },
         'list/no.vials_discarded_due_to/no_vials_discarded_due_partial_use': {
             dataElement: 'XkMW8pKRfed',
-            period,
-            categoryOptionCombo: 'DwzqPmIFldV',
-            attributeOptionCombo
+            categoryOptionCombo: 'DwzqPmIFldV'
         }
     }
     let dataValues = list.map(l => {
-        const post = String(l['list/name_of_post']).toLowerCase();
-        const currentKeys = _.keys(l).filter(k => k !== 'list/name_of_post');
-        const orgUnit = ous[post];
-        if (orgUnit) {
-            const current = currentKeys.map(k => {
-                const value = l[k];
-                let val = keys[k];
-                if (val) {
-                    val = { ...val, orgUnit, value }
-                }
-                return val;
-            });
-            return current
-        } else {
-            return [];
-        }
+        const orgUnit = l['list/name_of_post'];
+        const current = _.keys(keys).map(k => {
+            const value = l[k];
+            let val = keys[k];
+            if (val) {
+                val = { ...val, orgUnit, value, period: l['date_of_results'], attributeOptionCombo: l['day_of_results'] }
+            }
+            return val;
+        });
+        return current
     });
     dataValues = _.flatten(dataValues).filter(v => {
         return v && v !== null && v !== undefined

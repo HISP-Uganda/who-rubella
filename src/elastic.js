@@ -3,7 +3,7 @@ const axios = require('axios');
 const moment = require('moment');
 const fs = require('fs');
 
-var mr = require('./data/sembabule.json');
+var mr = require('./data/opv.json');
 
 // const filtered = odk.filter(d => {
 //     return String(d.districts).includes('BAULE');
@@ -20,12 +20,10 @@ async function post() {
     for (const district of districts) {
         console.log(`Inserting for ${district}`);
         const data = grouped[district];
-        const responses = data.map(d => {
-            return axios.post('http://localhost:3001', d, { headers: { 'Accept': 'application/json' } });
-        });
-        await Promise.all(responses);
+        await axios.post('http://localhost:3001/bulk_opv', data, { headers: { 'Accept': 'application/json' } });
         console.log(`Finished for ${district}`);
     }
+
 }
 
 post().then(function () {
