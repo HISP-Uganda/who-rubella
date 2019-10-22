@@ -109,9 +109,10 @@ export const routes = (app, io) => {
                     day_of_results
                 }]
             }
-            const body = processedList.flatMap(({ _id, ...doc }) => [{ update: { _index: 'rubella', _id } }, { doc, doc_as_upsert: true }]);
+            // const body = processedList.flatMap(({ _id, ...doc }) => [{ update: { _index: 'rubella', _id } }, { doc, doc_as_upsert: true }]);
+            const body = processedList.flatMap(doc => [{ index: { _index: 'rubella' } }, doc]);
             const { body: bulkResponse } = await client.bulk({ refresh: true, body });
-            // io.emit('data', { message: 'data has come' });
+            io.emit('data', { message: 'data has come' });
             response = bulkResponse;
         }
         // } catch (e) {
@@ -202,10 +203,11 @@ export const routes = (app, io) => {
                         day_of_results
                     }]
                 }
-                const body = processedList.flatMap(({ _id, ...doc }) => [{ update: { _index: 'opv', _id } }, { doc, doc_as_upsert: true }]);
+                // const body = processedList.flatMap(({ _id, ...doc }) => [{ update: { _index: 'opv', _id } }, { doc, doc_as_upsert: true }]);
+                const body = processedList.flatMap(doc => [{ index: { _index: 'rubella' } }, doc]);
                 const { body: bulkResponse } = await client.bulk({ refresh: true, body });
                 response = bulkResponse;
-                // io.emit('data', { message: 'data has come' });
+                io.emit('data', { message: 'data has come' });
             }
         }
         // } catch (e) {
