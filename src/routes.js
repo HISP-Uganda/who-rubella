@@ -7,8 +7,8 @@ import { isArray, flatten, keys, groupBy, fromPairs } from 'lodash';
 const uganda_subcounties = require(`./defaults/uganda_subcounties.json`);
 const uganda_districts = require(`./defaults/uganda_districts.json`);
 const targets = require(`./defaults/targets.json`);
-const client = new Client({ node: 'http://213.136.94.124:9200' });
-// const client = new Client({ node: 'http://localhost:9200' });
+// const client = new Client({ node: 'http://213.136.94.124:9200' });
+const client = new Client({ node: 'http://localhost:9200' });
 
 
 // client.transport.request({
