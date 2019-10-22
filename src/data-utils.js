@@ -540,6 +540,8 @@ export const searchPosts = async (subCounty, posts, parent = '', create = false)
             await postAxios(`${baseUrl}/metadata`, { dataSets });
         }
 
+        console.log(data);
+
         return data;
     } catch (error) {
         console.log('We found something');
