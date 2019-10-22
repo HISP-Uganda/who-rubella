@@ -26,6 +26,10 @@ export const getCOC = (val) => {
         return 'UK2et7FhfIq';
     } else if (search.indexOf('five') !== -1) {
         return 'jRUmp92Y4bE';
+    } else if (search.indexOf('six') !== -1) {
+        return 'ixtIbhR0XdG';
+    } else if (search.indexOf('seven') !== -1) {
+        return 'c7HMdHJ9R1C';
     } else {
         return 'HllvX50cXC0'
     }

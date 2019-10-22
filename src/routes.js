@@ -111,7 +111,7 @@ export const routes = (app, io) => {
             }
             const body = processedList.flatMap(({ _id, ...doc }) => [{ update: { _index: 'rubella', _id } }, { doc, doc_as_upsert: true }]);
             const { body: bulkResponse } = await client.bulk({ refresh: true, body });
-            io.emit('data', { message: 'data has come' });
+            // io.emit('data', { message: 'data has come' });
             response = bulkResponse;
         }
         // } catch (e) {
@@ -123,76 +123,95 @@ export const routes = (app, io) => {
 
     app.post('/opv', async (req, res) => {
         let response = {};
-        try {
-            let { list, date_of_results, day_of_results, _id, _version, ...rest } = req.body;
-            let ous = {};
-            let processedList = [];
-            let { subcounty, districts, region, other_subcountyvisited } = rest;
-            subcounty = subcounty.split('_').join(' ');
-            if (subcounty === 'OTHERS') {
-                subcounty = String(other_subcountyvisited).split('_').join(' ');
-            }
-            districts = districts.split('_').join(' ');
-            region = region.split('_').join(' ');
-            const district = await pullOrganisationUnits(3, districts);
-            day_of_results = getCOC(day_of_results);
-            if (district && district.length === 1) {
-                districts = district[0].id
-                region = district[0].parent.id;
-                const subCounties = district[0].children;
-                const searchedSubCounty = subCounties.filter(s => {
-                    return String(s.name).toLowerCase().includes(String(subcounty).toLowerCase());
-                });
-                if (searchedSubCounty.length === 1) {
-                    const subCounty = searchedSubCounty[0]
-                    subcounty = subCounty.id;
-                    const posts = list.map(l => {
-                        const p = l['list/name_of_post'] || l['list/name_of_post_visited']
-                        const post = String(p).replace(/\\n/g, '').trim();
-                        return post;
-                    });
-
-                    ous = await searchPosts(subCounty, posts);
-                    await opvDataValues(list, ous, moment(date_of_results).format('YYYYMMDD'), day_of_results);
-
-                    for (const l of list) {
-
-                        const partialUse = parseInt(l['list/no.vials_discarded_due_to/no_vials_discarded_due_partial_use'], 10);
-                        const contamination = parseInt(l['list/no.vials_discarded_due_to/no_vials_discarded_due_contamination'], 10);
-                        const otheFactors = parseInt(l['list/no.vials_discarded_due_to/no_vials_discarded_other_factors'], 10);
-                        const colorChange = parseInt(l['list/no.vials_discarded_due_to/no_vials_discarded_due_vvm_color_change'], 10);
-
-                        const original = l['list/name_of_post'];
-                        const post = String(original).split('_').join(' ').toLowerCase();
-                        const discarded = partialUse + contamination + otheFactors + colorChange;
-
-                        processedList = [...processedList, {
-                            ...l,
-                            ['list/no.vials_discarded']: isNaN(parseInt(discarded, 10)) ? 0 : discarded,
-                            ['list/name_of_post']: ous[post] ? ous[post] : original,
-
-                            ['list/no.vials_discarded_due_to/no_vials_discarded_due_partial_use']: isNaN(partialUse) ? 0 : partialUse,
-                            ['list/no.vials_discarded_due_to/no_vials_discarded_due_contamination']: isNaN(contamination) ? 0 : contamination,
-                            ['list/no.vials_discarded_due_to/no_vials_discarded_other_factors']: isNaN(otheFactors) ? 0 : otheFactors,
-                            ['list/no.vials_discarded_due_to/no_vials_discarded_due_vvm_color_change']: isNaN(colorChange) ? 0 : colorChange,
-                            ...rest,
-                            subcounty,
-                            districts,
-                            region,
-                            date_of_results,
-                            day_of_results
-                        }]
-                    }
-                    const body = processedList.flatMap(doc => [{ index: { _index: 'opv-polio' } }, doc]);
-                    const { body: bulkResponse } = await client.bulk({ refresh: true, body });
-                    response = bulkResponse;
-                    io.emit('data', { message: 'data has come' });
-                }
-            }
-        } catch (e) {
-            winston.log('error', e.message);
-            response = { message: e.message }
+        // try {
+        let { list, date_of_results, day_of_results, _version, ...rest } = req.body;
+        let ous = {};
+        let processedList = [];
+        let { subcounty, districts, region, other_subcountyvisited } = rest;
+        subcounty = subcounty.split('_').join(' ');
+        if (subcounty === 'OTHERS') {
+            subcounty = String(other_subcountyvisited).split('_').join(' ');
         }
+        districts = districts.split('_').join(' ');
+        region = region.split('_').join(' ');
+        const district = await pullOrganisationUnits(3, districts);
+        day_of_results = getCOC(day_of_results);
+        if (district && district.length === 1) {
+            districts = district[0].id
+            region = district[0].parent.id;
+            const subCounties = district[0].children;
+            const searchedSubCounty = subCounties.filter(s => {
+                return String(s.name).toLowerCase().includes(String(subcounty).toLowerCase());
+            });
+            if (searchedSubCounty.length === 1) {
+                const subCounty = searchedSubCounty[0]
+                subcounty = subCounty.id;
+                const posts = list.map(l => {
+                    const p = l['list/name_of_post'] || l['list/name_of_post_visited']
+                    const post = String(p).replace(/\\n/g, '').trim();
+                    return post;
+                });
+
+                ous = await searchPosts(subCounty, posts);
+                await opvDataValues(list, ous, moment(date_of_results).format('YYYYMMDD'), day_of_results);
+
+                for (const l of list) {
+
+                    const partialUse = parseInt(l['list/no.vials_discarded_due_to/no_vials_discarded_due_partial_use'], 10);
+                    const contamination = parseInt(l['list/no.vials_discarded_due_to/no_vials_discarded_due_contamination'], 10);
+                    const otheFactors = parseInt(l['list/no.vials_discarded_due_to/no_vials_discarded_other_factors'], 10);
+                    const colorChange = parseInt(l['list/no.vials_discarded_due_to/no_vials_discarded_due_vvm_color_change'], 10);
+
+
+                    const target_population = parseInt(l["list/target_population"], 10)
+                    const no_vaccine_vials_issued = parseInt(l["list/no_vaccine_vials_issued"], 10)
+                    const chd_registered_months0_59 = parseInt(l["list/chd_registered_months0_59"], 10)
+                    const months0_59 = parseInt(l["list/children_immunised/months0_59"], 10)
+                    const number_mobilizers = parseInt(l["list/post_staffing/number_mobilizers"], 10)
+                    const no_vaccine_vials_returned_unopened = parseInt(l["list/no_vaccine_vials_returned_unopened"], 10)
+                    const number_health_workers = parseInt(l["list/post_staffing/number_health_workers"], 10)
+                    const first_ever_zero_dose = parseInt(l["list/children_immunised/first_ever_zero_dose"], 10)
+
+                    const original = l['list/name_of_post'];
+                    const post = String(original).split('_').join(' ').toLowerCase();
+                    const discarded = partialUse + contamination + otheFactors + colorChange;
+
+                    processedList = [...processedList, {
+                        ...l,
+                        ['list/no.vials_discarded']: isNaN(parseInt(discarded, 10)) ? 0 : discarded,
+                        ['list/name_of_post']: ous[post] ? ous[post] : original,
+
+                        ["list/target_population"]: target_population,
+                        ["list/no_vaccine_vials_issued"]: no_vaccine_vials_issued,
+                        ["list/chd_registered_months0_59"]: chd_registered_months0_59,
+                        ["list/children_immunised/months0_59"]: months0_59,
+                        ["list/post_staffing/number_mobilizers"]: number_mobilizers,
+                        ["list/no_vaccine_vials_returned_unopened"]: no_vaccine_vials_returned_unopened,
+                        ["list/post_staffing/number_health_workers"]: number_health_workers,
+                        ["list/children_immunised/first_ever_zero_dose"]: first_ever_zero_dose,
+
+                        ['list/no.vials_discarded_due_to/no_vials_discarded_due_partial_use']: isNaN(partialUse) ? 0 : partialUse,
+                        ['list/no.vials_discarded_due_to/no_vials_discarded_due_contamination']: isNaN(contamination) ? 0 : contamination,
+                        ['list/no.vials_discarded_due_to/no_vials_discarded_other_factors']: isNaN(otheFactors) ? 0 : otheFactors,
+                        ['list/no.vials_discarded_due_to/no_vials_discarded_due_vvm_color_change']: isNaN(colorChange) ? 0 : colorChange,
+                        ...rest,
+                        subcounty,
+                        districts,
+                        region,
+                        date_of_results,
+                        day_of_results
+                    }]
+                }
+                const body = processedList.flatMap(({ _id, ...doc }) => [{ update: { _index: 'opv', _id } }, { doc, doc_as_upsert: true }]);
+                const { body: bulkResponse } = await client.bulk({ refresh: true, body });
+                response = bulkResponse;
+                // io.emit('data', { message: 'data has come' });
+            }
+        }
+        // } catch (e) {
+        //     winston.log('error', e.message);
+        //     response = { message: e.message }
+        // }
         return res.status(201).send(response);
     });
 
@@ -432,7 +451,7 @@ export const routes = (app, io) => {
         }
         try {
             const { body } = await client.search({
-                "index": 'opv-polio',
+                "index": 'opv',
                 body: final
             });
             bod = body;
