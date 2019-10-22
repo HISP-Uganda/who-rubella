@@ -204,7 +204,7 @@ export const routes = (app, io) => {
                     }]
                 }
                 // const body = processedList.flatMap(({ _id, ...doc }) => [{ update: { _index: 'opv', _id } }, { doc, doc_as_upsert: true }]);
-                const body = processedList.flatMap(doc => [{ index: { _index: 'rubella' } }, doc]);
+                const body = processedList.flatMap(doc => [{ index: { _index: 'opv-polio' } }, doc]);
                 const { body: bulkResponse } = await client.bulk({ refresh: true, body });
                 response = bulkResponse;
                 io.emit('data', { message: 'data has come' });
