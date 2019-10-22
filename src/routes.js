@@ -451,7 +451,7 @@ export const routes = (app, io) => {
         }
         try {
             const { body } = await client.search({
-                "index": 'opv',
+                "index": 'opv-polio',
                 body: final
             });
             bod = body;
