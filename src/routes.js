@@ -137,16 +137,16 @@ export const routes = (app, io) => {
             const allData = flatten(processed);
 
             if (newSubCounties.length > 0) {
-                const response = await postAxios(`${baseUrl}/metadata`, { organisationUnits: newSubCounties });
+                await postAxios(`${baseUrl}/metadata`, { organisationUnits: newSubCounties });
             }
             if (newPosts.length > 0) {
-                const response = await postAxios(`${baseUrl}/metadata`, { organisationUnits: newPosts });
+                await postAxios(`${baseUrl}/metadata`, { organisationUnits: newPosts });
             }
             const finalOus = unionBy(organisationUnits, allPosts, 'id');
             const finalDataSets = dataSets.map(dataSet => {
                 return { ...dataSet, organisationUnits: finalOus }
             });
-            await postAxios(`${baseUrl}/metadata`, { dataSets });
+            await postAxios(`${baseUrl}/metadata`, { finalDataSets });
             await mrDataValues(allData);
             const body = allData.flatMap(doc => [{ index: { _index: 'rubella' } }, doc]);
             const { body: bulkResponse } = await client.bulk({ refresh: true, body });
@@ -277,7 +277,7 @@ export const routes = (app, io) => {
             const finalDataSets = dataSets.map(dataSet => {
                 return { ...dataSet, organisationUnits: finalOus }
             });
-            await postAxios(`${baseUrl}/metadata`, { dataSets });
+            await postAxios(`${baseUrl}/metadata`, { finalDataSets });
             await mrDataValues(allData);
             const body = allData.flatMap(doc => [{ index: { _index: 'opv' } }, doc]);
             const { body: bulkResponse } = await client.bulk({ refresh: true, body });
