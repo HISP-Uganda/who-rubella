@@ -43,8 +43,8 @@ export const routes = (app, io) => {
         let newPosts = [];
         let allPosts = [];
 
-        const districts = payload[0].districts;
-        const district = await pullOrganisationUnits(3, districts);
+        const one = String(payload[0].districts).split('_').join(' ').replace(/\\n/g, '').trim();
+        const district = await pullOrganisationUnits(3, one);
 
         if (district && district.length === 1) {
 
@@ -152,6 +152,8 @@ export const routes = (app, io) => {
             const { body: bulkResponse } = await client.bulk({ refresh: true, body });
             response = bulkResponse
             io.emit('data', { message: 'data has come' });
+        } else {
+            console.log(district)
         }
         return res.status(201).send(response);
     });
@@ -168,8 +170,8 @@ export const routes = (app, io) => {
         let newPosts = [];
         let allPosts = [];
 
-        const districts = payload[0].districts;
-        const district = await pullOrganisationUnits(3, districts);
+        const one = String(payload[0].districts).split('_').join(' ').replace(/\\n/g, '').trim();
+        const district = await pullOrganisationUnits(3, one);
 
         if (district && district.length === 1) {
 
@@ -283,6 +285,8 @@ export const routes = (app, io) => {
             const { body: bulkResponse } = await client.bulk({ refresh: true, body });
             response = bulkResponse
             io.emit('data', { message: 'data has come' });
+        } else {
+            console.log(district)
         }
         return res.status(201).send(response);
     });

@@ -398,7 +398,7 @@ export const pullOrganisationUnits = async (level, name) => {
                 level,
                 fields: 'id,name,code,parent[id,name,code],children[id,name,code,children[id,name,code]]',
                 paging: false,
-                filter: `name:ilike:${name}`
+                filter: `name:eq:${name}`
             });
             return organisationUnits
         }
