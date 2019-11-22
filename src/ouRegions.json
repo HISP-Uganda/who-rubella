@@ -1,0 +1,123 @@
+{
+  "organisationUnits": [{
+    "name": "ARUA",
+    "id": "MqLB5rp5XXR",
+    "shortName": "ARUA",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "akV6429SUqu"
+    }
+  }, {
+    "name": "GREATER_KAMPALA",
+    "id": "HhZ1TT0ta2l",
+    "shortName": "GREATER_KAMPALA",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "akV6429SUqu"
+    }
+  }, {
+    "name": "GULU",
+    "id": "EyiZAsLjyHI",
+    "shortName": "GULU",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "akV6429SUqu"
+    }
+  }, {
+    "name": "HOIMA",
+    "id": "FUl7h5IqdbG",
+    "shortName": "HOIMA",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "akV6429SUqu"
+    }
+  }, {
+    "name": "JINJA",
+    "id": "NvDbXS64yG5",
+    "shortName": "JINJA",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "akV6429SUqu"
+    }
+  }, {
+    "name": "KABALE",
+    "id": "EjdiWCAWzC3",
+    "shortName": "KABALE",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "akV6429SUqu"
+    }
+  }, {
+    "name": "KABAROLE",
+    "id": "vI2uRN5B79D",
+    "shortName": "KABAROLE",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "akV6429SUqu"
+    }
+  }, {
+    "name": "LIRA",
+    "id": "fR7AfeBDfir",
+    "shortName": "LIRA",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "akV6429SUqu"
+    }
+  }, {
+    "name": "MASAKA",
+    "id": "pzErEgx5O1u",
+    "shortName": "MASAKA",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "akV6429SUqu"
+    }
+  }, {
+    "name": "MBALE",
+    "id": "oymdXVI2JYB",
+    "shortName": "MBALE",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "akV6429SUqu"
+    }
+  }, {
+    "name": "MBARARA",
+    "id": "vmOucp1oIW4",
+    "shortName": "MBARARA",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "akV6429SUqu"
+    }
+  }, {
+    "name": "MoH MR Campaign",
+    "id": "J29HRaXqaON",
+    "shortName": "MoH MR Campaign",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "akV6429SUqu"
+    }
+  }, {
+    "name": "MOROTO",
+    "id": "AYWnTEjPfvf",
+    "shortName": "MOROTO",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "akV6429SUqu"
+    }
+  }, {
+    "name": "MUBENDE",
+    "id": "qG2n3sAFyF5",
+    "shortName": "MUBENDE",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "akV6429SUqu"
+    }
+  }, {
+    "name": "SOROTI",
+    "id": "mKqz2QKlDuP",
+    "shortName": "SOROTI",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "akV6429SUqu"
+    }
+  }]
+}

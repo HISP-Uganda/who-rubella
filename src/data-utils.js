@@ -4,8 +4,6 @@ import dotenv from "dotenv";
 import winston from './winston';
 import { generateUid } from './uid';
 import moment from 'moment';
-import { createObjectCsvWriter } from 'csv-writer';
-
 const URL = require('url').URL;
 
 const result = dotenv.config();
@@ -134,7 +132,8 @@ export const mrDataValues = async (list) => {
     return response;
 }
 
-export const mapEventData = (list, ous) => {
+export const mapEventData = async (list) => {
+    const baseUrl = getDHIS2Url();
     const mapper = {
         "_id": "",
         "gps1": "",
@@ -246,17 +245,54 @@ export const mapEventData = (list, ous) => {
         "adequate_number_reconstitution_syringes/number_reconstitution_syringes_available": "K6ZXImOVuQu"
     }
 
-    const data = _.keys(list).map(k => {
-        const dataElement = mapper[k];
 
-        if (dataElement !== "") {
-            return { dataElement, value: list[k] }
+    const events = list.map(l => {
+        const dataValues = _.keys(mapper).map(k => {
+            let value = l[k];
+            let dataElement = mapper[k];
+            if (value && dataElement !== '') {
+                if (value === 'yes') {
+                    value = true;
+                } else if (value === 'no') {
+                    value = false;
+                }
+                return { dataElement, value }
+            }
+            return null;
+        }).filter(v => v !== null);
+
+        const orgUnit = l['vaccination_post_location'];
+        const eventDate = l['date_campaign'];
+
+        const geo = l['_geolocation'];
+
+
+
+        let event = {
+            program: "G4ZiuRB25gY",
+            orgUnit,
+            eventDate,
+            status: "COMPLETED",
+            completedDate: eventDate,
+            dataValues
         }
-        return null;
-    }).filter(v => v !== null);
-    console.log(data);
 
-    return data;
+        if (geo) {
+            event = {
+                ...event, coordinate: {
+                    latitude: geo[0],
+                    longitude: geo[1]
+                }
+            }
+        }
+        return event;
+    });
+
+    if (events.length > 0) {
+        const response = await postAxios(`${baseUrl}/events`, { events });
+
+        console.log(response);
+    }
 }
 
 
@@ -363,8 +399,19 @@ export const createDHIS2Auth = () => {
     return { username, password }
 };
 
+export const createManagementAuth = () => {
+    const username = process.env.MANAGEMENT_USERNAME;
+    const password = process.env.MANAGEMENT_PASSWORD;
+    return { username, password }
+};
+
 export const getDHIS2Url = () => {
     const uri = process.env.DHIS2_URL;
+    return getDHIS2Url1(uri);
+};
+
+export const getManagementUrl = () => {
+    const uri = process.env.MANAGEMENT_URL;
     return getDHIS2Url1(uri);
 };
 
@@ -388,6 +435,13 @@ export const getAxios = async (url, params = {}) => {
     })
 };
 
+export const getManagementAxios = async (url, params = {}) => {
+    return axios.get(url, {
+        params,
+        auth: createManagementAuth()
+    })
+};
+
 export const pullOrganisationUnits = async (level, name) => {
 
     try {
@@ -396,7 +450,7 @@ export const pullOrganisationUnits = async (level, name) => {
             const url = baseUrl + '/organisationUnits.json';
             const { data: { organisationUnits } } = await getAxios(url, {
                 level,
-                fields: 'id,name,code,parent[id,name,code],children[id,name,code,children[id,name,code]]',
+                fields: 'id,name,code,parent[id,name,code],children[id,name,code,parent[id,name],children[id,name,code,parent[id,name]]]',
                 paging: false,
                 filter: `name:eq:${name}`
             });

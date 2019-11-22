@@ -1,0 +1,1155 @@
+{
+  "organisationUnits": [{
+      "name": "ARUA District (Form 4)",
+      "id": "VQYByQMQb1r",
+      "shortName": "ARUA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "oAiCraliyqt"
+      }
+    },
+    {
+      "name": "ADJUMANI District (Form 4)",
+      "id": "UGTDkCNcF2y",
+      "shortName": "ADJUMANI District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "oAiCraliyqt"
+      }
+    },
+    {
+      "name": "PAKWACH District (Form 4)",
+      "id": "tnaIS0E6sqZ",
+      "shortName": "PAKWACH District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "oAiCraliyqt"
+      }
+    },
+    {
+      "name": "ZOMBO District (Form 4)",
+      "id": "thtuKs2iFbk",
+      "shortName": "ZOMBO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "oAiCraliyqt"
+      }
+    },
+    {
+      "name": "KOBOKO District (Form 4)",
+      "id": "aC30DJmXApx",
+      "shortName": "KOBOKO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "oAiCraliyqt"
+      }
+    },
+    {
+      "name": "YUMBE District (Form 4)",
+      "id": "fu7Nj9o9eox",
+      "shortName": "YUMBE District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "oAiCraliyqt"
+      }
+    },
+    {
+      "name": "NEBBI District (Form 4)",
+      "id": "JjpktDmw1zS",
+      "shortName": "NEBBI District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "oAiCraliyqt"
+      }
+    },
+    {
+      "name": "MARACHA District (Form 4)",
+      "id": "E55kjjcnLaG",
+      "shortName": "MARACHA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "oAiCraliyqt"
+      }
+    },
+    {
+      "name": "MOYO District (Form 4)",
+      "id": "ja8J2tMa73T",
+      "shortName": "MOYO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "oAiCraliyqt"
+      }
+    },
+    {
+      "name": "BUIKWE District (Form 4)",
+      "id": "qY6zTJp6fRt",
+      "shortName": "BUIKWE District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "RSgwsPSyuEV"
+      }
+    },
+    {
+      "name": "KAMPALA District (Form 4)",
+      "id": "i8jbmlteTPT",
+      "shortName": "KAMPALA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "RSgwsPSyuEV"
+      }
+    },
+    {
+      "name": "KAYUNGA District (Form 4)",
+      "id": "vIDqsA8BVw0",
+      "shortName": "KAYUNGA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "RSgwsPSyuEV"
+      }
+    },
+    {
+      "name": "MPIGI District (Form 4)",
+      "id": "xQnD3pfQzeS",
+      "shortName": "MPIGI District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "RSgwsPSyuEV"
+      }
+    },
+    {
+      "name": "BUVUMA District (Form 4)",
+      "id": "S1dOUDSD76j",
+      "shortName": "BUVUMA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "RSgwsPSyuEV"
+      }
+    },
+    {
+      "name": "GOMBA District (Form 4)",
+      "id": "DkS2nABZMVm",
+      "shortName": "GOMBA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "RSgwsPSyuEV"
+      }
+    },
+    {
+      "name": "WAKISO District (Form 4)",
+      "id": "P5uK9UMKT3F",
+      "shortName": "WAKISO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "RSgwsPSyuEV"
+      }
+    },
+    {
+      "name": "BUTAMBALA District (Form 4)",
+      "id": "ahscLbZpgzZ",
+      "shortName": "BUTAMBALA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "RSgwsPSyuEV"
+      }
+    },
+    {
+      "name": "MUKONO District (Form 4)",
+      "id": "unXhmJRslQt",
+      "shortName": "MUKONO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "RSgwsPSyuEV"
+      }
+    },
+    {
+      "name": "NWOYA District (Form 4)",
+      "id": "Uv9xyPL2whL",
+      "shortName": "NWOYA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "SvKKoLwaTA9"
+      }
+    },
+    {
+      "name": "GULU District (Form 4)",
+      "id": "hIMhZ18vdeV",
+      "shortName": "GULU District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "SvKKoLwaTA9"
+      }
+    },
+    {
+      "name": "KITGUM District (Form 4)",
+      "id": "E4RQB3Ssocg",
+      "shortName": "KITGUM District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "SvKKoLwaTA9"
+      }
+    },
+    {
+      "name": "LAMWO District (Form 4)",
+      "id": "VM9IXO7lWsY",
+      "shortName": "LAMWO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "SvKKoLwaTA9"
+      }
+    },
+    {
+      "name": "AMURU District (Form 4)",
+      "id": "Uz4Ektliczr",
+      "shortName": "AMURU District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "SvKKoLwaTA9"
+      }
+    },
+    {
+      "name": "PADER District (Form 4)",
+      "id": "nM3eC48Qwf3",
+      "shortName": "PADER District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "SvKKoLwaTA9"
+      }
+    },
+    {
+      "name": "AGAGO District (Form 4)",
+      "id": "xk09LmqUaPg",
+      "shortName": "AGAGO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "SvKKoLwaTA9"
+      }
+    },
+    {
+      "name": "OMORO District (Form 4)",
+      "id": "rpHbgHlc2c5",
+      "shortName": "OMORO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "SvKKoLwaTA9"
+      }
+    },
+    {
+      "name": "MASINDI District (Form 4)",
+      "id": "JwxmJyuJe3F",
+      "shortName": "MASINDI District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "FIWTHGN28ne"
+      }
+    },
+    {
+      "name": "HOIMA District (Form 4)",
+      "id": "Q7QgtJ6uoAX",
+      "shortName": "HOIMA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "FIWTHGN28ne"
+      }
+    },
+    {
+      "name": "KIKUUBE District (Form 4)",
+      "id": "qgVOR8Tljz4",
+      "shortName": "KIKUUBE District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "FIWTHGN28ne"
+      }
+    },
+    {
+      "name": "BULIISA District (Form 4)",
+      "id": "RXZtDFOnt8u",
+      "shortName": "BULIISA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "FIWTHGN28ne"
+      }
+    },
+    {
+      "name": "KAGADI District (Form 4)",
+      "id": "kfLCmHHN7cJ",
+      "shortName": "KAGADI District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "FIWTHGN28ne"
+      }
+    },
+    {
+      "name": "KAKUMIRO District (Form 4)",
+      "id": "CuvGPnNS26I",
+      "shortName": "KAKUMIRO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "FIWTHGN28ne"
+      }
+    },
+    {
+      "name": "KIRYANDONGO District (Form 4)",
+      "id": "qHdu7j7gM4H",
+      "shortName": "KIRYANDONGO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "FIWTHGN28ne"
+      }
+    },
+    {
+      "name": "KIBAALE District (Form 4)",
+      "id": "FuMpm6qwZqD",
+      "shortName": "KIBAALE District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "FIWTHGN28ne"
+      }
+    },
+    {
+      "name": "BUGWERI District (Form 4)",
+      "id": "PhqhYBnSD4i",
+      "shortName": "BUGWERI District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "wNJFvl31yJn"
+      }
+    },
+    {
+      "name": "KALIRO District (Form 4)",
+      "id": "hF0pabxNBGD",
+      "shortName": "KALIRO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "wNJFvl31yJn"
+      }
+    },
+    {
+      "name": "NAMUTUMBA District (Form 4)",
+      "id": "mXgrFAfRWsP",
+      "shortName": "NAMUTUMBA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "wNJFvl31yJn"
+      }
+    },
+    {
+      "name": "BUYENDE District (Form 4)",
+      "id": "RFrcOmsqdVY",
+      "shortName": "BUYENDE District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "wNJFvl31yJn"
+      }
+    },
+    {
+      "name": "NAMAYINGO District (Form 4)",
+      "id": "isPIh8LdKNp",
+      "shortName": "NAMAYINGO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "wNJFvl31yJn"
+      }
+    },
+    {
+      "name": "JINJA District (Form 4)",
+      "id": "fYkOFX4rE0d",
+      "shortName": "JINJA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "wNJFvl31yJn"
+      }
+    },
+    {
+      "name": "IGANGA District (Form 4)",
+      "id": "N2fvPoq2AlP",
+      "shortName": "IGANGA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "wNJFvl31yJn"
+      }
+    },
+    {
+      "name": "MAYUGE District (Form 4)",
+      "id": "IE49qdmHyhW",
+      "shortName": "MAYUGE District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "wNJFvl31yJn"
+      }
+    },
+    {
+      "name": "KAMULI District (Form 4)",
+      "id": "nOT6fNkG8EP",
+      "shortName": "KAMULI District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "wNJFvl31yJn"
+      }
+    },
+    {
+      "name": "LUUKA District (Form 4)",
+      "id": "tPdpJ0PTgpL",
+      "shortName": "LUUKA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "wNJFvl31yJn"
+      }
+    },
+    {
+      "name": "BUGIRI District (Form 4)",
+      "id": "YXOf6RxfCHX",
+      "shortName": "BUGIRI District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "wNJFvl31yJn"
+      }
+    },
+    {
+      "name": "RUKUNGIRI District (Form 4)",
+      "id": "HgevlTFoi61",
+      "shortName": "RUKUNGIRI District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "v9YRKXLBLpj"
+      }
+    },
+    {
+      "name": "KABALE District (Form 4)",
+      "id": "cWXZb3pCNlC",
+      "shortName": "KABALE District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "v9YRKXLBLpj"
+      }
+    },
+    {
+      "name": "KISORO District (Form 4)",
+      "id": "QC4BGhHDqzD",
+      "shortName": "KISORO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "v9YRKXLBLpj"
+      }
+    },
+    {
+      "name": "RUKIGA District (Form 4)",
+      "id": "TpDzZC4krOY",
+      "shortName": "RUKIGA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "v9YRKXLBLpj"
+      }
+    },
+    {
+      "name": "KANUNGU District (Form 4)",
+      "id": "IvaB3hizjKY",
+      "shortName": "KANUNGU District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "v9YRKXLBLpj"
+      }
+    },
+    {
+      "name": "RUBANDA District (Form 4)",
+      "id": "l1xnN2zWj5f",
+      "shortName": "RUBANDA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "v9YRKXLBLpj"
+      }
+    },
+    {
+      "name": "KABAROLE District (Form 4)",
+      "id": "qV7rlF3Zcu9",
+      "shortName": "KABAROLE District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "d2uRkRLz4NR"
+      }
+    },
+    {
+      "name": "KYEGEGWA District (Form 4)",
+      "id": "ezu2qFtbuB7",
+      "shortName": "KYEGEGWA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "d2uRkRLz4NR"
+      }
+    },
+    {
+      "name": "BUNYANGABU District (Form 4)",
+      "id": "JMe8qqGNbQn",
+      "shortName": "BUNYANGABU District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "d2uRkRLz4NR"
+      }
+    },
+    {
+      "name": "KYENJOJO District (Form 4)",
+      "id": "w012RiU4vt5",
+      "shortName": "KYENJOJO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "d2uRkRLz4NR"
+      }
+    },
+    {
+      "name": "KASESE District (Form 4)",
+      "id": "cE77nqcQF42",
+      "shortName": "KASESE District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "d2uRkRLz4NR"
+      }
+    },
+    {
+      "name": "KAMWENGE District (Form 4)",
+      "id": "SZ5JdSNwcNY",
+      "shortName": "KAMWENGE District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "d2uRkRLz4NR"
+      }
+    },
+    {
+      "name": "BUNDIBUGYO District (Form 4)",
+      "id": "sJVY4gqU0w8",
+      "shortName": "BUNDIBUGYO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "d2uRkRLz4NR"
+      }
+    },
+    {
+      "name": "NTOROKO District (Form 4)",
+      "id": "Cb2stoBilG1",
+      "shortName": "NTOROKO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "d2uRkRLz4NR"
+      }
+    },
+    {
+      "name": "ALEBTONG District (Form 4)",
+      "id": "dxGFW0VKqKv",
+      "shortName": "ALEBTONG District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "iVVZ3P1OCox"
+      }
+    },
+    {
+      "name": "APAC District (Form 4)",
+      "id": "kV3CLwo2rVa",
+      "shortName": "APAC District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "iVVZ3P1OCox"
+      }
+    },
+    {
+      "name": "KOLE District (Form 4)",
+      "id": "Ib39J5uu71v",
+      "shortName": "KOLE District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "iVVZ3P1OCox"
+      }
+    },
+    {
+      "name": "OYAM District (Form 4)",
+      "id": "RZvpT17Al3q",
+      "shortName": "OYAM District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "iVVZ3P1OCox"
+      }
+    },
+    {
+      "name": "OTUKE District (Form 4)",
+      "id": "iMLU3qP8sRT",
+      "shortName": "OTUKE District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "iVVZ3P1OCox"
+      }
+    },
+    {
+      "name": "KWANIA District (Form 4)",
+      "id": "iRHf2xlaKKh",
+      "shortName": "KWANIA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "iVVZ3P1OCox"
+      }
+    },
+    {
+      "name": "LIRA District (Form 4)",
+      "id": "VHOS1zsPydf",
+      "shortName": "LIRA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "iVVZ3P1OCox"
+      }
+    },
+    {
+      "name": "AMOLATAR District (Form 4)",
+      "id": "UkOdSQaZ4yQ",
+      "shortName": "AMOLATAR District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "iVVZ3P1OCox"
+      }
+    },
+    {
+      "name": "DOKOLO District (Form 4)",
+      "id": "rwYHk4NuUbK",
+      "shortName": "DOKOLO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "iVVZ3P1OCox"
+      }
+    },
+    {
+      "name": "KYOTERA District (Form 4)",
+      "id": "TBBYF0QN7P3",
+      "shortName": "KYOTERA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "lhodayPSxLz"
+      }
+    },
+    {
+      "name": "SEMBABULE District (Form 4)",
+      "id": "kQZaeYa7KL0",
+      "shortName": "SEMBABULE District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "lhodayPSxLz"
+      }
+    },
+    {
+      "name": "BUKOMANSIMBI District (Form 4)",
+      "id": "OiCDL1Sz17n",
+      "shortName": "BUKOMANSIMBI District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "lhodayPSxLz"
+      }
+    },
+    {
+      "name": "KALUNGU District (Form 4)",
+      "id": "NKkmxmYbAOW",
+      "shortName": "KALUNGU District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "lhodayPSxLz"
+      }
+    },
+    {
+      "name": "KALANGALA District (Form 4)",
+      "id": "jDBlTpSBit3",
+      "shortName": "KALANGALA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "lhodayPSxLz"
+      }
+    },
+    {
+      "name": "LYANTONDE District (Form 4)",
+      "id": "Z79Ce9iwxNX",
+      "shortName": "LYANTONDE District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "lhodayPSxLz"
+      }
+    },
+    {
+      "name": "MASAKA District (Form 4)",
+      "id": "q8KTu7UmGku",
+      "shortName": "MASAKA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "lhodayPSxLz"
+      }
+    },
+    {
+      "name": "LWENGO District (Form 4)",
+      "id": "E55Hlt2jFzr",
+      "shortName": "LWENGO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "lhodayPSxLz"
+      }
+    },
+    {
+      "name": "RAKAI District (Form 4)",
+      "id": "CHKiytgxAPr",
+      "shortName": "RAKAI District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "lhodayPSxLz"
+      }
+    },
+    {
+      "name": "MANAFWA District (Form 4)",
+      "id": "cRkxJnfnAka",
+      "shortName": "MANAFWA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "fra2C8WL6Cb"
+      }
+    },
+    {
+      "name": "PALLISA District (Form 4)",
+      "id": "WLjttQjOqoA",
+      "shortName": "PALLISA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "fra2C8WL6Cb"
+      }
+    },
+    {
+      "name": "BUDAKA District (Form 4)",
+      "id": "cdGK5s3o9w9",
+      "shortName": "BUDAKA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "fra2C8WL6Cb"
+      }
+    },
+    {
+      "name": "BUDUDA District (Form 4)",
+      "id": "jI14TnWHmWe",
+      "shortName": "BUDUDA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "fra2C8WL6Cb"
+      }
+    },
+    {
+      "name": "MBALE District (Form 4)",
+      "id": "Cm2ofsCf17Q",
+      "shortName": "MBALE District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "fra2C8WL6Cb"
+      }
+    },
+    {
+      "name": "SIRONKO District (Form 4)",
+      "id": "Hv4KRPkkTZV",
+      "shortName": "SIRONKO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "fra2C8WL6Cb"
+      }
+    },
+    {
+      "name": "BULAMBULI District (Form 4)",
+      "id": "yGOySTdjZks",
+      "shortName": "BULAMBULI District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "fra2C8WL6Cb"
+      }
+    },
+    {
+      "name": "TORORO District (Form 4)",
+      "id": "NC8Ugn0Mzrw",
+      "shortName": "TORORO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "fra2C8WL6Cb"
+      }
+    },
+    {
+      "name": "KWEEN District (Form 4)",
+      "id": "dlJyvjqg1Gw",
+      "shortName": "KWEEN District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "fra2C8WL6Cb"
+      }
+    },
+    {
+      "name": "BUTALEJA District (Form 4)",
+      "id": "Iln5mqGQ813",
+      "shortName": "BUTALEJA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "fra2C8WL6Cb"
+      }
+    },
+    {
+      "name": "KAPCHORWA District (Form 4)",
+      "id": "YRb58AshW9j",
+      "shortName": "KAPCHORWA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "fra2C8WL6Cb"
+      }
+    },
+    {
+      "name": "BUSIA District (Form 4)",
+      "id": "GZGCTSZ4vH2",
+      "shortName": "BUSIA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "fra2C8WL6Cb"
+      }
+    },
+    {
+      "name": "KIBUKU District (Form 4)",
+      "id": "KE6M1ibMEpQ",
+      "shortName": "KIBUKU District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "fra2C8WL6Cb"
+      }
+    },
+    {
+      "name": "BUKWO District (Form 4)",
+      "id": "gmuDi8UNMPg",
+      "shortName": "BUKWO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "fra2C8WL6Cb"
+      }
+    },
+    {
+      "name": "BUTEBO District (Form 4)",
+      "id": "GrFYyxUEyEI",
+      "shortName": "BUTEBO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "fra2C8WL6Cb"
+      }
+    },
+    {
+      "name": "NAMISINDWA District (Form 4)",
+      "id": "qc7qQ8HHjNL",
+      "shortName": "NAMISINDWA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "fra2C8WL6Cb"
+      }
+    },
+    {
+      "name": "MITOOMA District (Form 4)",
+      "id": "PHYjYEXlWef",
+      "shortName": "MITOOMA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "JObex7lJZn9"
+      }
+    },
+    {
+      "name": "ISINGIRO District (Form 4)",
+      "id": "sR3x49x1mps",
+      "shortName": "ISINGIRO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "JObex7lJZn9"
+      }
+    },
+    {
+      "name": "SHEEMA District (Form 4)",
+      "id": "lp6P3u88FfQ",
+      "shortName": "SHEEMA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "JObex7lJZn9"
+      }
+    },
+    {
+      "name": "MBARARA District (Form 4)",
+      "id": "RoHtkwutyED",
+      "shortName": "MBARARA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "JObex7lJZn9"
+      }
+    },
+    {
+      "name": "IBANDA District (Form 4)",
+      "id": "DPa9rpdzCvv",
+      "shortName": "IBANDA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "JObex7lJZn9"
+      }
+    },
+    {
+      "name": "NTUNGAMO District (Form 4)",
+      "id": "BmlxlX8XoIP",
+      "shortName": "NTUNGAMO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "JObex7lJZn9"
+      }
+    },
+    {
+      "name": "BUHWEJU District (Form 4)",
+      "id": "pWQ2CYP96qd",
+      "shortName": "BUHWEJU District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "JObex7lJZn9"
+      }
+    },
+    {
+      "name": "KIRUHURA District (Form 4)",
+      "id": "eCmr1ehKD8I",
+      "shortName": "KIRUHURA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "JObex7lJZn9"
+      }
+    },
+    {
+      "name": "BUSHENYI District (Form 4)",
+      "id": "YruUEhX0stg",
+      "shortName": "BUSHENYI District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "JObex7lJZn9"
+      }
+    },
+    {
+      "name": "RUBIRIZI District (Form 4)",
+      "id": "GRnY4rEEGVf",
+      "shortName": "RUBIRIZI District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "JObex7lJZn9"
+      }
+    },
+    {
+      "name": "KOTIDO District (Form 4)",
+      "id": "mltRttMU9XU",
+      "shortName": "KOTIDO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "yvXzr90d7bd"
+      }
+    },
+    {
+      "name": "NAKAPIRIPIRIT District (Form 4)",
+      "id": "SUIi3PI6FP7",
+      "shortName": "NAKAPIRIPIRIT District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "yvXzr90d7bd"
+      }
+    },
+    {
+      "name": "NABILATUK District (Form 4)",
+      "id": "LMleq5f37Mj",
+      "shortName": "NABILATUK District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "yvXzr90d7bd"
+      }
+    },
+    {
+      "name": "ABIM District (Form 4)",
+      "id": "KqG9gBRvAxc",
+      "shortName": "ABIM District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "yvXzr90d7bd"
+      }
+    },
+    {
+      "name": "AMUDAT District (Form 4)",
+      "id": "mQDmMhp0BBu",
+      "shortName": "AMUDAT District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "yvXzr90d7bd"
+      }
+    },
+    {
+      "name": "NAPAK District (Form 4)",
+      "id": "FKj9JfAtMAi",
+      "shortName": "NAPAK District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "yvXzr90d7bd"
+      }
+    },
+    {
+      "name": "MOROTO District (Form 4)",
+      "id": "OrglLmuop2k",
+      "shortName": "MOROTO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "yvXzr90d7bd"
+      }
+    },
+    {
+      "name": "KAABONG District (Form 4)",
+      "id": "eXVEf4foILd",
+      "shortName": "KAABONG District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "yvXzr90d7bd"
+      }
+    },
+    {
+      "name": "LUWERO District (Form 4)",
+      "id": "suAL3pAvG5G",
+      "shortName": "LUWERO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "VLzLmgpvTIr"
+      }
+    },
+    {
+      "name": "NAKASONGOLA District (Form 4)",
+      "id": "Fuf5k9dbtgD",
+      "shortName": "NAKASONGOLA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "VLzLmgpvTIr"
+      }
+    },
+    {
+      "name": "MITYANA District (Form 4)",
+      "id": "ohVwcGx6d6Z",
+      "shortName": "MITYANA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "VLzLmgpvTIr"
+      }
+    },
+    {
+      "name": "MUBENDE District (Form 4)",
+      "id": "PtKp2jdH4uJ",
+      "shortName": "MUBENDE District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "VLzLmgpvTIr"
+      }
+    },
+    {
+      "name": "NAKASEKE District (Form 4)",
+      "id": "MZj2SW5gcBw",
+      "shortName": "NAKASEKE District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "VLzLmgpvTIr"
+      }
+    },
+    {
+      "name": "KIBOGA District (Form 4)",
+      "id": "DvMv3pBR2dW",
+      "shortName": "KIBOGA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "VLzLmgpvTIr"
+      }
+    },
+    {
+      "name": "KASSANDA District (Form 4)",
+      "id": "OP4WnXnhq4o",
+      "shortName": "KASSANDA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "VLzLmgpvTIr"
+      }
+    },
+    {
+      "name": "KYANKWANZI District (Form 4)",
+      "id": "WhDt4T5PVvb",
+      "shortName": "KYANKWANZI District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "VLzLmgpvTIr"
+      }
+    },
+    {
+      "name": "KAPELEBYONG District (Form 4)",
+      "id": "GZ1IOzh9SUO",
+      "shortName": "KAPELEBYONG District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "UxvMyEyFRxY"
+      }
+    },
+    {
+      "name": "BUKEDEA District (Form 4)",
+      "id": "UwiAvmlcUsh",
+      "shortName": "BUKEDEA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "UxvMyEyFRxY"
+      }
+    },
+    {
+      "name": "SERERE District (Form 4)",
+      "id": "y1ojvR8Drau",
+      "shortName": "SERERE District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "UxvMyEyFRxY"
+      }
+    },
+    {
+      "name": "KATAKWI District (Form 4)",
+      "id": "K78YfcMHWfa",
+      "shortName": "KATAKWI District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "UxvMyEyFRxY"
+      }
+    },
+    {
+      "name": "KABERAMAIDO District (Form 4)",
+      "id": "Xro2VybQy4i",
+      "shortName": "KABERAMAIDO District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "UxvMyEyFRxY"
+      }
+    },
+    {
+      "name": "NGORA District (Form 4)",
+      "id": "dIibceNAbmw",
+      "shortName": "NGORA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "UxvMyEyFRxY"
+      }
+    },
+    {
+      "name": "KUMI District (Form 4)",
+      "id": "CKvIVTeMCGX",
+      "shortName": "KUMI District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "UxvMyEyFRxY"
+      }
+    },
+    {
+      "name": "AMURIA District (Form 4)",
+      "id": "UUm3kZFun4F",
+      "shortName": "AMURIA District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "UxvMyEyFRxY"
+      }
+    },
+    {
+      "name": "SOROTI District (Form 4)",
+      "id": "xLCPwChajLb",
+      "shortName": "SOROTI District (Form 4)",
+      "openingDate": "2018-10-19T00:00:00.000",
+      "parent": {
+        "id": "UxvMyEyFRxY"
+      }
+    }
+  ]
+}

@@ -1,33 +1,27 @@
-import { pullOrganisationUnits, searchPosts, mrDataValues, findType, getCOC, opvDataValues, mapEventData, truncateString, getAxios, getDHIS2Url, postAxios } from './data-utils';
+import {
+    pullOrganisationUnits,
+    searchPosts,
+    mrDataValues,
+    findType,
+    getCOC,
+    opvDataValues,
+    mapEventData,
+    truncateString,
+    getAxios,
+    getDHIS2Url,
+    getManagementUrl,
+    postAxios,
+    processDataSetResponses,
+    getManagementAxios
+} from './data-utils';
 import { Client } from '@elastic/elasticsearch';
 import moment from 'moment';
 import { generateUid } from './uid';
 import winston from './winston';
-import { isArray, flatten, keys, groupBy, fromPairs, uniq, union, unionBy, differenceBy } from 'lodash';
-const uganda_subcounties = require(`./defaults/uganda_subcounties.json`);
-const uganda_districts = require(`./defaults/uganda_districts.json`);
-const targets = require(`./defaults/targets.json`);
-// const client = new Client({ node: 'http://213.136.94.124:9200' });
+import { isArray, flatten, keys, groupBy, fromPairs, uniq, union, unionBy, differenceBy, uniqBy } from 'lodash';
 const client = new Client({ node: 'http://localhost:9200' });
 
-// client.transport.request({
-//     method: "POST",
-//     path: "/_sql",
-//     body: {
-//         query: `SELECT subcounty, "list/name_of_post" FROM "rubella"`
-//     }
-// }, function (error, response) {
-//     if (error) {
-//         console.log(JSON.stringify(error))
-//         console.error('something does not compute');
-//     } else {
-//         const { body: { columns, rows } } = response
-//         console.log(uniq(rows.map(r => r[0])));
-//         // console.log("The answer is " + JSON.stringify(response) + ".");
-//     }
-// });
-
-const openingDate = moment().subtract(1, 'years');
+const openingDate = moment().subtract(1, 'years').format();
 
 export const routes = (app, io) => {
 
@@ -47,118 +41,138 @@ export const routes = (app, io) => {
         const district = await pullOrganisationUnits(3, one);
 
         if (district && district.length === 1) {
-
-            let { data: { dataSets } } = await getAxios(`${baseUrl}/metadata.json`, { dataSets: true });
-
-            let organisationUnits = dataSets.map(dataSet => dataSet.organisationUnits);
-            organisationUnits = uniq(flatten(organisationUnits))
-
-            const processed = payload.map(({ list, date_of_results, _id, day_of_results, _version, subcounty, districts, region, other_subcountyvisited, ...rest }) => {
-                if (subcounty === 'OTHERS') {
-                    subcounty = String(other_subcountyvisited).split('_').join(' ').replace(/\\n/g, '').trim();
+            const d = district[0];
+            const processed = payload.map(({ list, _id, _version, ...p }) => {
+                p = {
+                    ...p,
+                    districts: d.id,
+                    region: d.parent.id,
+                    date_of_results: moment(p.date_of_results).format('YYYYMMDD'),
+                    day_of_results: getCOC(p.day_of_results),
+                    subcounty: String(p.subcounty).split('_').join(' ').replace(/\\n/g, '').trim()
                 }
 
-                districts = district[0].id
-                region = district[0].parent.id;
-                const subCounties = district[0].children;
-
-                let subCounty = subCounties.find(s => {
-                    return String(s.name).toLowerCase().includes(String(subcounty).toLowerCase());
+                if (p.subcounty === 'OTHERS') {
+                    p = { ...p, subcounty: String(p.other_subcountyvisited).split('_').join(' ').replace(/\\n/g, '').trim() }
+                }
+                const s = d.children.find(dist => {
+                    return String(dist.name).toLowerCase() === String(p.subcounty).toLowerCase()
                 });
 
-                let posts = []
-                if (subCounty) {
-                    subcounty = subCounty.id;
-                    posts = subCounty.children;
+                let posts = [];
+
+                let subId;
+
+                if (s) {
+                    subId = s.id;
+                    posts = s.children;
                 } else {
-                    const id = generateUid();
-                    subCounty = { shortName: truncateString(subcounty, 46), name: subcounty, id, parent: { id: districts }, openingDate };
-                    subcounty = id;
-                    newSubCounties = [...newSubCounties, subCounty];
+                    const searchedInNew = newSubCounties.find(n => String(n.name).toLowerCase() === String(p.subcounty).toLowerCase());
+                    if (searchedInNew) {
+                        subId = searchedInNew.id
+                    } else {
+                        subId = generateUid();
+                        const ou = { shortName: truncateString(p.subcounty, 46), name: p.subcounty, id: subId, parent: { id: d.id }, openingDate };
+                        newSubCounties = [...newSubCounties, ou];
+                    }
                 }
 
+                p = { ...p, subcounty: subId }
+
                 if (isArray(list)) {
-                    const processedList = list.map(l => {
-                        const p = l['list/name_of_post'] || l['list/name_of_post_visited']
-                        const post = String(p).replace(/\\n/g, '').trim();
-                        let foundPost = posts.find(p => {
-                            return String(post).toLowerCase() === String(p.name).toLowerCase();
-                        });
 
-                        if (!foundPost) {
-                            const id = generateUid();
-                            foundPost = { shortName: truncateString(post, 46), name: post, id, parent: { id: subCounty.id }, openingDate };
-                            newPosts = [...newPosts, foundPost];
-                        }
+                    list = list.map(l => {
+                        let post = l['list/name_of_post'] || l['list/name_of_post_visited'];
+                        post = String(post).split('_').join(' ').replace(/\\n/g, '').trim();
 
-                        const y35 = parseInt(l['list/children_vaccinated/years3_5'], 10);
-                        const y614 = parseInt(l['list/children_vaccinated/years6_14'], 10);
-                        const y911 = parseInt(l['list/children_vaccinated/months9_11'], 10);
-                        const y1224 = parseInt(l['list/children_vaccinated/months12_24'], 10);
+                        const y35 = parseInt(l['list/children_vaccinated/years3_5'], 10) || 0;
+                        const y614 = parseInt(l['list/children_vaccinated/years6_14'], 10) || 0;
+                        const y911 = parseInt(l['list/children_vaccinated/months9_11'], 10) || 0;
+                        const y1224 = parseInt(l['list/children_vaccinated/months12_24'], 10) || 0;
                         const total = y35 + y614 + y911 + y1224;
 
-                        const partialUse = parseInt(l['list/mr_vaccine_usage/no_vials_discarded_due_partial_use'], 10);
-                        const contamination = parseInt(l['list/mr_vaccine_usage/no_vials_discarded_due_contamination'], 10);
-                        const otheFactors = parseInt(l['list/mr_vaccine_usage/no_vials_discarded_other_factors'], 10);
-                        const colorChange = parseInt(l['list/mr_vaccine_usage/no_vials_discarded_due_vvm_color_change'], 10);
-                        const unopen = parseInt(l['list/mr_vaccine_usage/no_vaccine_vials_returned_unopened'], 10);
+                        const partialUse = parseInt(l['list/mr_vaccine_usage/no_vials_discarded_due_partial_use'], 10) || 0;
+                        const contamination = parseInt(l['list/mr_vaccine_usage/no_vials_discarded_due_contamination'], 10) || 0;
+                        const otherFactors = parseInt(l['list/mr_vaccine_usage/no_vials_discarded_other_factors'], 10) || 0;
+                        const colorChange = parseInt(l['list/mr_vaccine_usage/no_vials_discarded_due_vvm_color_change'], 10) || 0;
+                        const unopen = parseInt(l['list/mr_vaccine_usage/no_vaccine_vials_returned_unopened'], 10) || 0;
+                        const diluent_returned_unopened = parseInt(l['list/mr_vaccine_usage/no_diluent_ampules_returned_unopened'], 10) || 0;
+                        const diluent_issued = parseInt(l['list/mr_vaccine_usage/no_diluent_ampules_issued'], 10) || 0
+                        const discarded = partialUse + contamination + otherFactors + colorChange;
 
-                        allPosts = [...allPosts, { id: foundPost.id }]
+                        const searchedPost = posts.find(ps => String(ps.name).toLowerCase() === post.toLowerCase() && ps.parent.id === s.id);
+                        let postId
 
-                        const discarded = partialUse + contamination + otheFactors + colorChange;
+                        if (searchedPost) {
+                            postId = searchedPost.id
+                            allPosts = [...allPosts, { id: postId }]
+
+                        } else {
+                            const searchedNewPost = newPosts.find(p => String(p.name).toLowerCase() === post.toLowerCase() && p.parent.id === subId);
+                            if (searchedNewPost) {
+                                postId = searchedNewPost.id
+                            } else {
+                                postId = generateUid();
+                                const ou = { shortName: truncateString(post, 46), name: post, id: postId, parent: { id: subId }, openingDate };
+                                newPosts = [...newPosts, ou]
+                            }
+                            allPosts = [...allPosts, { id: postId }];
+                        }
+
                         return {
                             ...l,
-                            ['list/children_vaccinated/total']: isNaN(parseInt(total)) ? 0 : total,
-                            ['list/mr_vaccine_usage/no_vials_discarded']: isNaN(parseInt(discarded, 10)) ? 0 : discarded,
-                            ['list/name_of_post']: foundPost.id,
-                            ['list/mr_vaccine_usage/no_vials_discarded_due_partial_use']: isNaN(partialUse) ? 0 : partialUse,
-                            ['list/mr_vaccine_usage/no_vials_discarded_due_contamination']: isNaN(contamination) ? 0 : contamination,
-                            ['list/mr_vaccine_usage/no_vials_discarded_other_factors']: isNaN(otheFactors) ? 0 : otheFactors,
-                            ['list/mr_vaccine_usage/no_vials_discarded_due_vvm_color_change']: isNaN(colorChange) ? 0 : colorChange,
-                            ['list/children_vaccinated/months12_24']: isNaN(y35) ? 0 : y35,
-                            ['list/children_vaccinated/years6_14']: isNaN(y614) ? 0 : y614,
-                            ['list/children_vaccinated/months9_11']: isNaN(y911) ? 0 : y911,
-                            ['list/children_vaccinated/months12_24']: isNaN(y1224) ? 0 : y1224,
-                            ['list/mr_vaccine_usage/no_vaccine_vials_returned_unopened']: isNaN(unopen) ? 0 : unopen,
-                            ...rest,
-                            subcounty,
-                            districts,
-                            region,
-                            date_of_results: moment(date_of_results).format('YYYYMMDD'),
-                            day_of_results: getCOC(day_of_results),
-                            other_subcountyvisited
+                            ...p,
+                            ['list/name_of_post']: postId,
+                            ['list/children_vaccinated/total']: total,
+                            ['list/mr_vaccine_usage/no_vials_discarded']: discarded,
+                            ['list/mr_vaccine_usage/no_vials_discarded_due_partial_use']: partialUse,
+                            ['list/mr_vaccine_usage/no_vials_discarded_due_contamination']: contamination,
+                            ['list/mr_vaccine_usage/no_vials_discarded_other_factors']: otherFactors,
+                            ['list/mr_vaccine_usage/no_vials_discarded_due_vvm_color_change']: colorChange,
+                            ['list/children_vaccinated/months12_24']: y35,
+                            ['list/children_vaccinated/years6_14']: y614,
+                            ['list/children_vaccinated/months9_11']: y911,
+                            ['list/children_vaccinated/months12_24']: y1224,
+                            ['list/mr_vaccine_usage/no_vaccine_vials_returned_unopened']: unopen,
+                            ['list/mr_vaccine_usage/no_diluent_ampules_returned_unopened']: diluent_returned_unopened,
+                            ['list/mr_vaccine_usage/no_diluent_ampules_issued']: diluent_issued
                         }
                     });
-                    return processedList;
+                    return list;
                 }
                 return [];
             });
 
-            const allData = flatten(processed);
-
             if (newSubCounties.length > 0) {
                 await postAxios(`${baseUrl}/metadata`, { organisationUnits: newSubCounties });
             }
+
             if (newPosts.length > 0) {
                 await postAxios(`${baseUrl}/metadata`, { organisationUnits: newPosts });
+
             }
-            const finalOus = unionBy(organisationUnits, allPosts, 'id');
-            const finalDataSets = dataSets.map(dataSet => {
-                return { ...dataSet, organisationUnits: finalOus }
+            let { data: { dataSets } } = await getAxios(`${baseUrl}/metadata.json`, { dataSets: true });
+
+            dataSets.map(dataSet => {
+                dataSet.organisationUnits = uniqBy([...dataSet.organisationUnits, ...allPosts], 'id');
+                return dataSet
             });
-            await postAxios(`${baseUrl}/metadata`, { finalDataSets });
+            const r = await postAxios(`${baseUrl}/metadata`, { dataSets });
+
+            response = processDataSetResponses(r)
+
+            const allData = flatten(processed);
             await mrDataValues(allData);
             const body = allData.flatMap(doc => [{ index: { _index: 'rubella' } }, doc]);
             const { body: bulkResponse } = await client.bulk({ refresh: true, body });
-            response = bulkResponse
+            // response = bulkResponse
             io.emit('data', { message: 'data has come' });
-        } else {
-            console.log(district)
         }
         return res.status(201).send(response);
     });
 
     app.post('/opv', async (req, res) => {
+
         let response = {};
         const baseUrl = getDHIS2Url();
         let payload = req.body
@@ -174,72 +188,87 @@ export const routes = (app, io) => {
         const district = await pullOrganisationUnits(3, one);
 
         if (district && district.length === 1) {
-
-            let { data: { dataSets } } = await getAxios(`${baseUrl}/metadata.json`, { dataSets: true });
-
-            let organisationUnits = dataSets.map(dataSet => dataSet.organisationUnits);
-            organisationUnits = uniq(flatten(organisationUnits))
-
-            const processed = payload.map(({ list, date_of_results, _id, day_of_results, _version, subcounty, districts, region, other_subcountyvisited, ...rest }) => {
-                if (subcounty === 'OTHERS') {
-                    subcounty = String(other_subcountyvisited).split('_').join(' ').replace(/\\n/g, '').trim();
+            const d = district[0];
+            const processed = payload.map(({ list, _id, _version, ...p }) => {
+                p = {
+                    ...p,
+                    districts: d.id,
+                    region: d.parent.id,
+                    date_of_results: moment(p.date_of_results).format('YYYYMMDD'),
+                    day_of_results: getCOC(p.day_of_results),
+                    subcounty: String(p.subcounty).split('_').join(' ').replace(/\\n/g, '').trim()
                 }
 
-                districts = district[0].id
-                region = district[0].parent.id;
-                const subCounties = district[0].children;
-
-                let subCounty = subCounties.find(s => {
-                    return String(s.name).toLowerCase().includes(String(subcounty).toLowerCase());
+                if (p.subcounty === 'OTHERS') {
+                    p = { ...p, subcounty: p.other_subcountyvisited }
+                }
+                const s = d.children.find(dist => {
+                    return String(dist.name).toLowerCase() === String(p.subcounty).split('_').join(' ').replace(/\\n/g, '').trim().toLowerCase()
                 });
 
-                let posts = []
-                if (subCounty) {
-                    subcounty = subCounty.id;
-                    posts = subCounty.children;
+                let posts = [];
+
+                let subId;
+
+                if (s) {
+                    subId = s.id;
+                    posts = s.children;
                 } else {
-                    const id = generateUid();
-                    subCounty = { shortName: truncateString(subcounty, 46), name: subcounty, id, parent: { id: districts }, openingDate };
-                    subcounty = id;
-                    newSubCounties = [...newSubCounties, subCounty];
+                    const searchedInNew = newSubCounties.find(n => String(n.name).toLowerCase() === String(p.subcounty).toLowerCase());
+                    if (searchedInNew) {
+                        subId = searchedInNew.id
+                    } else {
+                        subId = generateUid();
+                        const ou = { shortName: truncateString(p.subcounty, 46), name: p.subcounty, id: subId, parent: { id: d.id }, openingDate };
+                        newSubCounties = [...newSubCounties, ou];
+                    }
                 }
 
-                if (isArray(list)) {
-                    const processedList = list.map(l => {
-                        const p = l['list/name_of_post'] || l['list/name_of_post_visited']
-                        const post = String(p).replace(/\\n/g, '').trim();
-                        let foundPost = posts.find(p => {
-                            return String(post).toLowerCase() === String(p.name).toLowerCase();
-                        });
+                p = { ...p, subcounty: subId }
 
-                        if (!foundPost) {
-                            const id = generateUid();
-                            foundPost = { shortName: truncateString(post, 46), name: post, id, parent: { id: subCounty.id }, openingDate };
-                            newPosts = [...newPosts, foundPost];
+                if (isArray(list)) {
+
+                    list = list.map(l => {
+
+                        const partialUse = parseInt(l['list/no.vials_discarded_due_to/no_vials_discarded_due_partial_use'], 10) || 0;
+                        const contamination = parseInt(l['list/no.vials_discarded_due_to/no_vials_discarded_due_contamination'], 10) || 0;
+                        const otheFactors = parseInt(l['list/no.vials_discarded_due_to/no_vials_discarded_other_factors'], 10) || 0;
+                        const colorChange = parseInt(l['list/no.vials_discarded_due_to/no_vials_discarded_due_vvm_color_change'], 10) || 0;
+
+                        const target_population = parseInt(l["list/target_population"], 10) || 0;
+                        const no_vaccine_vials_issued = parseInt(l["list/no_vaccine_vials_issued"], 10) || 0;
+                        const chd_registered_months0_59 = parseInt(l["list/chd_registered_months0_59"], 10) || 0;
+                        const months0_59 = parseInt(l["list/children_immunised/months0_59"], 10) || 0;
+                        const number_mobilizers = parseInt(l["list/post_staffing/number_mobilizers"], 10) || 0;
+                        const no_vaccine_vials_returned_unopened = parseInt(l["list/no_vaccine_vials_returned_unopened"], 10) || 0;
+                        const number_health_workers = parseInt(l["list/post_staffing/number_health_workers"], 10) || 0;
+                        const first_ever_zero_dose = parseInt(l["list/children_immunised/first_ever_zero_dose"], 10) || 0;
+                        const discarded = partialUse + contamination + otherFactors + colorChange;
+                        post = String(post).split('_').join(' ').replace(/\\n/g, '').trim();
+
+                        const searchedPost = posts.find(ps => String(ps.name).toLowerCase() === post.toLowerCase() && ps.parent.id === s.id);
+                        let postId
+
+                        if (searchedPost) {
+                            postId = searchedPost.id
+                            allPosts = [...allPosts, { id: postId }]
+
+                        } else {
+                            const searchedNewPost = newPosts.find(p => String(p.name).toLowerCase() === post.toLowerCase() && p.parent.id === subId);
+                            if (searchedNewPost) {
+                                postId = searchedNewPost.id
+                            } else {
+                                postId = generateUid();
+                                const ou = { shortName: truncateString(post, 46), name: post, id: postId, parent: { id: subId }, openingDate };
+                                newPosts = [...newPosts, ou]
+                            }
+                            allPosts = [...allPosts, { id: postId }];
                         }
 
-                        const partialUse = parseInt(l['list/no.vials_discarded_due_to/no_vials_discarded_due_partial_use'], 10);
-                        const contamination = parseInt(l['list/no.vials_discarded_due_to/no_vials_discarded_due_contamination'], 10);
-                        const otheFactors = parseInt(l['list/no.vials_discarded_due_to/no_vials_discarded_other_factors'], 10);
-                        const colorChange = parseInt(l['list/no.vials_discarded_due_to/no_vials_discarded_due_vvm_color_change'], 10);
-
-
-                        const target_population = parseInt(l["list/target_population"], 10)
-                        const no_vaccine_vials_issued = parseInt(l["list/no_vaccine_vials_issued"], 10)
-                        const chd_registered_months0_59 = parseInt(l["list/chd_registered_months0_59"], 10)
-                        const months0_59 = parseInt(l["list/children_immunised/months0_59"], 10)
-                        const number_mobilizers = parseInt(l["list/post_staffing/number_mobilizers"], 10)
-                        const no_vaccine_vials_returned_unopened = parseInt(l["list/no_vaccine_vials_returned_unopened"], 10)
-                        const number_health_workers = parseInt(l["list/post_staffing/number_health_workers"], 10)
-                        const first_ever_zero_dose = parseInt(l["list/children_immunised/first_ever_zero_dose"], 10);
-
-                        allPosts = [...allPosts, { id: foundPost.id }]
-
-                        const discarded = partialUse + contamination + otheFactors + colorChange;
                         return {
                             ...l,
-                            ['list/no.vials_discarded']: isNaN(parseInt(discarded, 10)) ? 0 : discarded,
-                            ['list/name_of_post']: foundPost.id,
+                            ...p,
+                            ['list/name_of_post']: postId,
                             ["list/target_population"]: target_population,
                             ["list/no_vaccine_vials_issued"]: no_vaccine_vials_issued,
                             ["list/chd_registered_months0_59"]: chd_registered_months0_59,
@@ -248,96 +277,151 @@ export const routes = (app, io) => {
                             ["list/no_vaccine_vials_returned_unopened"]: no_vaccine_vials_returned_unopened,
                             ["list/post_staffing/number_health_workers"]: number_health_workers,
                             ["list/children_immunised/first_ever_zero_dose"]: first_ever_zero_dose,
-
-                            ['list/no.vials_discarded_due_to/no_vials_discarded_due_partial_use']: isNaN(partialUse) ? 0 : partialUse,
-                            ['list/no.vials_discarded_due_to/no_vials_discarded_due_contamination']: isNaN(contamination) ? 0 : contamination,
-                            ['list/no.vials_discarded_due_to/no_vials_discarded_other_factors']: isNaN(otheFactors) ? 0 : otheFactors,
-                            ['list/no.vials_discarded_due_to/no_vials_discarded_due_vvm_color_change']: isNaN(colorChange) ? 0 : colorChange,
-                            ...rest,
-                            subcounty,
-                            districts,
-                            region,
-                            date_of_results: moment(date_of_results).format('YYYYMMDD'),
-                            day_of_results: getCOC(day_of_results),
-                            other_subcountyvisited
+                            ['list/no.vials_discarded_due_to/no_vials_discarded_due_partial_use']: partialUse,
+                            ['list/no.vials_discarded_due_to/no_vials_discarded_due_contamination']: contamination,
+                            ['list/no.vials_discarded_due_to/no_vials_discarded_other_factors']: otheFactors,
+                            ['list/no.vials_discarded_due_to/no_vials_discarded_due_vvm_color_change']: colorChange,
                         }
                     });
-                    return processedList;
+                    return list;
                 }
                 return [];
             });
 
-            const allData = flatten(processed);
-
             if (newSubCounties.length > 0) {
+                console.log(newSubCounties.length)
                 await postAxios(`${baseUrl}/metadata`, { organisationUnits: newSubCounties });
             }
             if (newPosts.length > 0) {
+                console.log(newPosts.length);
                 await postAxios(`${baseUrl}/metadata`, { organisationUnits: newPosts });
+
             }
-            const finalOus = unionBy(organisationUnits, allPosts, 'id');
-            const finalDataSets = dataSets.map(dataSet => {
-                return { ...dataSet, organisationUnits: finalOus }
+            let { data: { dataSets } } = await getAxios(`${baseUrl}/metadata.json`, { dataSets: true });
+
+            dataSets.map(dataSet => {
+                dataSet.organisationUnits = uniqBy([...dataSet.organisationUnits, ...allPosts], 'id');
+                return dataSet
             });
-            await postAxios(`${baseUrl}/metadata`, { finalDataSets });
-            await mrDataValues(allData);
+            const r = await postAxios(`${baseUrl}/metadata`, { dataSets });
+            response = processDataSetResponses(r)
+            const allData = flatten(processed);
+            await opvDataValues(allData);
             const body = allData.flatMap(doc => [{ index: { _index: 'opv' } }, doc]);
             const { body: bulkResponse } = await client.bulk({ refresh: true, body });
-            response = bulkResponse
             io.emit('data', { message: 'data has come' });
-        } else {
-            console.log(district)
         }
         return res.status(201).send(response);
     });
 
 
     app.post('/checklist', async (req, res) => {
+
         let response = {};
-        const data = req.body;
-        let rest = data[0]
-        let { subcounty, districts, region, other_subcountyvisited, vaccination_post_location } = rest;
-        subcounty = subcounty.split('_').join(' ');
-        if (subcounty === 'OTHERS') {
-            subcounty = String(other_subcountyvisited).split('_').join(' ');
+        const baseUrl = getDHIS2Url();
+        let payload = req.body
+        if (!isArray(payload)) {
+            payload = [payload];
         }
-        districts = districts.split('_').join(' ');
-        region = region.split('_').join(' ');
-        const district = await pullOrganisationUnits(3, districts);
+
+        let newSubCounties = [];
+        let newPosts = [];
+        let allPosts = [];
+
+        const one = String(payload[0].districts).split('_').join(' ').replace(/\\n/g, '').trim();
+        const district = await pullOrganisationUnits(3, one);
+
+
 
         if (district && district.length === 1) {
-            districts = district[0].id
-            region = district[0].parent.id;
-            const subCounties = district[0].children;
-            const searchedSubCounty = subCounties.filter(s => {
-                return String(s.name).toLowerCase().includes(String(subcounty).toLowerCase());
-            });
-            if (searchedSubCounty.length === 1) {
-                const subCounty = searchedSubCounty[0]
-                subcounty = subCounty.id;
-                const posts = [vaccination_post_location];
-                const ous = await searchPosts(subCounty, posts);
-                vaccination_post_location = ous[vaccination_post_location] ? ous[vaccination_post_location] : vaccination_post_location
-                rest = {
-                    ...rest,
-                    subcounty,
-                    districts,
-                    region,
-                    vaccination_post_location
+            const d = district[0];
+            const processed = payload.map(({ list, _id, _version, ...p }) => {
+                p = {
+                    ...p,
+                    districts: d.id,
+                    region: d.parent.id,
+                    date_of_results: moment(p.date_of_results).format('YYYYMMDD'),
+                    day_of_results: getCOC(p.day_of_results),
+                    subcounty: String(p.subcounty).split('_').join(' ').replace(/\\n/g, '').trim()
                 }
 
-                const data = mapEventData(rest, ous);
+                if (p.subcounty === 'OTHERS') {
+                    p = { ...p, subcounty: String(p.other_subcountyvisited).split('_').join(' ').replace(/\\n/g, '').trim() }
+                }
+                const s = d.children.find(dist => {
+                    return String(dist.name).toLowerCase() === String(p.subcounty).toLowerCase()
+                });
 
-                const { _version, _id, ...event } = rest
+                let posts = [];
 
+                let subId;
 
-                const body = [event].flatMap(doc => [{ index: { _index: 'checklist' } }, doc]);
-                const { body: bulkResponse } = await client.bulk({ refresh: true, body });
-                response = bulkResponse;
+                if (s) {
+                    subId = s.id;
+                    posts = s.children;
+                } else {
+                    const searchedInNew = newSubCounties.find(n => String(n.name).toLowerCase() === String(p.subcounty).toLowerCase());
+                    if (searchedInNew) {
+                        subId = searchedInNew.id
+                    } else {
+                        subId = generateUid();
+                        const ou = { shortName: truncateString(p.subcounty, 46), name: p.subcounty, id: subId, parent: { id: d.id }, openingDate };
+                        newSubCounties = [...newSubCounties, ou];
+                    }
+                }
+
+                p = { ...p, subcounty: subId }
+
+                const searchedPost = posts.find(ps => String(ps.name).toLowerCase() === String(p.vaccination_post_location).toLowerCase() && ps.parent.id === s.id);
+                let postId
+
+                if (searchedPost) {
+                    postId = searchedPost.id
+                    allPosts = [...allPosts, { id: postId }]
+
+                } else {
+                    const searchedNewPost = newPosts.find(p => String(p.name).toLowerCase() === String(p.vaccination_post_location).toLowerCase() && p.parent.id === subId);
+                    if (searchedNewPost) {
+                        postId = searchedNewPost.id
+                    } else {
+                        postId = generateUid();
+                        const ou = { shortName: truncateString(String(p.vaccination_post_location), 46), name: String(p.vaccination_post_location), id: postId, parent: { id: subId }, openingDate };
+                        newPosts = [...newPosts, ou]
+                    }
+                    allPosts = [...allPosts, { id: postId }];
+                }
+
+                p = { ...p, vaccination_post_location: postId };
+
+                return p
+
+            });
+
+            if (newSubCounties.length > 0) {
+                await postAxios(`${baseUrl}/metadata`, { organisationUnits: newSubCounties });
             }
-        }
 
-        return res.status(201).send(response);
+            if (newPosts.length > 0) {
+                await postAxios(`${baseUrl}/metadata`, { organisationUnits: newPosts });
+
+            }
+            let { data: { programs } } = await getAxios(`${baseUrl}/metadata.json`, { programs: true });
+
+
+            programs.map(program => {
+                program.organisationUnits = uniqBy([...program.organisationUnits, ...allPosts], 'id');
+                return program
+            });
+            const r = await postAxios(`${baseUrl}/metadata`, { programs });
+
+            await mapEventData(processed);
+
+            // const body = processed.flatMap(doc => [{ index: { _index: 'checklist' } }, doc]);
+            // const { body: bulkResponse } = await client.bulk({ refresh: true, body });
+            // response = bulkResponse
+            // io.emit('data', { message: 'data has come' });
+            return res.status(201).send(response);
+        }
     });
 
     app.get('/', async (req, res) => {
@@ -589,7 +673,8 @@ export const routes = (app, io) => {
 
 
     app.get('/uganda', async (req, res) => {
-        const q = req.query.search
+        const q = req.query.search;
+        const uganda_subcounties = require(`./defaults/uganda_subcounties.json`);
         const soroti = uganda_subcounties.features.filter(u => {
             return u['properties']['parent'] === q
         })
@@ -598,6 +683,7 @@ export const routes = (app, io) => {
 
     app.get('/regions', async (req, res) => {
         const q = req.query.search
+        const uganda_districts = require(`./defaults/uganda_districts.json`);
         const soroti = uganda_districts.features.filter(u => {
             return u['properties']['parent'] === q
         })
@@ -605,10 +691,12 @@ export const routes = (app, io) => {
     });
 
     app.get('/country', async (req, res) => {
+        const uganda_districts = require(`./defaults/uganda_districts.json`);
         return res.status(200).send(uganda_districts);
     });
 
     app.get('/targets', async (req, res) => {
+        const targets = require(`./defaults/targets.json`);
         const sum = targets.reduce((a, b) => {
             a = {
                 Population: a.Population + b.Population,
@@ -675,7 +763,8 @@ export const routes = (app, io) => {
     });
 
     app.get('/regionalTargets', (req, res) => {
-        const q = req.query.search
+        const q = req.query.search;
+        const targets = require(`./defaults/targets.json`);
         const byRegion = targets.filter(u => {
             return u.parent === q
         });
@@ -719,7 +808,8 @@ export const routes = (app, io) => {
 
 
     app.get('/districtTargets', async (req, res) => {
-        const q = req.query.search
+        const q = req.query.search;
+        const targets = require(`./defaults/targets.json`);
         const district = targets.filter(u => {
             return u.id === q
         });
@@ -758,6 +848,25 @@ export const routes = (app, io) => {
                 Schools: 0
             }
         });
+    });
+
+    app.get('/management', async (req, res) => {
+        const indicator = req.query.indicator;
+        const period = req.query.period;
+        const orgUnit = req.query.orgUnit;
+
+        const baseUrl = getManagementUrl();
+
+        try {
+            const { data } = await getManagementAxios(`${baseUrl}/analytics.json?dimension=dx:IN_GROUP-${indicator}&dimension=pe:${period}&dimension=ou:${orgUnit}&includeNumDen=true`);
+            // const { data: filtered } = await getManagementAxios(`${baseUrl}/analytics.json?dimension=dx:IN_GROUP-${indicator}&filter=pe:${period}&dimension=ou:${orgUnit}&includeNumDen=true`);
+            return res.status(200).send(data);
+        } catch (e) {
+            console.log(e);
+
+            return res.status(200).send({ 'error': 'It has failed' });
+        }
+
     });
 
 };

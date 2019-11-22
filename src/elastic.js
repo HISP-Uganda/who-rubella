@@ -27,13 +27,13 @@ async function insertOPV() {
         await axios.post('http://localhost:3001/opv', data, { headers: { 'Accept': 'application/json' } });
         console.log(`Finished for ${district}`);
     }
-
 }
 
 insertMR().then(function () {
     console.log('finished MR');
+    // insertOPV().then(function () {
+    //     console.log('finished OPV');
+    // })
 });
 
-insertOPV().then(function () {
-    console.log('finished OPV');
-})
+

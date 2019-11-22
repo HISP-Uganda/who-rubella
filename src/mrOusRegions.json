@@ -1,0 +1,115 @@
+{
+  "organisationUnits": [{
+    "name": "GREATER_KAMPALA Region",
+    "id": "RSgwsPSyuEV",
+    "shortName": "GREATER_KAMPALA Region",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "J29HRaXqaON"
+    }
+  }, {
+    "name": "ARUA Region",
+    "id": "oAiCraliyqt",
+    "shortName": "ARUA Region",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "J29HRaXqaON"
+    }
+  }, {
+    "name": "MASAKA Region",
+    "id": "lhodayPSxLz",
+    "shortName": "MASAKA Region",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "J29HRaXqaON"
+    }
+  }, {
+    "name": "MUBENDE Region",
+    "id": "VLzLmgpvTIr",
+    "shortName": "MUBENDE Region",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "J29HRaXqaON"
+    }
+  }, {
+    "name": "HOIMA Region",
+    "id": "FIWTHGN28ne",
+    "shortName": "HOIMA Region",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "J29HRaXqaON"
+    }
+  }, {
+    "name": "KABALE Region",
+    "id": "v9YRKXLBLpj",
+    "shortName": "KABALE Region",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "J29HRaXqaON"
+    }
+  }, {
+    "name": "MOROTO Region",
+    "id": "yvXzr90d7bd",
+    "shortName": "MOROTO Region",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "J29HRaXqaON"
+    }
+  }, {
+    "name": "LIRA Region",
+    "id": "iVVZ3P1OCox",
+    "shortName": "LIRA Region",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "J29HRaXqaON"
+    }
+  }, {
+    "name": "JINJA Region",
+    "id": "wNJFvl31yJn",
+    "shortName": "JINJA Region",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "J29HRaXqaON"
+    }
+  }, {
+    "name": "KABAROLE Region",
+    "id": "d2uRkRLz4NR",
+    "shortName": "KABAROLE Region",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "J29HRaXqaON"
+    }
+  }, {
+    "name": "SOROTI Region",
+    "id": "UxvMyEyFRxY",
+    "shortName": "SOROTI Region",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "J29HRaXqaON"
+    }
+  }, {
+    "name": "MBARARA Region",
+    "id": "JObex7lJZn9",
+    "shortName": "MBARARA Region",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "J29HRaXqaON"
+    }
+  }, {
+    "name": "MBALE Region",
+    "id": "fra2C8WL6Cb",
+    "shortName": "MBALE Region",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "J29HRaXqaON"
+    }
+  }, {
+    "name": "GULU Region",
+    "id": "SvKKoLwaTA9",
+    "shortName": "GULU Region",
+    "openingDate": "2018-10-19T00:00:00.000",
+    "parent": {
+      "id": "J29HRaXqaON"
+    }
+  }]
+}

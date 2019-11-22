@@ -112,7 +112,6 @@ const processTargets = () => {
 }
 
 const changeDistricts = () => {
-    console.log(processedDistricts)
     const { features, ...rest } = districts;
     const finalFeatures = features.map(feature => {
         const props = feature.properties;
