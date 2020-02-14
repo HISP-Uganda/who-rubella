@@ -18,7 +18,9 @@ import { Client } from '@elastic/elasticsearch';
 import moment from 'moment';
 import { generateUid } from './uid';
 import winston from './winston';
-import { isArray, flatten, keys, groupBy, fromPairs, uniq, union, unionBy, differenceBy, uniqBy } from 'lodash';
+import { isArray, flatten, keys, groupBy, fromPairs, uniqBy } from 'lodash';
+import fs from 'fs';
+
 const client = new Client({ node: 'http://localhost:9200' });
 
 const openingDate = moment().subtract(1, 'years').format();
@@ -330,8 +332,6 @@ export const routes = (app, io) => {
 
         const one = String(payload[0].districts).split('_').join(' ').replace(/\\n/g, '').trim();
         const district = await pullOrganisationUnits(3, one);
-
-
 
         if (district && district.length === 1) {
             const d = district[0];
@@ -671,58 +671,80 @@ export const routes = (app, io) => {
 
     });
 
-
     app.get('/uganda', async (req, res) => {
-        const q = req.query.search;
-        const uganda_subcounties = require(`./defaults/uganda_subcounties.json`);
-        const soroti = uganda_subcounties.features.filter(u => {
-            return u['properties']['parent'] === q
-        })
-        return res.status(200).send({ ...uganda_subcounties, features: soroti });
+        const q = req.query.search
+        const file = `${__dirname}/defaults/uganda_subcounties.json`;
+        fs.readFile(file, 'utf8', (err, data) => {
+            if (err) {
+                throw err;
+            }
+            const uganda_subcounties = JSON.parse(data);
+            const soroti = uganda_subcounties.features.filter(u => {
+                return u['properties']['parent'] === q
+            })
+            res.status(200).send({ ...uganda_subcounties, features: soroti });
+        });
     });
 
     app.get('/regions', async (req, res) => {
         const q = req.query.search
-        const uganda_districts = require(`./defaults/uganda_districts.json`);
-        const soroti = uganda_districts.features.filter(u => {
-            return u['properties']['parent'] === q
-        })
-        return res.status(200).send({ ...uganda_districts, features: soroti });
+        const file = `${__dirname}/defaults/uganda_districts.json`;
+        fs.readFile(file, 'utf8', (err, data) => {
+            if (err) {
+                throw err;
+            }
+
+            const uganda_districts = JSON.parse(data);
+            const soroti = uganda_districts.features.filter(u => {
+                return u['properties']['parent'] === q
+            })
+            res.status(200).send({ ...uganda_districts, features: soroti });
+        });
     });
 
     app.get('/country', async (req, res) => {
-        const uganda_districts = require(`./defaults/uganda_districts.json`);
-        return res.status(200).send(uganda_districts);
+        const file = `${__dirname}/defaults/uganda_districts.json`;
+
+        fs.readFile(file, 'utf8', (err, data) => {
+            if (err) {
+                throw err;
+            }
+            res.status(200).send(JSON.parse(data));
+        });
+    })
+
+
+    app.get('/maps', (req, res) => {
+        const q = req.query.search;
+        const level = req.query.level;
+
+        const file = `${__dirname}/defaults/organisationUnits${level}.json`;
+        fs.readFile(file, 'utf8', (err, data) => {
+            if (err) {
+                throw err;
+            }
+            res.status(200).send(JSON.parse(data).organisationUnits.map(d => {
+                return {
+                    type: 'Feature',
+                    properties: {
+                        name: d.name
+                    },
+                    geometry: d.geometry
+                }
+            }));
+        });
     });
 
     app.get('/targets', async (req, res) => {
-        const targets = require(`./defaults/targets.json`);
-        const sum = targets.reduce((a, b) => {
-            a = {
-                Population: a.Population + b.Population,
-                MRTargetPopulation: a.MRTargetPopulation + b.MRTargetPopulation,
-                OPVTargetPopulation: a.OPVTargetPopulation + b.OPVTargetPopulation,
-                SubCounties: a.SubCounties + b.SubCounties,
-                Posts: a.Posts + b.Posts,
-                TownCouncils: isNaN(parseInt(a.TownCouncils, 10)) ? 0 : parseInt(a.TownCouncils, 10) + b.TownCouncils,
-                Schools: a.Schools + b.Schools,
+        const file = `${__dirname}/defaults/targets.json`;
+        fs.readFile(file, 'utf8', (err, data) => {
+            if (err) {
+                throw err;
             }
-            return a
-        }, {
-            Population: 0,
-            MRTargetPopulation: 0,
-            OPVTargetPopulation: 0,
-            SubCounties: 0,
-            Posts: 0,
-            TownCouncils: 0,
-            Schools: 0
-        });
 
+            const targets = JSON.parse(data);
 
-        const grouped = groupBy(targets, 'parent');
-        const final = keys(grouped).map(k => {
-            const current = grouped[k];
-            const sum = current.reduce((a, b) => {
+            const sum = targets.reduce((a, b) => {
                 a = {
                     Population: a.Population + b.Population,
                     MRTargetPopulation: a.MRTargetPopulation + b.MRTargetPopulation,
@@ -743,80 +765,140 @@ export const routes = (app, io) => {
                 Schools: 0
             });
 
-            return [k, sum]
+
+            const grouped = groupBy(targets, 'parent');
+            const final = keys(grouped).map(k => {
+                const current = grouped[k];
+                const sum = current.reduce((a, b) => {
+                    a = {
+                        Population: a.Population + b.Population,
+                        MRTargetPopulation: a.MRTargetPopulation + b.MRTargetPopulation,
+                        OPVTargetPopulation: a.OPVTargetPopulation + b.OPVTargetPopulation,
+                        SubCounties: a.SubCounties + b.SubCounties,
+                        Posts: a.Posts + b.Posts,
+                        TownCouncils: isNaN(parseInt(a.TownCouncils, 10)) ? 0 : parseInt(a.TownCouncils, 10) + b.TownCouncils,
+                        Schools: a.Schools + b.Schools,
+                    }
+                    return a
+                }, {
+                    Population: 0,
+                    MRTargetPopulation: 0,
+                    OPVTargetPopulation: 0,
+                    SubCounties: 0,
+                    Posts: 0,
+                    TownCouncils: 0,
+                    Schools: 0
+                });
+
+                return [k, sum]
+            });
+
+            const allDistricts = targets.map(a => {
+                return [a.id, {
+                    Population: a.Population,
+                    MRTargetPopulation: a.MRTargetPopulation,
+                    OPVTargetPopulation: a.OPVTargetPopulation,
+                    SubCounties: a.SubCounties,
+                    Posts: a.Posts,
+                    TownCouncils: parseInt(a.TownCouncils, 10),
+                    Schools: a.Schools,
+                }]
+            })
+            return res.status(200).send({ region: sum, regional: fromPairs(final), districts: fromPairs(allDistricts) });
         });
-
-        const allDistricts = targets.map(a => {
-            return [a.id, {
-                Population: a.Population,
-                MRTargetPopulation: a.MRTargetPopulation,
-                OPVTargetPopulation: a.OPVTargetPopulation,
-                SubCounties: a.SubCounties,
-                Posts: a.Posts,
-                TownCouncils: parseInt(a.TownCouncils, 10),
-                Schools: a.Schools,
-            }]
-        })
-
-
-        return res.status(200).send({ region: sum, regional: fromPairs(final), districts: fromPairs(allDistricts) });
     });
 
     app.get('/regionalTargets', (req, res) => {
         const q = req.query.search;
-        const targets = require(`./defaults/targets.json`);
-        const byRegion = targets.filter(u => {
-            return u.parent === q
-        });
 
+        const file = `${__dirname}/defaults/targets.json`;
 
-        const allDistricts = byRegion.map(a => {
-            return [a.id, {
-                Population: a.Population,
-                MRTargetPopulation: a.MRTargetPopulation,
-                OPVTargetPopulation: a.OPVTargetPopulation,
-                SubCounties: a.SubCounties,
-                Posts: a.Posts,
-                TownCouncils: parseInt(a.TownCouncils, 10),
-                Schools: a.Schools,
-            }]
-        });
-
-        const region = byRegion.reduce((a, b) => {
-            a = {
-                Population: a.Population + b.Population,
-                MRTargetPopulation: a.MRTargetPopulation + b.MRTargetPopulation,
-                OPVTargetPopulation: a.OPVTargetPopulation + b.OPVTargetPopulation,
-                SubCounties: a.SubCounties + b.SubCounties,
-                Posts: a.Posts + b.Posts,
-                TownCouncils: isNaN(parseInt(a.TownCouncils, 10)) ? 0 : parseInt(a.TownCouncils, 10) + b.TownCouncils,
-                Schools: a.Schools + b.Schools,
+        fs.readFile(file, 'utf8', (err, data) => {
+            if (err) {
+                throw err;
             }
-            return a
-        }, {
-            Population: 0,
-            MRTargetPopulation: 0,
-            OPVTargetPopulation: 0,
-            SubCounties: 0,
-            Posts: 0,
-            TownCouncils: 0,
-            Schools: 0
-        });
 
-        return res.status(200).send({ region, districts: fromPairs(allDistricts) });
+            const targets = JSON.parse(data);
+
+            const byRegion = targets.filter(u => {
+                return u.parent === q
+            });
+
+            const allDistricts = byRegion.map(a => {
+                return [a.id, {
+                    Population: a.Population,
+                    MRTargetPopulation: a.MRTargetPopulation,
+                    OPVTargetPopulation: a.OPVTargetPopulation,
+                    SubCounties: a.SubCounties,
+                    Posts: a.Posts,
+                    TownCouncils: parseInt(a.TownCouncils, 10),
+                    Schools: a.Schools,
+                }]
+            });
+
+            const region = byRegion.reduce((a, b) => {
+                a = {
+                    Population: a.Population + b.Population,
+                    MRTargetPopulation: a.MRTargetPopulation + b.MRTargetPopulation,
+                    OPVTargetPopulation: a.OPVTargetPopulation + b.OPVTargetPopulation,
+                    SubCounties: a.SubCounties + b.SubCounties,
+                    Posts: a.Posts + b.Posts,
+                    TownCouncils: isNaN(parseInt(a.TownCouncils, 10)) ? 0 : parseInt(a.TownCouncils, 10) + b.TownCouncils,
+                    Schools: a.Schools + b.Schools,
+                }
+                return a
+            }, {
+                Population: 0,
+                MRTargetPopulation: 0,
+                OPVTargetPopulation: 0,
+                SubCounties: 0,
+                Posts: 0,
+                TownCouncils: 0,
+                Schools: 0
+            });
+
+            return res.status(200).send({ region, districts: fromPairs(allDistricts) });
+        });
     });
 
 
     app.get('/districtTargets', async (req, res) => {
         const q = req.query.search;
-        const targets = require(`./defaults/targets.json`);
-        const district = targets.filter(u => {
-            return u.id === q
-        });
+        const file = `${__dirname}/defaults/targets.json`;
+        fs.readFile(file, 'utf8', (err, data) => {
+            if (err) {
+                throw err;
+            }
+            const targets = JSON.parse(data);
 
-        if (district.length > 0) {
+            const district = targets.filter(u => {
+                return u.id === q
+            });
+
+            if (district.length > 0) {
+                return res.status(200).send({
+                    district: district[0],
+                    subCounties: {
+                        Population: 0,
+                        MRTargetPopulation: 0,
+                        OPVTargetPopulation: 0,
+                        SubCounties: 0,
+                        Posts: 0,
+                        TownCouncils: 0,
+                        Schools: 0
+                    }
+                });
+            }
             return res.status(200).send({
-                district: district[0],
+                district: {
+                    Population: 0,
+                    MRTargetPopulation: 0,
+                    OPVTargetPopulation: 0,
+                    SubCounties: 0,
+                    Posts: 0,
+                    TownCouncils: 0,
+                    Schools: 0
+                },
                 subCounties: {
                     Population: 0,
                     MRTargetPopulation: 0,
@@ -827,27 +909,8 @@ export const routes = (app, io) => {
                     Schools: 0
                 }
             });
-        }
-        return res.status(200).send({
-            district: {
-                Population: 0,
-                MRTargetPopulation: 0,
-                OPVTargetPopulation: 0,
-                SubCounties: 0,
-                Posts: 0,
-                TownCouncils: 0,
-                Schools: 0
-            },
-            subCounties: {
-                Population: 0,
-                MRTargetPopulation: 0,
-                OPVTargetPopulation: 0,
-                SubCounties: 0,
-                Posts: 0,
-                TownCouncils: 0,
-                Schools: 0
-            }
         });
+
     });
 
     app.get('/management', async (req, res) => {
@@ -856,10 +919,8 @@ export const routes = (app, io) => {
         const orgUnit = req.query.orgUnit;
 
         const baseUrl = getManagementUrl();
-
         try {
             const { data } = await getManagementAxios(`${baseUrl}/analytics.json?dimension=dx:IN_GROUP-${indicator}&dimension=pe:${period}&dimension=ou:${orgUnit}&includeNumDen=true`);
-            // const { data: filtered } = await getManagementAxios(`${baseUrl}/analytics.json?dimension=dx:IN_GROUP-${indicator}&filter=pe:${period}&dimension=ou:${orgUnit}&includeNumDen=true`);
             return res.status(200).send(data);
         } catch (e) {
             console.log(e);

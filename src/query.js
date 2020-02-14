@@ -9,8 +9,6 @@ var dhis2_subcounties = require('./dhis2_subcounties.json');
 var organisations = require('./organisationUnits.json');
 var targets = require('./targets.json');
 
-
-
 // const day1 = require(`${__dirname}/data/Day1.json`);
 // const day2 = require(`${__dirname}/data/Day2.json`);
 // const day3 = require(`${__dirname}/data/Day3.json`);
@@ -113,27 +111,29 @@ const processTargets = () => {
 
 const changeDistricts = () => {
     const { features, ...rest } = districts;
-    const finalFeatures = features.map(feature => {
+    const finalFeatures = features.filter(feature => {
         const props = feature.properties;
         let currentDistrict = props.District18;
-        if (currentDistrict === 'SSEMBABULE') {
-            currentDistrict = 'SEMBABULE';
-        } else if (currentDistrict === 'KYOTARA') {
-            currentDistrict = 'KYOTERA';
+        return currentDistrict === 'SOROTI';
+        // if (currentDistrict === 'SSEMBABULE') {
+        //     currentDistrict = 'SEMBABULE';
+        // } else if (currentDistrict === 'KYOTARA') {
+        //     currentDistrict = 'KYOTERA';
 
-        }
-        const what = processedDistricts[currentDistrict];
-        if (what) {
-            return { ...feature, properties: { id: what.id, parent: what.parent, parentName: what.parentName, name: props.District18 } }
-        } else {
-            console.log('Missing' + props.District18)
-            return { ...feature, properties: { id: '', parent: '', name: props.District18, parentName: '' } }
-        }
+        // }
+        // const what = processedDistricts[currentDistrict];
+        // if (what) {
+        //     return { ...feature, properties: { id: what.id, parent: what.parent, parentName: what.parentName, name: props.District18 } }
+        // } else {
+        //     console.log('Missing' + props.District18)
+        //     return { ...feature, properties: { id: '', parent: '', name: props.District18, parentName: '' } }
+        // }
     });
 
     const map = { ...rest, features: finalFeatures }
 
     fs.writeFileSync('uganda_districts.json', JSON.stringify(map));
+    console.log(map)
 }
 
 const processOrganisations = () => {
@@ -201,10 +201,10 @@ const changeSubcounties = () => {
     fs.writeFileSync('uganda_subcounties.json', JSON.stringify(map));
 }
 
-// changeDistricts();
+changeDistricts();
 
 // changeSubcounties();
 
-processTargets();
+// processTargets();
 
 // processOrganisations();
